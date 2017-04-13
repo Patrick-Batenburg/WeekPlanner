@@ -1,0 +1,30 @@
+Janneke Applicatie:
+
+Bedrijf Samen Sterk.
+
+Weekplanning rooster Agenda.
+
+Waar je een planning voor een week kan gaan maken.
+Elke week een nieuwe afspraak maken.
+Een planning per dag, een week per rooster.
+- een vaste afspraken/'momenten waar je niet kan' die voor meerdere keren kunt vaststellen, maar ook gemakkelijk uit kunt zetten.
+
+Vakjes waar je in kunt schrijven.
+Vakjes een label met eigen naam geven, waardoor je ze makkelijker kunt terugvinden.
+tabblad waar je (school)cijfers erin kunt zetten.
+tabblad waar je belangrijke afspraken erin kunt zetten. 
+(mogelijk met een pop-up waarop de afspraak word vermeld)
+
+MUST HAVE:
+Wekelijks rooster, waarvan de taken worden vernieuwd bij elke week.
+Vakken waarin je kunt schrijven
+permanente activiteiten die niet verwijderd worden bij elke week, maar wel makkelijk zijn uit te schakelen/te veranderen.
+
+SHOULD HAVE:
+Vakken waarin je een eigen label kunt aangeven
+tabblad waar je (school)cijfers erin kunt zetten.
+tabblad waar je belangrijke afspraken erin kunt zetten. (mogelijk met een pop-up waarop de afspraak word vermeld)
+
+COULD HAVE: 
+Optie dat iemand anders (begeleider) er ook erin kunt kijken.
+berichten
