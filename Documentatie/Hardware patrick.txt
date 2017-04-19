@@ -1,0 +1,120 @@
+Audio-invoer en -uitvoer
+Speakers (Realtek High Definition Audio)
+
+Accu's
+Microsoft AC Adapter
+Microsoft ACPI-Compliant Control Method Battery
+
+Bluetooth
+Intel(R) Wireless Bluetooth(R) 4.0 + HS Adapter
+Microsoft Bluetooth Enumerator
+Microsoft Bluetooth LE Enumerator
+
+Computer
+ACPI x64-based PC
+
+Schijfstations
+SAMSUNG MZ7TD128HAFV-00000
+ST1000LM024 HN-M101MBB
+
+Beeldschermadapters
+Intel(R) HD Graphics 4600
+NVIDIA GeForce GTX 770M
+
+DVD/CD-ROM stations
+MATSHITA BD-CMB UJ160
+
+Human Interface Devices
+HID-compliant vendor-defined device
+HID-compliant wireless radio controls
+Radio Switch Device
+USB Input Device
+
+IDE ATA/ATAPI controllers
+Intel(R) 8 Series Chipset Family SATA AHCI Controller
+
+Toestenborden
+PC/AT Enhanced PS/2 Keyboard (101/102-Key)
+
+Geheugen technologie apparaten
+Realtek PCIE CardReader
+
+Muis- en aanwijsapparaten
+ELAN PS/2 Port Smart-Pad
+HID-compliant mouse
+
+Monitor
+Generic PnP Monitor
+
+Netwerk adapters
+Bluetooth-apparaat (Personal Area Network)
+Bluetooth Device (RFCOMM Protocol TDI)
+Hyper-V Virtual Ethernet Adapter
+Killer e2200 Gigabit Ethernet Controller (NDIS 6.30)
+
+Processor
+Intel(R) Core(TM) i7-4700MQ CPU @ 2.40GHz
+
+Sensoren
+Microsoft Visual Studio Location Simulator Sensor
+
+Softwareoplossingen
+Microsoft Device Association Root Enumerator
+
+Besturingen voor geluid, video en spelletjes 
+NVIDIA Virtual Audio Device (Wave Extensible) (WDM)
+Realtek High Definition Audio
+
+Opslag besturingen
+Microsoft Storage Spaces Controller
+Microsoft VHD Loopback Controller
+
+Systeemapparaten
+ACPI Fixed Feature Button
+ACPI Lid
+ACPI Power Button
+ACPI Sleep Button
+ACPI Thermal Zone
+Composite Bus Enumerator
+Direct memory access controller
+High Definition Audio Controller
+High precision event timer
+Intel(R) 8 Series/C220 Series PCI Express Root Port #1 - 8C10
+Intel(R) 8 Series/C220 Series PCI Express Root Port #3 - 8C14
+Intel(R) 8 Series/C220 Series PCI Express Root Port #4 - 8C16
+Intel(R) 8 Series/C220 Series PCI Express Root Port #5 - 8C18
+Intel(R) 8 Series/C220 Series SMBus Controller - 8C22
+Intel(R) 82802 Firmware Hub Device
+Intel(R) HM87 LPC Controller - 8C4B
+Intel(R) Management Engine Interface 
+Intel(R) Xeon(R) processor E3-1200 v3/4th Gen Core processor DRAM Controller - 0C04
+Intel(R) Xeon(R) processor E3-1200 v3/4th Gen Core processor PCI Express x16 Controller - 0C01
+IWD Bus Enumerator
+Microsoft ACPI-Compliant Embedded Controller
+Microsoft ACPI-Compliant System
+Microsoft Hyper-V PCI Server
+Microsoft Hyper-V Virtual Disk Server
+Microsoft Hyper-V Virtual Machine Bus Provider
+Microsoft Hyper-V Virtualization Infrastructure Driver
+Microsoft System Management BIOS Driver
+Microsoft UEFI-Compliant System
+Microsoft Virtual Drive Enumerator
+Microsoft Windows Management Interface for ACPI
+NDIS Virtual Network Adapter Enumerator
+Numeric data processor
+PCI Express Root Complex
+Plug and Play Software Device Enumerator
+Programmable interrupt controller
+Remote Desktop Device Redirector Bus
+System CMOS/real time clock
+System timer
+UMBus Enumerator
+UMBus Root Bus Enumerator
+
+Universal Serial Bus controllers
+Generic USB Hub
+Intel(R) 8 Series/C220 Series USB EHCI #1 - 8C26
+Intel(R) 8 Series/C220 Series USB EHCI #2 - 8C2D
+Intel(R) USB 3.0 eXtensible Host Controller - 0100 (Microsoft)
+USB Root Hub
+USB Root Hub (xHCI)
