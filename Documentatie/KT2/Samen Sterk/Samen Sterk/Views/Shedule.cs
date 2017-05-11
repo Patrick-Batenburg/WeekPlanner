@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace SamenSterk.Views
 {
-    public partial class Shedule : Form
+    public partial class frmShedule : Form
     {
-        Login login;
+        frmLogin login;
         bool logout;
         string cellContent = "";
-        public Shedule(Login login)
+        public frmShedule(frmLogin login)
         {
             this.login = login;
             InitializeComponent();
@@ -33,12 +33,12 @@ namespace SamenSterk.Views
             }
             if (string.IsNullOrEmpty(cellContent))
             {
-                AddTask addTask = new AddTask(this);
+                frmAddTask addTask = new frmAddTask(this);
                 addTask.ShowDialog();
             }
             else
             {
-                EditTask editTask = new EditTask(this);
+                frmEditTask editTask = new frmEditTask(this);
                 editTask.ShowDialog();
             }
         }

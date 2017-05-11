@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace SamenSterk.Views
 {
-    public partial class Register : Form
+    public partial class frmRegister : Form
     {
-        Login login;
-        public Register(Login login)
+        frmLogin login;
+        public frmRegister(frmLogin login)
         {
             this.login = login;
             InitializeComponent();

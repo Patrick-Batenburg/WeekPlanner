@@ -1,6 +1,6 @@
 ﻿namespace SamenSterk.Views
 {
-    partial class Shedule
+    partial class frmShedule
     {
         /// <summary>
         /// Required designer variable.
@@ -30,15 +30,15 @@
         {
             this.btnLogout = new System.Windows.Forms.Button();
             this.dgvShedule = new System.Windows.Forms.DataGridView();
-            this.Day1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Day2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Day3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Day4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Day5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Day6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Day7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDay1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDay2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDay3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDay4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDay5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDay6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDay7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.TabShedule = new System.Windows.Forms.TabPage();
+            this.tabShedule = new System.Windows.Forms.TabPage();
             this.tabGrades = new System.Windows.Forms.TabPage();
             this.dgvGrades = new System.Windows.Forms.DataGridView();
             this.columnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -47,7 +47,7 @@
             this.cbUsernames = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).BeginInit();
             this.tabControl.SuspendLayout();
-            this.TabShedule.SuspendLayout();
+            this.tabShedule.SuspendLayout();
             this.tabGrades.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvGrades)).BeginInit();
             this.SuspendLayout();
@@ -66,57 +66,65 @@
             // 
             this.dgvShedule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvShedule.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Day1,
-            this.Day2,
-            this.Day3,
-            this.Day4,
-            this.Day5,
-            this.Day6,
-            this.Day7});
+            this.columnDay1,
+            this.columnDay2,
+            this.columnDay3,
+            this.columnDay4,
+            this.columnDay5,
+            this.columnDay6,
+            this.columnDay7});
             this.dgvShedule.Location = new System.Drawing.Point(0, 0);
             this.dgvShedule.Name = "dgvShedule";
+            this.dgvShedule.ReadOnly = true;
             this.dgvShedule.Size = new System.Drawing.Size(782, 397);
             this.dgvShedule.TabIndex = 1;
             this.dgvShedule.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellClick);
             // 
-            // Day1
+            // columnDay1
             // 
-            this.Day1.HeaderText = "Maandag";
-            this.Day1.Name = "Day1";
+            this.columnDay1.HeaderText = "Maandag";
+            this.columnDay1.Name = "columnDay1";
+            this.columnDay1.ReadOnly = true;
             // 
-            // Day2
+            // columnDay2
             // 
-            this.Day2.HeaderText = "Dinsdag";
-            this.Day2.Name = "Day2";
+            this.columnDay2.HeaderText = "Dinsdag";
+            this.columnDay2.Name = "columnDay2";
+            this.columnDay2.ReadOnly = true;
             // 
-            // Day3
+            // columnDay3
             // 
-            this.Day3.HeaderText = "Woensdag";
-            this.Day3.Name = "Day3";
+            this.columnDay3.HeaderText = "Woensdag";
+            this.columnDay3.Name = "columnDay3";
+            this.columnDay3.ReadOnly = true;
             // 
-            // Day4
+            // columnDay4
             // 
-            this.Day4.HeaderText = "Donderdag";
-            this.Day4.Name = "Day4";
+            this.columnDay4.HeaderText = "Donderdag";
+            this.columnDay4.Name = "columnDay4";
+            this.columnDay4.ReadOnly = true;
             // 
-            // Day5
+            // columnDay5
             // 
-            this.Day5.HeaderText = "Vrijdag";
-            this.Day5.Name = "Day5";
+            this.columnDay5.HeaderText = "Vrijdag";
+            this.columnDay5.Name = "columnDay5";
+            this.columnDay5.ReadOnly = true;
             // 
-            // Day6
+            // columnDay6
             // 
-            this.Day6.HeaderText = "Zaterdag";
-            this.Day6.Name = "Day6";
+            this.columnDay6.HeaderText = "Zaterdag";
+            this.columnDay6.Name = "columnDay6";
+            this.columnDay6.ReadOnly = true;
             // 
-            // Day7
+            // columnDay7
             // 
-            this.Day7.HeaderText = "Zondag";
-            this.Day7.Name = "Day7";
+            this.columnDay7.HeaderText = "Zondag";
+            this.columnDay7.Name = "columnDay7";
+            this.columnDay7.ReadOnly = true;
             // 
             // tabControl
             // 
-            this.tabControl.Controls.Add(this.TabShedule);
+            this.tabControl.Controls.Add(this.tabShedule);
             this.tabControl.Controls.Add(this.tabGrades);
             this.tabControl.Controls.Add(this.tabAppointments);
             this.tabControl.Location = new System.Drawing.Point(102, 12);
@@ -125,16 +133,16 @@
             this.tabControl.Size = new System.Drawing.Size(790, 423);
             this.tabControl.TabIndex = 2;
             // 
-            // TabShedule
+            // tabShedule
             // 
-            this.TabShedule.Controls.Add(this.dgvShedule);
-            this.TabShedule.Location = new System.Drawing.Point(4, 22);
-            this.TabShedule.Name = "TabShedule";
-            this.TabShedule.Padding = new System.Windows.Forms.Padding(3);
-            this.TabShedule.Size = new System.Drawing.Size(782, 397);
-            this.TabShedule.TabIndex = 0;
-            this.TabShedule.Text = "Rooster";
-            this.TabShedule.UseVisualStyleBackColor = true;
+            this.tabShedule.Controls.Add(this.dgvShedule);
+            this.tabShedule.Location = new System.Drawing.Point(4, 22);
+            this.tabShedule.Name = "tabShedule";
+            this.tabShedule.Padding = new System.Windows.Forms.Padding(3);
+            this.tabShedule.Size = new System.Drawing.Size(782, 397);
+            this.tabShedule.TabIndex = 0;
+            this.tabShedule.Text = "Rooster";
+            this.tabShedule.UseVisualStyleBackColor = true;
             // 
             // tabGrades
             // 
@@ -186,7 +194,7 @@
             this.cbUsernames.Size = new System.Drawing.Size(88, 21);
             this.cbUsernames.TabIndex = 3;
             // 
-            // Shedule
+            // frmShedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -194,12 +202,12 @@
             this.Controls.Add(this.cbUsernames);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabControl);
-            this.Name = "Shedule";
+            this.Name = "frmShedule";
             this.Text = "Shedule";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Shedule_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).EndInit();
             this.tabControl.ResumeLayout(false);
-            this.TabShedule.ResumeLayout(false);
+            this.tabShedule.ResumeLayout(false);
             this.tabGrades.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvGrades)).EndInit();
             this.ResumeLayout(false);
@@ -212,18 +220,18 @@
         private System.Windows.Forms.DataGridView dgvShedule;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabGrades;
-        private System.Windows.Forms.TabPage TabShedule;
+        private System.Windows.Forms.TabPage tabShedule;
         private System.Windows.Forms.TabPage tabAppointments;
         private System.Windows.Forms.ComboBox cbUsernames;
         private System.Windows.Forms.DataGridView dgvGrades;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnGrade;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Day1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Day2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Day3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Day4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Day5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Day6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Day7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDay1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDay2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDay3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDay4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDay5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDay6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDay7;
     }
 }
