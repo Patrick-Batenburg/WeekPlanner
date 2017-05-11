@@ -10,23 +10,23 @@ using System.Windows.Forms;
 
 namespace SamenSterk.Views
 {
-    public partial class frmLogin : Form
+    public partial class Login : Form
     {
-        public frmLogin()
+        public Login()
         {
             InitializeComponent();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            frmShedule shedule = new frmShedule(this);
+            Shedule shedule = new Shedule(this);
             shedule.Show();
             this.Hide();
         }
 
         private void lblRegister_Click(object sender, EventArgs e)
         {
-            frmRegister register = new frmRegister(this);
+            Register register = new Register(this);
             register.Show();
             this.Hide();
         }

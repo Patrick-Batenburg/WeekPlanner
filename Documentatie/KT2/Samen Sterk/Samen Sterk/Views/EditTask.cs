@@ -10,13 +10,17 @@ using System.Windows.Forms;
 
 namespace SamenSterk.Views
 {
-    public partial class frmEditTask : Form
+    public partial class EditTask : Form
     {
-        frmShedule shedule;
-        public frmEditTask(frmShedule shedule)
+        Shedule shedule;
+        public EditTask(Shedule shedule, string title, int duration, string label, bool repeating)
         {
-            this.shedule = shedule;
             InitializeComponent();
+            txtTitle.Text = title;
+            txtDuration.Text = duration.ToString();
+            txtLabel.Text = label;
+            cbRepeating.Checked = repeating;
+            this.shedule = shedule;
         }
 
         private void btnEditTask_Click(object sender, EventArgs e)

@@ -1,6 +1,6 @@
 ﻿namespace SamenSterk.Views
 {
-    partial class frmAddTask
+    partial class AddTask
     {
         /// <summary>
         /// Required designer variable.
@@ -106,7 +106,7 @@
             this.btnAddTask.UseVisualStyleBackColor = true;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
             // 
-            // frmAddTask
+            // AddTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -122,7 +122,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmAddTask";
+            this.Name = "AddTask";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Taak Toevoegen";

@@ -1,6 +1,6 @@
 ﻿namespace SamenSterk.Views
 {
-    partial class frmShedule
+    partial class Shedule
     {
         /// <summary>
         /// Required designer variable.
@@ -194,7 +194,7 @@
             this.cbUsernames.Size = new System.Drawing.Size(88, 21);
             this.cbUsernames.TabIndex = 3;
             // 
-            // frmShedule
+            // Shedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -202,7 +202,7 @@
             this.Controls.Add(this.cbUsernames);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabControl);
-            this.Name = "frmShedule";
+            this.Name = "Shedule";
             this.Text = "Shedule";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Shedule_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).EndInit();

@@ -10,13 +10,10 @@ using System.Windows.Forms;
 
 namespace SamenSterk.Views
 {
-    public partial class frmAddTask : Form
+    public partial class AddTask : Form
     {
-        frmShedule shedule;
-        string title;
-        int duration;
-        string label;
-        public frmAddTask(frmShedule shedule)
+        Shedule shedule;
+        public AddTask(Shedule shedule)
         {
             this.shedule = shedule;
             InitializeComponent();
@@ -24,9 +21,17 @@ namespace SamenSterk.Views
 
         private void btnAddTask_Click(object sender, EventArgs e)
         {
-            title = txtTitle.ToString();
-            duration = int.Parse(txtDuration.ToString());
-            label = txtLabel.ToString();
+            shedule.title = txtTitle.Text;
+            if (!string.IsNullOrWhiteSpace(txtDuration.Text))
+            {
+                shedule.duration = int.Parse(txtDuration.Text);
+            }
+            else
+            {
+                shedule.duration = 0;
+            }
+            shedule.label = txtLabel.Text;
+            shedule.AddTaskToTable();
             this.Close();
         }
     }

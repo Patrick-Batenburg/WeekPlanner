@@ -1,6 +1,6 @@
 ﻿namespace SamenSterk.Views
 {
-    partial class frmRegister
+    partial class Register
     {
         /// <summary>
         /// Required designer variable.
@@ -116,7 +116,7 @@
             this.lblRepeat.TabIndex = 16;
             this.lblRepeat.Text = "Wachtwoord herhaling";
             // 
-            // frmRegister
+            // Register
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -133,7 +133,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmRegister";
+            this.Name = "Register";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Register";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Register_FormClosed);
