@@ -1,4 +1,4 @@
-﻿namespace Samen_Sterk
+﻿namespace SamenSterk.Views
 {
     partial class Login
     {
@@ -59,6 +59,7 @@
             // lblRegister
             // 
             this.lblRegister.AutoSize = true;
+            this.lblRegister.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblRegister.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRegister.ForeColor = System.Drawing.Color.Blue;
             this.lblRegister.Location = new System.Drawing.Point(57, 217);
@@ -66,6 +67,7 @@
             this.lblRegister.Size = new System.Drawing.Size(55, 13);
             this.lblRegister.TabIndex = 2;
             this.lblRegister.Text = "Registreer";
+            this.lblRegister.Click += new System.EventHandler(this.lblRegister_Click);
             // 
             // pictureBox1
             // 
@@ -91,6 +93,7 @@
             // 
             // btnLogin
             // 
+            this.btnLogin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLogin.Location = new System.Drawing.Point(45, 191);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);

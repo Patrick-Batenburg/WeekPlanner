@@ -1,10 +1,11 @@
 ﻿using System;
+using SamenSterk.Views;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Samen_Sterk
+namespace SamenSterk
 {
     static class Program
     {

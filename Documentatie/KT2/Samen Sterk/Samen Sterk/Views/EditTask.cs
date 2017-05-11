@@ -8,19 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Samen_Sterk
+namespace SamenSterk.Views
 {
-    public partial class Login : Form
+    public partial class EditTask : Form
     {
-        public Login()
+        Shedule shedule;
+        public EditTask(Shedule shedule)
         {
+            this.shedule = shedule;
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private void btnEditTask_Click(object sender, EventArgs e)
         {
-            Shedule shedule = new Shedule();
-            shedule.Show();
+            this.Close();
         }
     }
 }

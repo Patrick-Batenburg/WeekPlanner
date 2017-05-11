@@ -8,13 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Samen_Sterk
+namespace SamenSterk.Views
 {
-    public partial class Shedule : Form
+    public partial class AddTask : Form
     {
-        public Shedule()
+        public AddTask(Shedule shedule)
         {
             InitializeComponent();
+        }
+
+        private void btnAddTask_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

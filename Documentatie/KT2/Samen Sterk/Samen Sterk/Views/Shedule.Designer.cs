@@ -1,4 +1,4 @@
-﻿namespace Samen_Sterk
+﻿namespace SamenSterk.Views
 {
     partial class Shedule
     {
@@ -30,14 +30,6 @@
         {
             this.btnLogout = new System.Windows.Forms.Button();
             this.dgvShedule = new System.Windows.Forms.DataGridView();
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.TabShedule = new System.Windows.Forms.TabPage();
-            this.tabGrades = new System.Windows.Forms.TabPage();
-            this.tabAppointments = new System.Windows.Forms.TabPage();
-            this.cbUsernames = new System.Windows.Forms.ComboBox();
-            this.dgvGrades = new System.Windows.Forms.DataGridView();
-            this.columnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnGrade = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Day1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Day2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Day3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,6 +37,14 @@
             this.Day5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Day6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Day7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.TabShedule = new System.Windows.Forms.TabPage();
+            this.tabGrades = new System.Windows.Forms.TabPage();
+            this.dgvGrades = new System.Windows.Forms.DataGridView();
+            this.columnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnGrade = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabAppointments = new System.Windows.Forms.TabPage();
+            this.cbUsernames = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).BeginInit();
             this.tabControl.SuspendLayout();
             this.TabShedule.SuspendLayout();
@@ -60,6 +60,7 @@
             this.btnLogout.TabIndex = 0;
             this.btnLogout.Text = "Uitloggen";
             this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // dgvShedule
             // 
@@ -76,78 +77,7 @@
             this.dgvShedule.Name = "dgvShedule";
             this.dgvShedule.Size = new System.Drawing.Size(782, 397);
             this.dgvShedule.TabIndex = 1;
-            // 
-            // tabControl
-            // 
-            this.tabControl.Controls.Add(this.TabShedule);
-            this.tabControl.Controls.Add(this.tabGrades);
-            this.tabControl.Controls.Add(this.tabAppointments);
-            this.tabControl.Location = new System.Drawing.Point(102, 12);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(790, 423);
-            this.tabControl.TabIndex = 2;
-            // 
-            // TabShedule
-            // 
-            this.TabShedule.Controls.Add(this.dgvShedule);
-            this.TabShedule.Location = new System.Drawing.Point(4, 22);
-            this.TabShedule.Name = "TabShedule";
-            this.TabShedule.Padding = new System.Windows.Forms.Padding(3);
-            this.TabShedule.Size = new System.Drawing.Size(782, 397);
-            this.TabShedule.TabIndex = 0;
-            this.TabShedule.Text = "Rooster";
-            this.TabShedule.UseVisualStyleBackColor = true;
-            // 
-            // tabGrades
-            // 
-            this.tabGrades.Controls.Add(this.dgvGrades);
-            this.tabGrades.Location = new System.Drawing.Point(4, 22);
-            this.tabGrades.Name = "tabGrades";
-            this.tabGrades.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGrades.Size = new System.Drawing.Size(782, 397);
-            this.tabGrades.TabIndex = 1;
-            this.tabGrades.Text = "Cijfers";
-            this.tabGrades.UseVisualStyleBackColor = true;
-            // 
-            // tabAppointments
-            // 
-            this.tabAppointments.Location = new System.Drawing.Point(4, 22);
-            this.tabAppointments.Name = "tabAppointments";
-            this.tabAppointments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAppointments.Size = new System.Drawing.Size(782, 397);
-            this.tabAppointments.TabIndex = 2;
-            this.tabAppointments.Text = "Belangrijke Afspraken";
-            this.tabAppointments.UseVisualStyleBackColor = true;
-            // 
-            // cbUsernames
-            // 
-            this.cbUsernames.FormattingEnabled = true;
-            this.cbUsernames.Location = new System.Drawing.Point(12, 160);
-            this.cbUsernames.Name = "cbUsernames";
-            this.cbUsernames.Size = new System.Drawing.Size(88, 21);
-            this.cbUsernames.TabIndex = 3;
-            // 
-            // dgvGrades
-            // 
-            this.dgvGrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvGrades.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.columnName,
-            this.columnGrade});
-            this.dgvGrades.Location = new System.Drawing.Point(-4, -3);
-            this.dgvGrades.Name = "dgvGrades";
-            this.dgvGrades.Size = new System.Drawing.Size(786, 400);
-            this.dgvGrades.TabIndex = 0;
-            // 
-            // columnName
-            // 
-            this.columnName.HeaderText = "Name";
-            this.columnName.Name = "columnName";
-            // 
-            // columnGrade
-            // 
-            this.columnGrade.HeaderText = "Grades";
-            this.columnGrade.Name = "columnGrade";
+            this.dgvShedule.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellClick);
             // 
             // Day1
             // 
@@ -184,6 +114,78 @@
             this.Day7.HeaderText = "Zondag";
             this.Day7.Name = "Day7";
             // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.TabShedule);
+            this.tabControl.Controls.Add(this.tabGrades);
+            this.tabControl.Controls.Add(this.tabAppointments);
+            this.tabControl.Location = new System.Drawing.Point(102, 12);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(790, 423);
+            this.tabControl.TabIndex = 2;
+            // 
+            // TabShedule
+            // 
+            this.TabShedule.Controls.Add(this.dgvShedule);
+            this.TabShedule.Location = new System.Drawing.Point(4, 22);
+            this.TabShedule.Name = "TabShedule";
+            this.TabShedule.Padding = new System.Windows.Forms.Padding(3);
+            this.TabShedule.Size = new System.Drawing.Size(782, 397);
+            this.TabShedule.TabIndex = 0;
+            this.TabShedule.Text = "Rooster";
+            this.TabShedule.UseVisualStyleBackColor = true;
+            // 
+            // tabGrades
+            // 
+            this.tabGrades.Controls.Add(this.dgvGrades);
+            this.tabGrades.Location = new System.Drawing.Point(4, 22);
+            this.tabGrades.Name = "tabGrades";
+            this.tabGrades.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGrades.Size = new System.Drawing.Size(782, 397);
+            this.tabGrades.TabIndex = 1;
+            this.tabGrades.Text = "Cijfers";
+            this.tabGrades.UseVisualStyleBackColor = true;
+            // 
+            // dgvGrades
+            // 
+            this.dgvGrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGrades.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.columnName,
+            this.columnGrade});
+            this.dgvGrades.Location = new System.Drawing.Point(-4, -3);
+            this.dgvGrades.Name = "dgvGrades";
+            this.dgvGrades.Size = new System.Drawing.Size(786, 400);
+            this.dgvGrades.TabIndex = 0;
+            // 
+            // columnName
+            // 
+            this.columnName.HeaderText = "Name";
+            this.columnName.Name = "columnName";
+            // 
+            // columnGrade
+            // 
+            this.columnGrade.HeaderText = "Grades";
+            this.columnGrade.Name = "columnGrade";
+            // 
+            // tabAppointments
+            // 
+            this.tabAppointments.Location = new System.Drawing.Point(4, 22);
+            this.tabAppointments.Name = "tabAppointments";
+            this.tabAppointments.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAppointments.Size = new System.Drawing.Size(782, 397);
+            this.tabAppointments.TabIndex = 2;
+            this.tabAppointments.Text = "Belangrijke Afspraken";
+            this.tabAppointments.UseVisualStyleBackColor = true;
+            // 
+            // cbUsernames
+            // 
+            this.cbUsernames.FormattingEnabled = true;
+            this.cbUsernames.Location = new System.Drawing.Point(12, 160);
+            this.cbUsernames.Name = "cbUsernames";
+            this.cbUsernames.Size = new System.Drawing.Size(88, 21);
+            this.cbUsernames.TabIndex = 3;
+            // 
             // Shedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,6 +196,7 @@
             this.Controls.Add(this.tabControl);
             this.Name = "Shedule";
             this.Text = "Shedule";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Shedule_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.TabShedule.ResumeLayout(false);

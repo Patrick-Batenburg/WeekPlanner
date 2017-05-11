@@ -1,4 +1,4 @@
-﻿namespace Samen_Sterk
+﻿namespace SamenSterk.Views
 {
     partial class Register
     {
@@ -48,6 +48,7 @@
             this.btnRegister.TabIndex = 13;
             this.btnRegister.Text = "Registreer";
             this.btnRegister.UseVisualStyleBackColor = true;
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
             // txtPassword
             // 
@@ -97,6 +98,7 @@
             this.btnBack.TabIndex = 14;
             this.btnBack.Text = "Terug";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // textBox1
             // 
@@ -133,6 +135,7 @@
             this.MinimizeBox = false;
             this.Name = "Register";
             this.Text = "Register";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Register_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
