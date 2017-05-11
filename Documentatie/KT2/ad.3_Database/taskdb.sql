@@ -13,10 +13,12 @@
 
 
 -- Dumping database structure for taskdb
+DROP DATABASE IF EXISTS `taskdb`;
 CREATE DATABASE IF NOT EXISTS `taskdb` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `taskdb`;
 
 -- Dumping structure for table taskdb.appointment
+DROP TABLE IF EXISTS `appointment`;
 CREATE TABLE IF NOT EXISTS `appointment` (
   `Id` int(10) unsigned NOT NULL,
   `UserId` int(10) unsigned NOT NULL,
@@ -28,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `appointment` (
 
 -- Data exporting was unselected.
 -- Dumping structure for table taskdb.grade
+DROP TABLE IF EXISTS `grade`;
 CREATE TABLE IF NOT EXISTS `grade` (
   `RowIndex` int(10) unsigned NOT NULL,
   `UserId` int(10) unsigned NOT NULL,
@@ -40,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `grade` (
 
 -- Data exporting was unselected.
 -- Dumping structure for table taskdb.subject
+DROP TABLE IF EXISTS `subject`;
 CREATE TABLE IF NOT EXISTS `subject` (
   `RowIndex` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
@@ -50,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `subject` (
 
 -- Data exporting was unselected.
 -- Dumping structure for table taskdb.task
+DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
@@ -64,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `task` (
 
 -- Data exporting was unselected.
 -- Dumping structure for table taskdb.user
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Username` varchar(64) NOT NULL,

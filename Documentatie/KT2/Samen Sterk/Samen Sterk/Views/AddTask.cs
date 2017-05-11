@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SamenSterk.Views
+namespace SamenSterk.Models
 {
     public partial class AddTask : Form
     {

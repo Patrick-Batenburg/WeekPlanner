@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Samen_Sterk.Properties {
+namespace SamenSterk.Models.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

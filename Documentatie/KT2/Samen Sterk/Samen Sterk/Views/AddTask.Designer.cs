@@ -1,4 +1,4 @@
-﻿namespace SamenSterk.Views
+﻿namespace SamenSterk.Models
 {
     partial class AddTask
     {
