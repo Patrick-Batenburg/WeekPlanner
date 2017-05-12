@@ -13,24 +13,22 @@
 
 
 -- Dumping database structure for taskdb
-DROP DATABASE IF EXISTS `taskdb`;
 CREATE DATABASE IF NOT EXISTS `taskdb` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `taskdb`;
 
 -- Dumping structure for table taskdb.appointment
-DROP TABLE IF EXISTS `appointment`;
 CREATE TABLE IF NOT EXISTS `appointment` (
   `Id` int(10) unsigned NOT NULL,
   `UserId` int(10) unsigned NOT NULL,
   `Description` varchar(64) NOT NULL,
   `Date` date NOT NULL,
   PRIMARY KEY (`Id`),
+  UNIQUE KEY `Id` (`Id`),
   KEY `UserId` (`UserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table taskdb.grade
-DROP TABLE IF EXISTS `grade`;
 CREATE TABLE IF NOT EXISTS `grade` (
   `RowIndex` int(10) unsigned NOT NULL,
   `UserId` int(10) unsigned NOT NULL,
@@ -43,18 +41,17 @@ CREATE TABLE IF NOT EXISTS `grade` (
 
 -- Data exporting was unselected.
 -- Dumping structure for table taskdb.subject
-DROP TABLE IF EXISTS `subject`;
 CREATE TABLE IF NOT EXISTS `subject` (
   `RowIndex` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
   `Name` varchar(64) NOT NULL,
   PRIMARY KEY (`RowIndex`),
+  UNIQUE KEY `RowIndex` (`RowIndex`),
   KEY `UserId` (`UserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table taskdb.task
-DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
@@ -64,19 +61,29 @@ CREATE TABLE IF NOT EXISTS `task` (
   `TaskRepeats` tinyint(3) unsigned NOT NULL,
   `TaskLabel` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`Id`),
+  UNIQUE KEY `Id` (`Id`),
   KEY `UserFK` (`UserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+-- Dumping structure for table taskdb.taskmeta
+CREATE TABLE IF NOT EXISTS `taskmeta` (
+  `TaskId` int(10) unsigned NOT NULL,
+  `Repeats` tinyint(3) unsigned DEFAULT '0',
+  PRIMARY KEY (`TaskId`),
+  CONSTRAINT `TaskFK` FOREIGN KEY (`TaskId`) REFERENCES `task` (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Data exporting was unselected.
 -- Dumping structure for table taskdb.user
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Username` varchar(64) NOT NULL,
   `Password` varchar(64) NOT NULL,
   `Role` varchar(64) NOT NULL DEFAULT 'Member',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Username` (`Username`)
+  UNIQUE KEY `Username` (`Username`),
+  UNIQUE KEY `Id` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.

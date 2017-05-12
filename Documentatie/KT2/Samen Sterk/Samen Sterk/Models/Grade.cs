@@ -13,9 +13,12 @@ namespace SamenSterk.Models
         private uint columnIndex;
         private float grade;
 
-        Grade(uint userId, uint rowIndex, uint columnIndex, float grade;)
+        Grade(uint userId, uint rowIndex, uint columnIndex, float grade)
         {
-
+            this.userId = userId;
+            this.rowIndex = rowIndex;
+            this.columnIndex = columnIndex;
+            this.grade = grade;
         }
 
         public uint UserId
