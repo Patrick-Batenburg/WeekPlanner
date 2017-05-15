@@ -22,7 +22,7 @@ namespace SamenSterk.Controllers
                 var query = (from user in db.User
                              where user.Username == model.Username && user.Password == EncryptionProvider.Encrypt(model.Password)
                              select user).SingleOrDefault();
-                if (result != null)
+                if (query != null)
                 {
                     result = 1;
                 }
