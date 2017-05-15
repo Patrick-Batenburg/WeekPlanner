@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinqToDB.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,38 +12,45 @@ namespace SamenSterk.Models
         private uint userId;
         private uint rowIndex;
         private uint columnIndex;
-        private float grade;
+        private float number;
 
-        Grade(uint userId, uint rowIndex, uint columnIndex, float grade)
+        /// <summary>
+        /// Initializes a new instance of the Grade class.
+        /// </summary>
+        /// <param name="userId">User id of the the Grade object.</param>
+        /// <param name="rowIndex">Row index of the the Grade object.</param>
+        /// <param name="columnIndex">Column index of the the Grade object.</param>
+        /// <param name="number">Number of the the Grade object.</param>
+        public Grade(uint userId, uint rowIndex, uint columnIndex, float number)
         {
             this.userId = userId;
             this.rowIndex = rowIndex;
             this.columnIndex = columnIndex;
-            this.grade = grade;
+            this.number = number;
         }
 
-        public uint UserId
-        {
-            get { return userId; }
-            set { userId = value; }
-        }
+        /// <summary>
+        /// Gets/Sets the user id of the Grade object.
+        /// </summary>
+        [PrimaryKey]
+        public uint UserId { get; set; }
 
-        public uint RowIndex
-        {
-            get { return rowIndex; }
-            set { rowIndex = value; }
-        }
+        /// <summary>
+        /// Gets/Sets the row index of the Grade object.
+        /// </summary>
+        [Column(Name = "RowIndex"), NotNull]
+        public uint RowIndex { get; set; }
 
-        public uint ColumnIndex
-        {
-            get { return columnIndex; }
-            set { columnIndex = value; }
-        }
+        /// <summary>
+        /// Gets/Sets the column index of the Grade object.
+        /// </summary>
+        [Column(Name = "ColumnIndex"), NotNull]
+        public uint ColumnIndex { get; set; }
 
-        public float Grade
-        {
-            get { return grade; }
-            set { grade = value; }
-        }
+        /// <summary>
+        /// Gets/Sets the number of the Grade object.
+        /// </summary>
+        [Column(Name = "Number"), NotNull]
+        public float Number { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB.Mapping;
 
 namespace SamenSterk.Models
 {
@@ -14,12 +15,12 @@ namespace SamenSterk.Models
         private string role;
 
         /// <summary>
-        /// Creates a new User object.
+        /// Initializes a new instance of the User class.
         /// </summary>
-        /// <param name="username">Username of the User.</param>
-        /// <param name="password">Password of the User.</param>
-        /// <param name="role">Role of the User.</param>
-        User(string username, string password, string role)
+        /// <param name="username">Username of the User object.</param>
+        /// <param name="password">Password of the User object.</param>
+        /// <param name="role">Role of the User object.</param>
+        public User(string username, string password, string role)
         {
             this.username = username;
             this.password = password;
@@ -27,39 +28,27 @@ namespace SamenSterk.Models
         }
 
         /// <summary>
-        /// Gets/Sets the Id of the User object.
+        /// Gets/Sets the id of the User object.
         /// </summary>
-        public uint Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        [PrimaryKey, Identity]
+        public uint Id { get; set; }
 
         /// <summary>
-        /// Gets/Sets the Username of the User object.
+        /// Gets/Sets the username of the User object.
         /// </summary>
-        public string Username
-        {
-            get { return username; }
-            set { username = value; }
-        }
+        [Column(Name = "Username"), NotNull]
+        public string Username { get; set; }
 
         /// <summary>
-        /// Gets/Sets the Password of the User object.
+        /// Gets/Sets the password of the User object.
         /// </summary>
-        public string Password
-        {
-            get { return password; }
-            set { password = value; }
-        }
+        [Column(Name = "Password"), NotNull]
+        public string Password { get; set; }
 
         /// <summary>
-        /// Gets/Sets the Role of the User object.
+        /// Gets/Sets the role of the User object.
         /// </summary>
-        public string Role
-        {
-            get { return role; }
-            set { role = value; }
-        }
+        [Column(Name = "Role"), NotNull]
+        public string Role { get; set; }
     }
 }

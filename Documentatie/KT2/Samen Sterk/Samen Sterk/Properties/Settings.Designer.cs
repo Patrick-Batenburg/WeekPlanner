@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SamenSterk.Models.Properties {
+namespace SamenSterk.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -23,15 +23,12 @@ namespace SamenSterk.Models.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Server=localhost;Port=3306;Database=taskdb;Uid=root;Pwd=admin;")]
-        public string ConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("3ejGJmkzxA3JWTGoDk1V")]
+        public string Salt {
             get {
-                return ((string)(this["ConnectionString"]));
-            }
-            set {
-                this["ConnectionString"] = value;
+                return ((string)(this["Salt"]));
             }
         }
     }

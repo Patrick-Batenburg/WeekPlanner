@@ -1,4 +1,4 @@
-﻿namespace SamenSterk.Models
+﻿namespace SamenSterk.Views
 {
     partial class Shedule
     {
