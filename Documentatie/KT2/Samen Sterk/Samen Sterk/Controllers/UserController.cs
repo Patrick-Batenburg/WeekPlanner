@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SamenSterk.Providers;
+using LinqToDB;
 
 namespace SamenSterk.Controllers
 {
@@ -25,6 +26,18 @@ namespace SamenSterk.Controllers
                 {
                     result = 1;
                 }
+            }
+
+            return result;
+        }
+
+        public int Register(User model)
+        {
+            int result = 0;
+
+            using (var db = new DataConnection())
+            {
+                result = db.Insert(model);
             }
 
             return result;
