@@ -59,5 +59,15 @@ namespace SamenSterk.Views.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Samen_Sterk_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Samen Sterk Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

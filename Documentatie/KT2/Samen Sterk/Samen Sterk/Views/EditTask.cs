@@ -25,6 +25,17 @@ namespace SamenSterk.Views
 
         private void btnEditTask_Click(object sender, EventArgs e)
         {
+            shedule.title = txtTitle.Text;
+            if (!string.IsNullOrWhiteSpace(txtDuration.Text))
+            {
+                shedule.duration = int.Parse(txtDuration.Text);
+            }
+            else
+            {
+                shedule.duration = 0;
+            }
+            shedule.label = txtLabel.Text;
+            shedule.AddTaskToTable();
             this.Close();
         }
 
@@ -33,6 +44,7 @@ namespace SamenSterk.Views
             DialogResult dialogResult = MessageBox.Show("Weet je het zeker?", "Taak verwijderen", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
+                shedule.DeleteTaskFromTable();
                 this.Close();
             }
         }

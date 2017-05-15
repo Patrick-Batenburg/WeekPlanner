@@ -66,9 +66,11 @@
             // 
             // pbLogo
             // 
+            this.pbLogo.Image = global::SamenSterk.Views.Properties.Resources.Samen_Sterk_Logo;
             this.pbLogo.Location = new System.Drawing.Point(11, 12);
             this.pbLogo.Name = "pbLogo";
             this.pbLogo.Size = new System.Drawing.Size(162, 95);
+            this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLogo.TabIndex = 10;
             this.pbLogo.TabStop = false;
             // 
