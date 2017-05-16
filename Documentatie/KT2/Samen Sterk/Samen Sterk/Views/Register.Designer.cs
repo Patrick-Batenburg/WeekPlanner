@@ -54,6 +54,7 @@
             // 
             this.txtPassword.Location = new System.Drawing.Point(30, 165);
             this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
             this.txtPassword.TabIndex = 12;
             // 
@@ -66,7 +67,7 @@
             // 
             // pbLogo
             // 
-            this.pbLogo.Image = global::SamenSterk.Views.Properties.Resources.Samen_Sterk_Logo;
+            this.pbLogo.Image = global::SamenSterk.Properties.Resources.Samen_Sterk_Logo;
             this.pbLogo.Location = new System.Drawing.Point(11, 12);
             this.pbLogo.Name = "pbLogo";
             this.pbLogo.Size = new System.Drawing.Size(162, 95);
@@ -106,6 +107,7 @@
             // 
             this.txtPasswordRepeat.Location = new System.Drawing.Point(30, 204);
             this.txtPasswordRepeat.Name = "txtPasswordRepeat";
+            this.txtPasswordRepeat.PasswordChar = '*';
             this.txtPasswordRepeat.Size = new System.Drawing.Size(100, 20);
             this.txtPasswordRepeat.TabIndex = 15;
             // 

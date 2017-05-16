@@ -32,10 +32,11 @@
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblDuration = new System.Windows.Forms.Label();
             this.lblLabel = new System.Windows.Forms.Label();
-            this.txtDuration = new System.Windows.Forms.TextBox();
             this.txtLabel = new System.Windows.Forms.TextBox();
             this.cbRepeating = new System.Windows.Forms.CheckBox();
             this.btnAddTask = new System.Windows.Forms.Button();
+            this.nudDuration = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -59,9 +60,9 @@
             this.lblDuration.AutoSize = true;
             this.lblDuration.Location = new System.Drawing.Point(12, 48);
             this.lblDuration.Name = "lblDuration";
-            this.lblDuration.Size = new System.Drawing.Size(30, 13);
+            this.lblDuration.Size = new System.Drawing.Size(65, 13);
             this.lblDuration.TabIndex = 2;
-            this.lblDuration.Text = "Duur";
+            this.lblDuration.Text = "Duur in uren";
             // 
             // lblLabel
             // 
@@ -71,13 +72,6 @@
             this.lblLabel.Size = new System.Drawing.Size(33, 13);
             this.lblLabel.TabIndex = 3;
             this.lblLabel.Text = "Label";
-            // 
-            // txtDuration
-            // 
-            this.txtDuration.Location = new System.Drawing.Point(15, 64);
-            this.txtDuration.Name = "txtDuration";
-            this.txtDuration.Size = new System.Drawing.Size(133, 20);
-            this.txtDuration.TabIndex = 4;
             // 
             // txtLabel
             // 
@@ -106,15 +100,37 @@
             this.btnAddTask.UseVisualStyleBackColor = true;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
             // 
+            // nudDuration
+            // 
+            this.nudDuration.Location = new System.Drawing.Point(16, 64);
+            this.nudDuration.Maximum = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            this.nudDuration.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudDuration.Name = "nudDuration";
+            this.nudDuration.Size = new System.Drawing.Size(132, 20);
+            this.nudDuration.TabIndex = 8;
+            this.nudDuration.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // AddTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(160, 187);
+            this.Controls.Add(this.nudDuration);
             this.Controls.Add(this.btnAddTask);
             this.Controls.Add(this.cbRepeating);
             this.Controls.Add(this.txtLabel);
-            this.Controls.Add(this.txtDuration);
             this.Controls.Add(this.lblLabel);
             this.Controls.Add(this.lblDuration);
             this.Controls.Add(this.txtTitle);
@@ -126,6 +142,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Taak Toevoegen";
+            ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -137,9 +154,9 @@
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.Label lblDuration;
         private System.Windows.Forms.Label lblLabel;
-        private System.Windows.Forms.TextBox txtDuration;
         private System.Windows.Forms.TextBox txtLabel;
         private System.Windows.Forms.CheckBox cbRepeating;
         private System.Windows.Forms.Button btnAddTask;
+        private System.Windows.Forms.NumericUpDown nudDuration;
     }
 }

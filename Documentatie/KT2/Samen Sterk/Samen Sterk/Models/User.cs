@@ -14,6 +14,10 @@ namespace SamenSterk.Models
         private string password;
         private string role;
 
+        public User()
+        {
+
+        }
         /// <summary>
         /// Initializes a new instance of the User class.
         /// </summary>

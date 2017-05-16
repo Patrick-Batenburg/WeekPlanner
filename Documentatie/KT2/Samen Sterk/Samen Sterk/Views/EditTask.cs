@@ -17,7 +17,7 @@ namespace SamenSterk.Views
         {
             InitializeComponent();
             txtTitle.Text = title;
-            txtDuration.Text = duration.ToString();
+            nudDuration.Value = duration;
             txtLabel.Text = label;
             cbRepeating.Checked = repeating;
             this.shedule = shedule;
@@ -26,14 +26,7 @@ namespace SamenSterk.Views
         private void btnEditTask_Click(object sender, EventArgs e)
         {
             shedule.title = txtTitle.Text;
-            if (!string.IsNullOrWhiteSpace(txtDuration.Text))
-            {
-                shedule.duration = int.Parse(txtDuration.Text);
-            }
-            else
-            {
-                shedule.duration = 0;
-            }
+            shedule.duration = Convert.ToByte(nudDuration.Value);
             shedule.label = txtLabel.Text;
             shedule.AddTaskToTable();
             this.Close();

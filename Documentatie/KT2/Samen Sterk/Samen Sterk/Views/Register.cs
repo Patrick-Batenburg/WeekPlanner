@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SamenSterk.Controllers;
+using SamenSterk.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +15,7 @@ namespace SamenSterk.Views
     public partial class Register : Form
     {
         Login login;
+        UserController userController = new UserController();
         public Register(Login login)
         {
             this.login = login;
@@ -26,7 +29,23 @@ namespace SamenSterk.Views
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (txtPassword.Text == txtPasswordRepeat.Text)
+            {
+                int result = userController.Register(new User() { Username = txtUsername.Text, Password = txtPassword.Text, Role = "member" });
+                if (result == 1)
+                {
+                    MessageBox.Show("Succesvol geregistreerd");
+                }
+                else
+                {
+                    MessageBox.Show("Er was een error tijdens het registreren");
+                }
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Het wachtwoord komt niet overeen");
+            }
         }
 
         private void Register_FormClosed(object sender, FormClosedEventArgs e)

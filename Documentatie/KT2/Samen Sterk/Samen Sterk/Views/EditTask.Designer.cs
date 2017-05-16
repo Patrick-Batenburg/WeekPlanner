@@ -31,12 +31,13 @@
             this.btnEditTask = new System.Windows.Forms.Button();
             this.cbRepeating = new System.Windows.Forms.CheckBox();
             this.txtLabel = new System.Windows.Forms.TextBox();
-            this.txtDuration = new System.Windows.Forms.TextBox();
             this.lblLabel = new System.Windows.Forms.Label();
             this.lblDuration = new System.Windows.Forms.Label();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.nudDuration = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
             this.SuspendLayout();
             // 
             // btnEditTask
@@ -66,13 +67,6 @@
             this.txtLabel.Size = new System.Drawing.Size(159, 20);
             this.txtLabel.TabIndex = 13;
             // 
-            // txtDuration
-            // 
-            this.txtDuration.Location = new System.Drawing.Point(15, 64);
-            this.txtDuration.Name = "txtDuration";
-            this.txtDuration.Size = new System.Drawing.Size(159, 20);
-            this.txtDuration.TabIndex = 12;
-            // 
             // lblLabel
             // 
             this.lblLabel.AutoSize = true;
@@ -87,9 +81,9 @@
             this.lblDuration.AutoSize = true;
             this.lblDuration.Location = new System.Drawing.Point(12, 48);
             this.lblDuration.Name = "lblDuration";
-            this.lblDuration.Size = new System.Drawing.Size(30, 13);
+            this.lblDuration.Size = new System.Drawing.Size(65, 13);
             this.lblDuration.TabIndex = 10;
-            this.lblDuration.Text = "Duur";
+            this.lblDuration.Text = "Duur in uren";
             // 
             // txtTitle
             // 
@@ -117,16 +111,38 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // nudDuration
+            // 
+            this.nudDuration.Location = new System.Drawing.Point(15, 64);
+            this.nudDuration.Maximum = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            this.nudDuration.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudDuration.Name = "nudDuration";
+            this.nudDuration.Size = new System.Drawing.Size(159, 20);
+            this.nudDuration.TabIndex = 17;
+            this.nudDuration.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // EditTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(186, 187);
+            this.Controls.Add(this.nudDuration);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEditTask);
             this.Controls.Add(this.cbRepeating);
             this.Controls.Add(this.txtLabel);
-            this.Controls.Add(this.txtDuration);
             this.Controls.Add(this.lblLabel);
             this.Controls.Add(this.lblDuration);
             this.Controls.Add(this.txtTitle);
@@ -138,6 +154,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Taak wijzigen";
+            ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -148,11 +165,11 @@
         private System.Windows.Forms.Button btnEditTask;
         private System.Windows.Forms.CheckBox cbRepeating;
         private System.Windows.Forms.TextBox txtLabel;
-        private System.Windows.Forms.TextBox txtDuration;
         private System.Windows.Forms.Label lblLabel;
         private System.Windows.Forms.Label lblDuration;
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.NumericUpDown nudDuration;
     }
 }
