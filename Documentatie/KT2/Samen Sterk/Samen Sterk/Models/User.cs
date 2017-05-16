@@ -17,6 +17,14 @@ namespace SamenSterk.Models
         /// <summary>
         /// Initializes a new instance of the User class.
         /// </summary>
+        public User()
+        {
+            this.role = "member";
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the User class.
+        /// </summary>
         /// <param name="username">Username of the User object.</param>
         /// <param name="password">Password of the User object.</param>
         /// <param name="role">Role of the User object.</param>

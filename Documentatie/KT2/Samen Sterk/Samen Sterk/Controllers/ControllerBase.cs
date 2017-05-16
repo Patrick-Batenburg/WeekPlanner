@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SamenSterk.Controllers
 {
-    public abstract class ControllerBase 
+    public class ControllerBase 
     {
         public Dictionary<string, string> TempData { get; set; }
 

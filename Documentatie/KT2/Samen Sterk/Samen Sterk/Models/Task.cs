@@ -14,9 +14,17 @@ namespace SamenSterk.Models
         private uint userId;
         private string title;
         private DateTime date;
-        private TimeSpan duration;
+        private byte duration;
         private byte repeats;
         private string label;
+
+        /// <summary>
+        /// Initializes a new instance of the Task class.
+        /// </summary>
+        public Task()
+        {
+
+        }
 
         /// <summary>
         /// Initializes a new instance of the Task class.
@@ -27,7 +35,7 @@ namespace SamenSterk.Models
         /// <param name="duration">Duration of the the Task object.</param>
         /// <param name="repeats">Repeating of the the TaskMeta object, 0 is false and 1 or above is true. Default value is 0.</param>
         /// <param name="label">Label of the the Task object.</param>
-        public Task(uint userId, string title, DateTime date, TimeSpan duration, byte repeats, string label = "")
+        public Task(uint userId, string title, DateTime date, byte duration, byte repeats, string label = "")
         {
             this.userId = userId;
             this.title = title;
@@ -65,7 +73,7 @@ namespace SamenSterk.Models
         /// Gets/Sets the duration of the Task object.
         /// </summary>
         [Column(Name = "Duration"), NotNull]
-        public TimeSpan Duration { get; set; }
+        public byte Duration { get; set; }
 
         /// <summary>
         /// Gets/Sets the repeating of the TaskMeta object.

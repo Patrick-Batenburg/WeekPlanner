@@ -17,6 +17,14 @@ namespace SamenSterk.Models
         /// <summary>
         /// Initializes a new instance of the Appointment class.
         /// </summary>
+        public Appointment()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Appointment class.
+        /// </summary>
         /// <param name="userId">User id of the the Appointment object.</param>
         /// <param name="description">Description of the the Appointment object.</param>
         /// <param name="date">Date of the the Appointment object.</param>
