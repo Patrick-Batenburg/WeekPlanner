@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using SamenSterk.Providers;
 using LinqToDB;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace SamenSterk.Controllers
 {
     public class UserController : ControllerBase
     {
         private User user = null;
-        private List<User> users = new List<User>();
 
         /// <summary>
         /// Initializes a new instance of the UserController class.
@@ -48,7 +48,6 @@ namespace SamenSterk.Controllers
 
             return result;
         }
-
 
         /// <summary>
         /// Register an unique account.
@@ -103,11 +102,12 @@ namespace SamenSterk.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Logs a user of and redirect to specified view.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public int LogOff(uint id)
+        /// <param name="id">Id of the user.</param>
+        /// <param name="view">View to redirect to.</param>
+        /// <returns>0 on failure, 1 on success.</returns>
+        public int LogOff(uint id, Form view)
         {
             int result = 0;
 
@@ -120,6 +120,8 @@ namespace SamenSterk.Controllers
                 if (query != null)
                 {
                     result = 1;
+                    view = new Form();
+                    view.Show();
                 }
             }
 
