@@ -72,13 +72,14 @@ namespace SamenSterk.Views
                 else if (!dgvShedule.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor.IsEmpty)
                 {
                     //if the cell value is empty, but is different colored
+                    //look up to most upper cell with value
                     int i = 0;
                     do
                     {
-                        //look up to most upper cell with value
                         if (dgvShedule.Rows[e.RowIndex - i].Cells[e.ColumnIndex].Value != null)
                         {
-                            cellContent = dgvShedule.Rows[e.RowIndex - i].Cells[e.ColumnIndex].Value.ToString();
+                            cellContent = dgvShedule.Rows[e.RowIndex - i].Cells[e.ColumnIndex].Value.ToString(); 
+                            cellPos = new int[] { e.RowIndex, e.ColumnIndex }; //gets the position of the selected cell
                         }
                         i++;
                     }
@@ -86,6 +87,7 @@ namespace SamenSterk.Views
                 }
                 else
                 {
+                    //the cell is empty.
                     cellContent = null;
                 }
                 if (string.IsNullOrEmpty(cellContent))
@@ -105,6 +107,7 @@ namespace SamenSterk.Views
         public void AddTaskToTable()
         {
             dgvShedule.Rows[cellPos[0]].Cells[cellPos[1]].Value = title;
+            //gives a color with it's length depending on the duration.
             int i = 0;
             do
             {
@@ -116,7 +119,14 @@ namespace SamenSterk.Views
 
         public void DeleteTaskFromTable()
         {
-            dgvShedule.Rows[cellPos[0]].Cells[cellPos[1]].Value = "";
+            dgvShedule.Rows[cellPos[0]].Cells[cellPos[1]].Value = ""; 
+            int i = 0;
+            do
+            {
+                dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor = Color.Empty;
+                i++;
+            }
+            while (dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Value == null && cellPos[0] + i - 1 < dgvShedule.Rows.Count);
         }
 
         //GRADE LIST\\

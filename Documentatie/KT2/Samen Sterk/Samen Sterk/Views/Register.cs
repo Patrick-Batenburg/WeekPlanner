@@ -35,12 +35,12 @@ namespace SamenSterk.Views
                 if (result == 1)
                 {
                     MessageBox.Show("Succesvol geregistreerd");
+                    this.Close();
                 }
                 else
                 {
                     MessageBox.Show("Er was een error tijdens het registreren");
                 }
-                this.Close();
             }
             else
             {

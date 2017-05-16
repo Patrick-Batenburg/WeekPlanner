@@ -37,12 +37,13 @@ namespace SamenSterk.Views
             {
                 MessageBox.Show("De gebruikersnaam of wachtwoord is onjuist");
             }
-
             txtPassword.Text = "";
         }
 
         private void lblRegister_Click(object sender, EventArgs e)
         {
+            txtUsername.Text = "";
+            txtPassword.Text = "";
             Register register = new Register(this);
             register.Show();
             this.Hide();

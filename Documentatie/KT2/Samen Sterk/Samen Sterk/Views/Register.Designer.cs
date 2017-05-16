@@ -139,7 +139,7 @@
             this.MinimizeBox = false;
             this.Name = "Register";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Register";
+            this.Text = "Nieuwe Gebruiker";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Register_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.ResumeLayout(false);
