@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SamenSterk.Controllers;
+using SamenSterk.Models;
+using SamenSterk.Providers;
 
 namespace SamenSterk.Views
 {
@@ -19,6 +22,13 @@ namespace SamenSterk.Views
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            User user = new User();
+            UserController userc = new UserController();
+            userc.Login(new User()
+                {
+                    Username = lblUsername.Text,
+                    Password = lblPassword.Text
+                });
             Shedule shedule = new Shedule(this);
             shedule.Show();
             this.Hide();

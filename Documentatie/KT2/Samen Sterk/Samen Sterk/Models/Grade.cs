@@ -17,6 +17,14 @@ namespace SamenSterk.Models
         /// <summary>
         /// Initializes a new instance of the Grade class.
         /// </summary>
+        public Grade()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Grade class.
+        /// </summary>
         /// <param name="userId">User id of the the Grade object.</param>
         /// <param name="rowIndex">Row index of the the Grade object.</param>
         /// <param name="columnIndex">Column index of the the Grade object.</param>

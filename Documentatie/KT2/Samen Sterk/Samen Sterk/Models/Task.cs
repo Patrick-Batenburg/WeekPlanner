@@ -21,6 +21,14 @@ namespace SamenSterk.Models
         /// <summary>
         /// Initializes a new instance of the Task class.
         /// </summary>
+        public Task()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Task class.
+        /// </summary>
         /// <param name="userId">User id of the the Task object.</param>
         /// <param name="title">Title of the the Task object.</param>
         /// <param name="date">Date of the the Task object.</param>
