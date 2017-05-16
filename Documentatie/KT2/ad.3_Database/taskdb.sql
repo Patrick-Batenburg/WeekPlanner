@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `grade` (
   `RowIndex` int(10) unsigned NOT NULL,
   `UserId` int(10) unsigned NOT NULL,
   `ColumnIndex` int(10) unsigned NOT NULL,
-  `Grade` float unsigned NOT NULL DEFAULT '0',
+  `Number` float unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`RowIndex`),
   KEY `UserId` (`UserId`),
   CONSTRAINT `SubjectFK` FOREIGN KEY (`RowIndex`) REFERENCES `subject` (`RowIndex`)
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `task` (
   `UserId` int(10) unsigned NOT NULL,
   `TaskTitle` varchar(64) NOT NULL,
   `TaskDate` date NOT NULL,
-  `TaskDuration` time NOT NULL,
+  `TaskDuration` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `TaskRepeats` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `TaskLabel` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`Id`),

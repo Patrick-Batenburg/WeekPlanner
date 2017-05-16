@@ -16,6 +16,14 @@ namespace SamenSterk.Models
         /// <summary>
         /// Initializes a new instance of the Subject class.
         /// </summary>
+        public Subject()
+        {
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the Subject class.
+        /// </summary>
         /// <param name="userId">User id of the the Subject object.</param>
         /// <param name="rowIndex">Row index of the the Subject object.</param>
         /// <param name="name">Name of the the Subject object.</param>

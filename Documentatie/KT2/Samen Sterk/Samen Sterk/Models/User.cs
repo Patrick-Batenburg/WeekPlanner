@@ -14,10 +14,14 @@ namespace SamenSterk.Models
         private string password;
         private string role;
 
+        /// <summary>
+        /// Initializes a new instance of the User class.
+        /// </summary>
         public User()
         {
-
+            this.role = "member";
         }
+
         /// <summary>
         /// Initializes a new instance of the User class.
         /// </summary>
