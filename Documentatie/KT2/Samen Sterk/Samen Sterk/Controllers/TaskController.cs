@@ -5,70 +5,72 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using SamenSterk.Providers;
 using LinqToDB;
 
 namespace SamenSterk.Controllers
 {
-    public class GradeController
+    public class TaskController
     {
-        private Grade grade = null;
+        private Task task = null;
 
         /// <summary>
-        /// Initializes a new instance of the GradeController class.
+        /// Initializes a new instance of the TaskController class.
         /// </summary>
-        public GradeController()
+        public TaskController()
         {
 
         }
 
         /// <summary>
-        /// View the details about all the grades of the specified user.
+        /// View the details about all the tasks of the specified user.
         /// </summary>
-        /// <param name="userId">User id of the grade.</param>
-        /// <returns>A list of grades with values from the database.</returns>
-        public List<Grade> Details(uint? userId)
+        /// <param name="userId">User id of the task.</param>
+        /// <returns>A list of tasks with values from the database.</returns>
+        public List<Task> Details(uint? userId)
         {
-            List<Grade> grades = null;
+            List<Task> tasks = null;
 
             if (userId == null)
             {
-                grades = null;
+                tasks = null;
             }
 
             using (var db = new DataConnection())
             {
-                var query = (from grade in db.Grade
-                             where grade.UserId == userId
-                             select grade).ToList();
+                var query = (from task in db.Task
+                             where task.UserId == userId
+                             select task).ToList();
 
                 if (query != null)
                 {
-                    foreach (Grade _grade in query)
+                    foreach (Task _task in query)
                     {
-                        grade = new Grade()
+                        task = new Task()
                         {
-                            UserId = _grade.UserId,
-                            RowIndex = _grade.RowIndex,
-                            ColumnIndex = _grade.ColumnIndex,
-                            Number = _grade.Number
+                            Id = _task.Id,
+                            UserId = _task.UserId,
+                            Title = _task.Title,
+                            Date = _task.Date,
+                            Duration = _task.Duration,
+                            Repeats = _task.Repeats,
+                            Label = _task.Label
                         };
 
-                        grades.Add(grade);
+                        tasks.Add(task);
                     }
                 }
             }
 
-            return grades;
+            return tasks;
         }
 
         /// <summary>
-        /// Creates a new grade.
+        /// Creates a new task.
         /// </summary>
-        /// <param name="model">Grade details to create.</param>
+        /// <param name="model">Task details to create.</param>
         /// <returns>0 on failure, 1 on success.</returns>
-        public int Create(Grade model)
+        public int Create(Task model)
         {
             int result = 0;
 
@@ -81,11 +83,11 @@ namespace SamenSterk.Controllers
         }
 
         /// <summary>
-        /// Edit an existing grade.
+        /// Edit an existing task.
         /// </summary>
-        /// <param name="model">Grade details to edit.</param>
+        /// <param name="model">Task details to edit.</param>
         /// <returns>0 on failure, 1 on success.</returns>
-        public int Edit(Grade model)
+        public int Edit(Task model)
         {
             int result = 0;
 
@@ -98,11 +100,11 @@ namespace SamenSterk.Controllers
         }
 
         /// <summary>
-        /// Deletes an existing grade.
+        /// Deletes an existing task.
         /// </summary>
-        /// <param name="model">Grade details to delete.</param>
+        /// <param name="model">Task details to delete.</param>
         /// <returns>0 on failure, 1 on success.</returns>
-        public int Delete(Grade model)
+        public int Delete(Task model)
         {
             int result = 0;
 
@@ -113,5 +115,7 @@ namespace SamenSterk.Controllers
 
             return result;
         }
+
+
     }
 }
