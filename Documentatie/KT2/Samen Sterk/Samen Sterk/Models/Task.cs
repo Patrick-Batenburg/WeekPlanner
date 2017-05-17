@@ -8,7 +8,7 @@ using LinqToDB.Mapping;
 namespace SamenSterk.Models
 {
     [Table(Name = "Tasks")]
-    public class Task
+    public class Task : ModelBase
     {
         private uint id;
         private uint userId;
@@ -19,7 +19,7 @@ namespace SamenSterk.Models
         private string label;
 
         /// <summary>
-        /// Initializes a new instance of the Task class.
+        /// Creates an empty Task.
         /// </summary>
         public Task()
         {
@@ -27,7 +27,7 @@ namespace SamenSterk.Models
         }
 
         /// <summary>
-        /// Initializes a new instance of the Task class.
+        /// Creates a new Task.
         /// </summary>
         /// <param name="userId">User id of the the Task object.</param>
         /// <param name="title">Title of the the Task object.</param>
@@ -49,42 +49,98 @@ namespace SamenSterk.Models
         /// Gets/Sets the id of the Task object.
         /// </summary>
         [PrimaryKey, Identity]
-        public uint Id { get; set; }
+        public uint Id
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+                OnPropertyChanged("Id");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the user id of the Task object.
         /// </summary>
         [Column(Name = "UserId"), NotNull]
-        public uint UserId { get; set; }
+        public uint UserId
+        {
+            get { return userId; }
+            set
+            {
+                userId = value;
+                OnPropertyChanged("UserId");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the title of the Task object.
         /// </summary>
         [Column(Name = "Title"), NotNull]
-        public string Title { get; set; }
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                OnPropertyChanged("Title");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the date of the Task object.
         /// </summary>
         [Column(Name = "Date"), NotNull]
-        public DateTime Date { get; set; }
+        public DateTime Date
+        {
+            get { return date; }
+            set
+            {
+                date = value;
+                OnPropertyChanged("Date");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the duration of the Task object.
         /// </summary>
         [Column(Name = "Duration"), NotNull]
-        public byte Duration { get; set; }
+        public byte Duration
+        {
+            get { return duration; }
+            set
+            {
+                duration = value;
+                OnPropertyChanged("Duration");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the repeating of the TaskMeta object.
         /// </summary>
         [Column(Name = "Repeats"), NotNull]
-        public byte Repeats { get; set; }
+        public byte Repeats
+        {
+            get { return repeats; }
+            set
+            {
+                repeats = value;
+                OnPropertyChanged("Repeats");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the label of the Task object.
         /// </summary>
         [Column(Name = "Label"), Nullable]
-        public string Label { get; set; }
+        public string Label
+        {
+            get { return label; }
+            set
+            {
+                label = value;
+                OnPropertyChanged("Label");
+            }
+        }
     }
 }
