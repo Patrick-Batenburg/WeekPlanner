@@ -30,27 +30,22 @@ namespace SamenSterk.Views
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            bool isUsername = Regex.IsMatch(txtUsername.Text, @"^(?=.{3,20}$)(?![_-])[a-zA-Z0-9-_]+(?<![_-])$", RegexOptions.None);
-
-            if (isUsername == true)
+            if (txtPassword.Text == txtPasswordRepeat.Text)
             {
-                if (txtPassword.Text == txtPasswordRepeat.Text)
+                int result = userController.Register(new User() { Username = txtUsername.Text, Password = txtPassword.Text, Role = "member" });
+                if (result == 1)
                 {
-                    int result = userController.Register(new User() { Username = txtUsername.Text, Password = txtPassword.Text, Role = "member" });
-                    if (result == 1)
-                    {
-                        MessageBox.Show("Succesvol geregistreerd");
-                        this.Close();
-                    }
+                    MessageBox.Show("Succesvol geregistreerd");
+                    this.Close();
                 }
-                else
+                else if (result == 2)
                 {
-                    MessageBox.Show("Het wachtwoord komt niet overeen");
+                    MessageBox.Show("Gebruikersnaam is ongeldig.");
                 }
             }
             else
             {
-                MessageBox.Show("Gebruikersnaam is ongeldig.");
+                MessageBox.Show("Het wachtwoord komt niet overeen");
             }
         }
 

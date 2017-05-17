@@ -75,10 +75,10 @@ namespace SamenSterk.Controllers
                     }
                 } 
             }
-	else 
-{
-result = 2;
-}
+	        else 
+            {
+                result = 2;
+            }
             return result;
         }
 

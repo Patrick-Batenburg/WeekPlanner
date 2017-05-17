@@ -35,6 +35,8 @@ namespace SamenSterk.Views
                 dgvShedule.Rows.Add();
                 dgvShedule.Rows[i].HeaderCell.Value = (7 + i) + ":00";
             }
+
+            //load tasks from database
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
