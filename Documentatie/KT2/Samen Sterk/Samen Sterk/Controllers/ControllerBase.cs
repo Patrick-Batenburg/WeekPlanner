@@ -1,30 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SamenSterk.Controllers
 {
-    public class ControllerBase 
+    public abstract class ControllerBase
     {
-        public Dictionary<string, string> TempData { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        private Task task = null;
 
         /// <summary>
-        /// Event fires when a property has changed.
+        /// Initializes a new instance of the ControllerBase class.
         /// </summary>
-        /// <param name="propertyName">Name of the property or field.</param>
-        protected virtual void RaisePropertyChanged(string propertyName)
+        public ControllerBase()
         {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
 
-            if (handler != null)
+        }
+
+        /// <summary>
+        /// Adds a delegate to be invoked just before the response will be sent.
+        /// </summary>
+        /// <param name="callback">The callback funtion.</param>
+        public virtual void OnStarting(Func<Task> callback)
+        {
+            if (task.IsCanceled)
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        /// <summary>
+        /// Adds a delegate to be invoked after the response has finished.
+        /// </summary>
+        /// <param name="callback">The callback funtion.</param>
+        public virtual void OnCompleted(Func<Task> callback)
+        {
+            if (task.IsFaulted)
+            {
+            }
+            else if (task.IsCompleted) { }
         }
     }
 }

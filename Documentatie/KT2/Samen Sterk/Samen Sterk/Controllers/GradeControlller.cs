@@ -11,7 +11,7 @@ using LinqToDB;
 
 namespace SamenSterk.Controllers
 {
-    public class GradeController
+    public class GradeController : ControllerBase
     {
         private Grade grade = null;
 

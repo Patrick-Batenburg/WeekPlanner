@@ -58,22 +58,22 @@ namespace SamenSterk.Controllers
         {
             int result = 0;
             bool isUsername;
-            using (var db = new DataConnection())
+            isUsername = Regex.IsMatch(model.Username, @"^(?=.{3,20}$)(?![_-])[a-zA-Z0-9-_]+(?<![_-])$", RegexOptions.None);
+
+            if (isUsername == true)
             {
-                var query = (from user in db.User
-                             where user.Username != model.Username
-                             select user).SingleOrDefault();
-
-                if (query != null)
+                using (var db = new DataConnection())
                 {
-                    isUsername = Regex.IsMatch(model.Username, @"^(?=.{3,20}$)(?![_-])[a-zA-Z0-9-_]+(?<![_-])$", RegexOptions.None);
+                    var query = (from user in db.User
+                                 where user.Username != model.Username
+                                 select user).SingleOrDefault();
 
-                    if (isUsername == true)
+                    if (query != null)
                     {
                         model.Password = EncryptionProvider.Encrypt(model.Password);
                         result = db.Insert(model);
                     }
-                }
+                } 
             }
 
             return result;
@@ -84,18 +84,30 @@ namespace SamenSterk.Controllers
         /// </summary>
         /// <param name="id">Id of the user to update.</param>
         /// <returns>0 on failure, 1 on success.</returns>
-        public int Edit(uint id)
+        public int Edit(User model)
         {
             int result = 0;
 
             using (var db = new DataConnection())
             {
-                var query = db.User.Where(user => user.Id == id).Delete();
-                
-                if (query != null)
-                {
-                    result = 1;
-                }
+                db.Update(model);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Edit existing account details.
+        /// </summary>
+        /// <param name="id">Id of the user to update.</param>
+        /// <returns>0 on failure, 1 on success.</returns>
+        public int Delete(User model)
+        {
+            int result = 0;
+
+            using (var db = new DataConnection())
+            {
+                result = db.Delete(model);
             }
 
             return result;
