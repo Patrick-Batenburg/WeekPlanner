@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace SamenSterk.Models
 {
-    public class Appointment
+    [Table(Name = "Appointments")]
+    public class Appointment : ModelBase
     {
         private uint id;
         private uint userId;
@@ -15,7 +16,7 @@ namespace SamenSterk.Models
         private DateTime date;
 
         /// <summary>
-        /// Initializes a new instance of the Appointment class.
+        /// Creates an empty Appointment.
         /// </summary>
         public Appointment()
         {
@@ -23,7 +24,7 @@ namespace SamenSterk.Models
         }
 
         /// <summary>
-        /// Initializes a new instance of the Appointment class.
+        /// Creates a new Appointment.
         /// </summary>
         /// <param name="userId">User id of the the Appointment object.</param>
         /// <param name="description">Description of the the Appointment object.</param>
@@ -39,24 +40,56 @@ namespace SamenSterk.Models
         /// Gets/Sets the id of the Appointment object.
         /// </summary>
         [PrimaryKey, Identity]
-        public uint Id { get; set; }
+        public uint Id
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+                OnPropertyChanged("Id");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the user id of the Appointment object.
         /// </summary>
         [Column(Name = "UserId"), NotNull]
-        public uint UserId { get; set; }
+        public uint UserId
+        {
+            get { return userId; }
+            set
+            {
+                userId = value;
+                OnPropertyChanged("UserId");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the description of the Appointment object.
         /// </summary>
         [Column(Name = "Description"), NotNull]
-        public string Description { get; set; }
+        public string Description
+        {
+            get { return description; }
+            set
+            {
+                description = value;
+                OnPropertyChanged("Description");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the date of the Appointment object.
         /// </summary>
         [Column(Name = "Date"), NotNull]
-        public DateTime Date { get; set; }
+        public DateTime Date 
+        {
+            get { return date; }
+            set
+            {
+                date = value;
+                OnPropertyChanged("Date");
+            } 
+        }
     }
 }

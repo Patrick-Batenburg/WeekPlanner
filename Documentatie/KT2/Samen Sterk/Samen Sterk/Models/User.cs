@@ -7,7 +7,8 @@ using LinqToDB.Mapping;
 
 namespace SamenSterk.Models
 {
-    public class User
+    [Table(Name = "Users")]
+    public class User : ModelBase
     {
         private uint id;
         private string username;
@@ -15,15 +16,15 @@ namespace SamenSterk.Models
         private string role;
 
         /// <summary>
-        /// Initializes a new instance of the User class.
+        /// Creates an empty User.
         /// </summary>
         public User()
         {
-            this.role = "member";
+
         }
 
         /// <summary>
-        /// Initializes a new instance of the User class.
+        /// Creates a new User.
         /// </summary>
         /// <param name="username">Username of the User object.</param>
         /// <param name="password">Password of the User object.</param>
@@ -39,24 +40,56 @@ namespace SamenSterk.Models
         /// Gets/Sets the id of the User object.
         /// </summary>
         [PrimaryKey, Identity]
-        public uint Id { get; set; }
+        public uint Id
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+                OnPropertyChanged("Id");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the username of the User object.
         /// </summary>
         [Column(Name = "Username"), NotNull]
-        public string Username { get; set; }
+        public string Username
+        {
+            get { return username; }
+            set
+            {
+                username = value;
+                OnPropertyChanged("Id");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the password of the User object.
         /// </summary>
         [Column(Name = "Password"), NotNull]
-        public string Password { get; set; }
+        public string Password
+        {
+            get { return password; }
+            set
+            {
+                password = value;
+                OnPropertyChanged("Id");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the role of the User object.
         /// </summary>
         [Column(Name = "Role"), NotNull]
-        public string Role { get; set; }
+        public string Role
+        {
+            get { return role; }
+            set
+            {
+                role = value;
+                OnPropertyChanged("Id");
+            }
+        }
     }
 }

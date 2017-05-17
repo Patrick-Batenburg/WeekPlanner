@@ -10,10 +10,10 @@ using LinqToDB;
 
 namespace SamenSterk.Controllers
 {
-    public class TaskController
+    public class TaskController : ControllerBase
     {
         private Task task = null;
-
+       
         /// <summary>
         /// Initializes a new instance of the TaskController class.
         /// </summary>
@@ -115,7 +115,5 @@ namespace SamenSterk.Controllers
 
             return result;
         }
-
-
     }
 }

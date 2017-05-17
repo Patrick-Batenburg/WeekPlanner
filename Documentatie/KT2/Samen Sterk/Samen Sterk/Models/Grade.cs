@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace SamenSterk.Models
 {
-    public class Grade
+    [Table(Name = "Grades")]
+    public class Grade : ModelBase
     {
         private uint userId;
         private uint rowIndex;
@@ -15,7 +16,7 @@ namespace SamenSterk.Models
         private float number;
 
         /// <summary>
-        /// Initializes a new instance of the Grade class.
+        /// Creates an empty Grade.
         /// </summary>
         public Grade()
         {
@@ -23,7 +24,7 @@ namespace SamenSterk.Models
         }
 
         /// <summary>
-        /// Initializes a new instance of the Grade class.
+        /// Creates a new Grade.
         /// </summary>
         /// <param name="userId">User id of the the Grade object.</param>
         /// <param name="rowIndex">Row index of the the Grade object.</param>
@@ -36,29 +37,60 @@ namespace SamenSterk.Models
             this.columnIndex = columnIndex;
             this.number = number;
         }
+        /// <summary>
+        /// Gets/Sets the row index of the Grade object.
+        /// </summary>
+        [PrimaryKey, NotNull]
+        public uint RowIndex
+        {
+            get { return rowIndex; }
+            set
+            {
+                rowIndex = value;
+                OnPropertyChanged("RowIndex");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the user id of the Grade object.
         /// </summary>
-        [PrimaryKey]
-        public uint UserId { get; set; }
-
-        /// <summary>
-        /// Gets/Sets the row index of the Grade object.
-        /// </summary>
-        [Column(Name = "RowIndex"), NotNull]
-        public uint RowIndex { get; set; }
+        [Column(Name = "UserId")]
+        public uint UserId
+        {
+            get { return userId; }
+            set
+            {
+                userId = value;
+                OnPropertyChanged("UserId");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the column index of the Grade object.
         /// </summary>
         [Column(Name = "ColumnIndex"), NotNull]
-        public uint ColumnIndex { get; set; }
+        public uint ColumnIndex
+        {
+            get { return columnIndex; }
+            set
+            {
+                columnIndex = value;
+                OnPropertyChanged("ColumnIndex");
+            }
+        }
 
         /// <summary>
         /// Gets/Sets the number of the Grade object.
         /// </summary>
         [Column(Name = "Number"), NotNull]
-        public float Number { get; set; }
+        public float Number
+        {
+            get { return number; }
+            set
+            {
+                number = value;
+                OnPropertyChanged("Number");
+            }
+        }
     }
 }
