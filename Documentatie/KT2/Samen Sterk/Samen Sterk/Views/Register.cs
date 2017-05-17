@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -29,22 +30,27 @@ namespace SamenSterk.Views
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
-            if (txtPassword.Text == txtPasswordRepeat.Text)
+            bool isUsername = Regex.IsMatch(txtUsername.Text, @"^(?=.{3,20}$)(?![_-])[a-zA-Z0-9-_]+(?<![_-])$", RegexOptions.None);
+
+            if (isUsername == true)
             {
-                int result = userController.Register(new User() { Username = txtUsername.Text, Password = txtPassword.Text, Role = "member" });
-                if (result == 1)
+                if (txtPassword.Text == txtPasswordRepeat.Text)
                 {
-                    MessageBox.Show("Succesvol geregistreerd");
-                    this.Close();
+                    int result = userController.Register(new User() { Username = txtUsername.Text, Password = txtPassword.Text, Role = "member" });
+                    if (result == 1)
+                    {
+                        MessageBox.Show("Succesvol geregistreerd");
+                        this.Close();
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Er was een error tijdens het registreren");
+                    MessageBox.Show("Het wachtwoord komt niet overeen");
                 }
             }
             else
             {
-                MessageBox.Show("Het wachtwoord komt niet overeen");
+                MessageBox.Show("Gebruikersnaam is ongeldig.");
             }
         }
 

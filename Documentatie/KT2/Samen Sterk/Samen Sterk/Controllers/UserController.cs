@@ -37,7 +37,7 @@ namespace SamenSterk.Controllers
             using (var db = new DataConnection())
             {
                 var query = (from user in db.User
-                             where user.Username == model.Username && user.Password == model.Password/*EncryptionProvider.Encrypt(model.Password)*/
+                             where user.Username == model.Username && user.Password == EncryptionProvider.Encrypt(model.Password)
                              select user).SingleOrDefault();
 
                 if (query != null)
@@ -57,25 +57,18 @@ namespace SamenSterk.Controllers
         public int Register(User model)
         {
             int result = 0;
-            bool isUsername;
             using (var db = new DataConnection())
             {
                 var query = (from user in db.User
-                             where user.Username != model.Username
-                             select user).SingleOrDefault();
+                                where user.Username == model.Username
+                                select user).SingleOrDefault();
 
-                if (query != null)
+                if (query == null)
                 {
-                    isUsername = Regex.IsMatch(model.Username, @"^(?=.{3,20}$)(?![_-])[a-zA-Z0-9-_]+(?<![_-])$", RegexOptions.None);
-
-                    if (isUsername == true)
-                    {
-                        model.Password = EncryptionProvider.Encrypt(model.Password);
-                        result = db.Insert(model);
-                    }
+                    model.Password = EncryptionProvider.Encrypt(model.Password);
+                    result = db.Insert(model);
                 }
             }
-
             return result;
         }
 
