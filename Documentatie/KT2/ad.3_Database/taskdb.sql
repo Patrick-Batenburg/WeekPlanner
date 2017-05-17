@@ -17,9 +17,9 @@ DROP DATABASE IF EXISTS `taskdb`;
 CREATE DATABASE IF NOT EXISTS `taskdb` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `taskdb`;
 
--- Dumping structure for table taskdb.appointment
-DROP TABLE IF EXISTS `appointment`;
-CREATE TABLE IF NOT EXISTS `appointment` (
+-- Dumping structure for table taskdb.appointments
+DROP TABLE IF EXISTS `appointments`;
+CREATE TABLE IF NOT EXISTS `appointments` (
   `Id` int(10) unsigned NOT NULL,
   `UserId` int(10) unsigned NOT NULL,
   `Description` varchar(64) NOT NULL,
@@ -30,22 +30,22 @@ CREATE TABLE IF NOT EXISTS `appointment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
--- Dumping structure for table taskdb.grade
-DROP TABLE IF EXISTS `grade`;
-CREATE TABLE IF NOT EXISTS `grade` (
+-- Dumping structure for table taskdb.grades
+DROP TABLE IF EXISTS `grades`;
+CREATE TABLE IF NOT EXISTS `grades` (
   `RowIndex` int(10) unsigned NOT NULL,
   `UserId` int(10) unsigned NOT NULL,
   `ColumnIndex` int(10) unsigned NOT NULL,
   `Number` float unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`RowIndex`),
   KEY `UserId` (`UserId`),
-  CONSTRAINT `SubjectFK` FOREIGN KEY (`RowIndex`) REFERENCES `subject` (`RowIndex`)
+  CONSTRAINT `SubjectFK` FOREIGN KEY (`RowIndex`) REFERENCES `subjects` (`RowIndex`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
--- Dumping structure for table taskdb.subject
-DROP TABLE IF EXISTS `subject`;
-CREATE TABLE IF NOT EXISTS `subject` (
+-- Dumping structure for table taskdb.subjects
+DROP TABLE IF EXISTS `subjects`;
+CREATE TABLE IF NOT EXISTS `subjects` (
   `RowIndex` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
   `Name` varchar(64) NOT NULL,
@@ -55,25 +55,25 @@ CREATE TABLE IF NOT EXISTS `subject` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
--- Dumping structure for table taskdb.task
-DROP TABLE IF EXISTS `task`;
-CREATE TABLE IF NOT EXISTS `task` (
+-- Dumping structure for table taskdb.tasks
+DROP TABLE IF EXISTS `tasks`;
+CREATE TABLE IF NOT EXISTS `tasks` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
-  `TaskTitle` varchar(64) NOT NULL,
-  `TaskDate` date NOT NULL,
-  `TaskDuration` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `TaskRepeats` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `TaskLabel` varchar(64) DEFAULT NULL,
+  `Title` varchar(64) NOT NULL,
+  `Date` date NOT NULL,
+  `Duration` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `Repeats` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `Label` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id` (`Id`),
   KEY `UserFK` (`UserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
--- Dumping structure for table taskdb.user
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
+-- Dumping structure for table taskdb.users
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Username` varchar(64) NOT NULL,
   `Password` varchar(64) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Username` (`Username`),
   UNIQUE KEY `Id` (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
