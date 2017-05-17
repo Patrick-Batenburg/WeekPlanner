@@ -53,7 +53,7 @@ namespace SamenSterk.Controllers
         /// Register an unique account.
         /// </summary>
         /// <param name="model">User details to register.</param>
-        /// <returns>0 on failure, 1 on success, 2 on username is invalid.</returns>
+        /// <returns>0 on failure, 1 on success, 2 on username is invalid. 3 on Username already exist</returns>
         public int Register(User model)
         {
             int result = 0;
@@ -65,13 +65,17 @@ namespace SamenSterk.Controllers
                 using (var db = new DataConnection())
                 {
                     var query = (from user in db.User
-                                 where user.Username != model.Username
+                                 where user.Username == model.Username
                                  select user).SingleOrDefault();
 
-                    if (query != null)
+                    if (query == null)
                     {
                         model.Password = EncryptionProvider.Encrypt(model.Password);
                         result = db.Insert(model);
+                    }
+                    else
+                    {
+                        result = 3;
                     }
                 } 
             }

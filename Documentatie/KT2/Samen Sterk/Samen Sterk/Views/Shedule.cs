@@ -94,7 +94,9 @@ namespace SamenSterk.Views
                 }
                 if (string.IsNullOrEmpty(cellContent))
                 {
-                    AddTask addTask = new AddTask(this);
+                    string selectedDay = dgvShedule.Columns[e.ColumnIndex].HeaderText;
+                    string selectedTime = dgvShedule.Rows[e.RowIndex].HeaderCell.Value.ToString();
+                    AddTask addTask = new AddTask(this, selectedDay, selectedTime);
                     addTask.ShowDialog();
                 }
                 else

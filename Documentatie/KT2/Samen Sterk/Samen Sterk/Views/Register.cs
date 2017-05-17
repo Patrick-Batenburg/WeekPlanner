@@ -33,14 +33,20 @@ namespace SamenSterk.Views
             if (txtPassword.Text == txtPasswordRepeat.Text)
             {
                 int result = userController.Register(new User() { Username = txtUsername.Text, Password = txtPassword.Text, Role = "member" });
-                if (result == 1)
+                switch (result)
                 {
-                    MessageBox.Show("Succesvol geregistreerd");
-                    this.Close();
-                }
-                else if (result == 2)
-                {
-                    MessageBox.Show("Gebruikersnaam is ongeldig.");
+                    case 1:
+                        MessageBox.Show("Succesvol geregistreerd");
+                        this.Close();
+                        break;
+                    case 2:
+                        MessageBox.Show("Gebruikersnaam is ongeldig.");
+                        break;
+                    case 3:
+                        MessageBox.Show("Gebruikersnaam is al in gebruik.");
+                        break;
+                    default:
+                        break;
                 }
             }
             else

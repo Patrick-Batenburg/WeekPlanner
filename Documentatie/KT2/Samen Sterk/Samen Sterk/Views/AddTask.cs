@@ -15,9 +15,12 @@ namespace SamenSterk.Views
     {
         TaskController taskController = new TaskController();
         Shedule shedule;
-        public AddTask(Shedule shedule)
+        string selectedDay, selectedTime;
+        public AddTask(Shedule shedule, string selectedDay, string selectedTime)
         {
             this.shedule = shedule;
+            this.selectedDay = selectedDay;
+            this.selectedTime = selectedTime;
             InitializeComponent();
         }
 
