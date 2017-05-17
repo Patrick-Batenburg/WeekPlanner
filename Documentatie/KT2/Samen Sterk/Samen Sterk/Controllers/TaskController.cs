@@ -38,9 +38,9 @@ namespace SamenSterk.Controllers
 
             using (var db = new DataConnection())
             {
-                var query = (from task in db.Task
-                             where task.UserId == userId
-                             select task).ToList();
+                var query = (from tasks in db.Task
+                             where tasks.UserId == userId
+                             select tasks).ToList();
 
                 if (query != null)
                 {

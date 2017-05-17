@@ -36,9 +36,9 @@ namespace SamenSterk.Controllers
 
             using (var db = new DataConnection())
             {
-                var query = (from subject in db.Subject
-                             where subject.UserId == userId
-                             select subject).ToList();
+                var query = (from subjects in db.Subject
+                             where subjects.UserId == userId
+                             select subjects).ToList();
 
                 if (query != null)
                 {
