@@ -12,7 +12,7 @@ namespace SamenSterk.Database
         /// <summary>
         /// Initializes a new instance of the DataConnection class.
         /// </summary>
-        public DataConnection() : base("TaskDB") { }
+        public DataConnection() : base("TaskDatabase") { }
 
         public ITable<Appointment> Appointment { get { return GetTable<Appointment>(); } }
         public ITable<Grade> Grade { get { return GetTable<Grade>(); } }

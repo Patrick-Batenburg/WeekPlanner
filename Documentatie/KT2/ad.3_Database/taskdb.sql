@@ -12,12 +12,12 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Dumping database structure for taskdb
-DROP DATABASE IF EXISTS `taskdb`;
-CREATE DATABASE IF NOT EXISTS `taskdb` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `taskdb`;
+-- Dumping database structure for TaskDatabase
+DROP DATABASE IF EXISTS `TaskDatabase`;
+CREATE DATABASE IF NOT EXISTS `taskdatabase` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `TaskDatabase`;
 
--- Dumping structure for table taskdb.appointments
+-- Dumping structure for table TaskDatabase.appointments
 DROP TABLE IF EXISTS `appointments`;
 CREATE TABLE IF NOT EXISTS `appointments` (
   `Id` int(10) unsigned NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `appointments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
--- Dumping structure for table taskdb.grades
+-- Dumping structure for table TaskDatabase.grades
 DROP TABLE IF EXISTS `grades`;
 CREATE TABLE IF NOT EXISTS `grades` (
   `RowIndex` int(10) unsigned NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `grades` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
--- Dumping structure for table taskdb.subjects
+-- Dumping structure for table TaskDatabase.subjects
 DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE IF NOT EXISTS `subjects` (
   `RowIndex` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `subjects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
--- Dumping structure for table taskdb.tasks
+-- Dumping structure for table TaskDatabase.tasks
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
--- Dumping structure for table taskdb.users
+-- Dumping structure for table TaskDatabase.users
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
