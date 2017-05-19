@@ -15,7 +15,8 @@ namespace SamenSterk.Views
 {
     public partial class Login : Form
     {
-        UserController userController = new UserController();
+        private UserController userController = new UserController();
+        private User user;
 
         public Login()
         {
@@ -24,11 +25,11 @@ namespace SamenSterk.Views
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            int result = userController.Login(new User() { Username = txtUsername.Text, Password = txtPassword.Text });
+            int result = userController.Login(user = new User() { Username = txtUsername.Text, Password = txtPassword.Text });
 
             if (result == 1)
             {
-                Shedule shedule = new Shedule(this);
+                Shedule shedule = new Shedule(this, user.Id);
                 shedule.Show();
                 txtUsername.Text = "";
                 this.Hide();
@@ -37,6 +38,7 @@ namespace SamenSterk.Views
             {
                 MessageBox.Show("De gebruikersnaam of wachtwoord is onjuist");
             }
+
             txtPassword.Text = "";
         }
 
