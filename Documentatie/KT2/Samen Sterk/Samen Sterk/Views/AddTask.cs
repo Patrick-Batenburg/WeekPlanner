@@ -37,8 +37,8 @@ namespace SamenSterk.Views
             {
                 UserId = userId,
                 Title  = txtTitle.Text, 
-                Duration = Convert.ToByte(nudDuration.Value), 
-                Date = Convert.ToDateTime(selectedDay),
+                Duration = Convert.ToByte(nudDuration.Value),
+                Date = Convert.ToDateTime(selectedDay + " " + selectedTime),
                 Label = txtLabel.Text,
                 Repeats = Convert.ToByte(cbRepeating.Checked)
             });
