@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using SamenSterk.Providers;
 using LinqToDB;
+using System.Data;
 
 namespace SamenSterk.Controllers
 {
@@ -29,7 +30,7 @@ namespace SamenSterk.Controllers
         /// <returns>A list of tasks with values from the database.</returns>
         public List<Task> Details(uint? userId)
         {
-            List<Task> tasks = null;
+            List<Task> tasks = new List<Task>();
 
             if (userId == null)
             {

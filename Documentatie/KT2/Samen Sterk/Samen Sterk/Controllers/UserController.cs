@@ -36,12 +36,13 @@ namespace SamenSterk.Controllers
 
             using (var db = new DataConnection())
             {
-                var query = (from user in db.User
-                             where user.Username == model.Username && user.Password == EncryptionProvider.Encrypt(model.Password)
-                             select user).SingleOrDefault();
+                User query = (from user in db.User
+                              where user.Username == model.Username && user.Password == EncryptionProvider.Encrypt(model.Password)
+                              select user).SingleOrDefault();
 
                 if (query != null)
                 {
+                    model.Id = query.Id;
                     result = 1;
                 }
             }
@@ -64,9 +65,9 @@ namespace SamenSterk.Controllers
             {
                 using (var db = new DataConnection())
                 {
-                    var query = (from user in db.User
-                                 where user.Username == model.Username
-                                 select user).SingleOrDefault();
+                    User query = (from user in db.User
+                                  where user.Username == model.Username
+                                  select user).SingleOrDefault();
 
                     if (query == null)
                     {
@@ -132,7 +133,7 @@ namespace SamenSterk.Controllers
 
             using (var db = new DataConnection())
             {
-                var query = (from user in db.User
+                User query = (from user in db.User
                              where user.Id == id
                              select user).SingleOrDefault();
 

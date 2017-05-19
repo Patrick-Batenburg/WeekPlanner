@@ -40,6 +40,7 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabShedule = new System.Windows.Forms.TabPage();
             this.tabGrades = new System.Windows.Forms.TabPage();
+            this.lblInsertName = new System.Windows.Forms.Label();
             this.txtColumnName = new System.Windows.Forms.TextBox();
             this.btnAddColumn = new System.Windows.Forms.Button();
             this.dgvGrades = new System.Windows.Forms.DataGridView();
@@ -51,7 +52,6 @@
             this.cbUsernames = new System.Windows.Forms.ComboBox();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
-            this.lblInsertName = new System.Windows.Forms.Label();
             this.lblViewUser = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).BeginInit();
             this.tabControl.SuspendLayout();
@@ -95,49 +95,43 @@
             this.dgvShedule.RowHeadersWidth = 70;
             this.dgvShedule.Size = new System.Drawing.Size(776, 397);
             this.dgvShedule.TabIndex = 1;
+            this.dgvShedule.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellContentClick);
             this.dgvShedule.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellDoubleClick);
             // 
             // columnDay1
             // 
             this.columnDay1.HeaderText = "Maandag";
             this.columnDay1.Name = "columnDay1";
-            this.columnDay1.ReadOnly = true;
             // 
             // columnDay2
             // 
             this.columnDay2.HeaderText = "Dinsdag";
             this.columnDay2.Name = "columnDay2";
-            this.columnDay2.ReadOnly = true;
             // 
             // columnDay3
             // 
             this.columnDay3.HeaderText = "Woensdag";
             this.columnDay3.Name = "columnDay3";
-            this.columnDay3.ReadOnly = true;
             // 
             // columnDay4
             // 
             this.columnDay4.HeaderText = "Donderdag";
             this.columnDay4.Name = "columnDay4";
-            this.columnDay4.ReadOnly = true;
             // 
             // columnDay5
             // 
             this.columnDay5.HeaderText = "Vrijdag";
             this.columnDay5.Name = "columnDay5";
-            this.columnDay5.ReadOnly = true;
             // 
             // columnDay6
             // 
             this.columnDay6.HeaderText = "Zaterdag";
             this.columnDay6.Name = "columnDay6";
-            this.columnDay6.ReadOnly = true;
             // 
             // columnDay7
             // 
             this.columnDay7.HeaderText = "Zondag";
             this.columnDay7.Name = "columnDay7";
-            this.columnDay7.ReadOnly = true;
             // 
             // tabControl
             // 
@@ -177,6 +171,17 @@
             this.tabGrades.TabIndex = 1;
             this.tabGrades.Text = "Cijfers";
             this.tabGrades.UseVisualStyleBackColor = true;
+            // 
+            // lblInsertName
+            // 
+            this.lblInsertName.AutoSize = true;
+            this.lblInsertName.ForeColor = System.Drawing.Color.Red;
+            this.lblInsertName.Location = new System.Drawing.Point(195, 12);
+            this.lblInsertName.Name = "lblInsertName";
+            this.lblInsertName.Size = new System.Drawing.Size(90, 13);
+            this.lblInsertName.TabIndex = 3;
+            this.lblInsertName.Text = "Voer een naam in";
+            this.lblInsertName.Visible = false;
             // 
             // txtColumnName
             // 
@@ -272,17 +277,6 @@
             this.btnNext.TabIndex = 4;
             this.btnNext.Text = "Volgende";
             this.btnNext.UseVisualStyleBackColor = true;
-            // 
-            // lblInsertName
-            // 
-            this.lblInsertName.AutoSize = true;
-            this.lblInsertName.ForeColor = System.Drawing.Color.Red;
-            this.lblInsertName.Location = new System.Drawing.Point(195, 12);
-            this.lblInsertName.Name = "lblInsertName";
-            this.lblInsertName.Size = new System.Drawing.Size(90, 13);
-            this.lblInsertName.TabIndex = 3;
-            this.lblInsertName.Text = "Voer een naam in";
-            this.lblInsertName.Visible = false;
             // 
             // lblViewUser
             // 

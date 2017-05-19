@@ -1,29 +1,45 @@
-﻿using System;
+﻿using SamenSterk.Models;
+using SamenSterk.Controllers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace SamenSterk.Views
 {
     public partial class Shedule : Form
     {
-        Login login;
-        bool logout;
-        int[] cellPos = new int[] { 0, 0 };
-
+        private Login login;
+        private bool logout;
+        private int[] cellPos = new int[] { 0, 0 };
+        public uint userId;
         public string title;
         public int duration;
         public string label;
         public bool repeating;
-        public Shedule(Login login)
+        public DateTime statDate;
+        private TaskController taskController = new TaskController();
+        private BindingSource bindingSource = new BindingSource();
+        private List<Task> tasks = new List<Task>();
+        MySqlConnection connection;
+
+        public Shedule(Login login, uint userId)
         {
-            this.login = login;
             InitializeComponent();
+            this.login = login;
+            this.userId = userId;
+            dgvShedule.ColumnHeaderMouseClick += dgvShedule_ColumnHeaderMouseClick;
+            tasks = taskController.Details(userId);
+
+            for (int i = 0; i < 7; i++)
+            {
+                dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("d");
+            }
         }
 
         //GENERAL\\
@@ -36,7 +52,20 @@ namespace SamenSterk.Views
                 dgvShedule.Rows[i].HeaderCell.Value = (7 + i) + ":00";
             }
 
+            LoadToGrid();
             //load tasks from database
+        }
+
+        private void LoadToGrid()
+        {
+            List<Task> tasks = new List<Task>();
+            tasks = taskController.Details(userId);
+            var load = from task in tasks select task;
+            /*
+            if (load != null)
+            {
+                dgvShedule.DataSource = load.ToList();
+            }*/
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -96,7 +125,7 @@ namespace SamenSterk.Views
                 {
                     string selectedDay = dgvShedule.Columns[e.ColumnIndex].HeaderText;
                     string selectedTime = dgvShedule.Rows[e.RowIndex].HeaderCell.Value.ToString();
-                    AddTask addTask = new AddTask(this, selectedDay, selectedTime);
+                    AddTask addTask = new AddTask(this, selectedDay, selectedTime, userId);
                     addTask.ShowDialog();
                 }
                 else
@@ -119,6 +148,8 @@ namespace SamenSterk.Views
                 i++;
             }
             while (cellPos[0] + i < dgvShedule.Rows.Count && i < duration);
+
+            tasks = taskController.Details(userId);
         }
 
         public void DeleteTaskFromTable()
@@ -149,7 +180,20 @@ namespace SamenSterk.Views
             txtColumnName.Text = "";
         }
 
-        //APPOINTMENTS\\
+        private void dgvShedule_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
+        }
+
+        private void dgvShedule_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            EditSchedule editSchedule = new EditSchedule(this, Convert.ToDateTime(this.dgvShedule.Columns[0].HeaderText));
+            editSchedule.ShowDialog();
+
+            for (int i = 0; i < 7; i++)
+            {
+                dgvShedule.Columns[i].HeaderText = statDate.AddDays(i).ToString("d");
+            }
+        }
     }
 }

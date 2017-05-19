@@ -75,6 +75,12 @@
     <Compile Include="Views\AddTask.Designer.cs">
       <DependentUpon>AddTask.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EditSchedule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EditSchedule.Designer.cs">
+      <DependentUpon>EditSchedule.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditTask.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,9 @@
     </Compile>
     <EmbeddedResource Include="Views\AddTask.resx">
       <DependentUpon>AddTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EditSchedule.resx">
+      <DependentUpon>EditSchedule.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EditTask.resx">
       <DependentUpon>EditTask.cs</DependentUpon>
