@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using SamenSterk.Controllers;
+﻿using SamenSterk.Controllers;
 using SamenSterk.Models;
-using SamenSterk.Providers;
+using System;
+using System.Windows.Forms;
 
 namespace SamenSterk.Views
 {
@@ -25,11 +17,11 @@ namespace SamenSterk.Views
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            int result = userController.Login(user = new User() { Username = txtUsername.Text, Password = txtPassword.Text });
+            user = userController.Login(user = new User() { Username = txtUsername.Text, Password = txtPassword.Text });
 
-            if (result == 1)
+            if (user != null)
             {
-                Shedule shedule = new Shedule(this, user.Id);
+                Shedule shedule = new Shedule(user);
                 shedule.Show();
                 txtUsername.Text = "";
                 this.Hide();

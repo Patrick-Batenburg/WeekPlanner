@@ -1,9 +1,5 @@
 ﻿using LinqToDB.Mapping;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SamenSterk.Models
 {
@@ -20,7 +16,6 @@ namespace SamenSterk.Models
         /// </summary>
         public Appointment()
         {
-
         }
 
         /// <summary>
@@ -82,14 +77,14 @@ namespace SamenSterk.Models
         /// Gets/Sets the date of the Appointment object.
         /// </summary>
         [Column(Name = "Date"), NotNull]
-        public DateTime Date 
+        public DateTime Date
         {
             get { return date; }
             set
             {
                 date = value;
                 OnPropertyChanged("Date");
-            } 
+            }
         }
     }
 }

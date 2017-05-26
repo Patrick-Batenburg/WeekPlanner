@@ -1,13 +1,11 @@
-﻿using MySql.Data.MySqlClient;
+﻿using LinqToDB;
 using SamenSterk.Database;
 using SamenSterk.Models;
+using SamenSterk.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SamenSterk.Providers;
-using LinqToDB;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -22,17 +20,58 @@ namespace SamenSterk.Controllers
         /// </summary>
         public UserController()
         {
+        }
 
+        /// <summary>
+        /// View the details about all the users.
+        /// </summary>
+        /// <param name="model">Specified user to validate permissions to view users.</param>
+        /// <returns>A list of grades filled with values from the database.</returns>
+        public List<User> Details(User model)
+        {
+            List<User> users = new List<User>();
+
+            if (model.Role != "Member")
+            {
+                users = null;
+            }
+            else
+            {
+                using (var db = new DataConnection())
+                {
+                    List<User> query = (from user in db.User
+                                        where user.Role != "Admin"
+                                        select user).ToList();
+
+                    if (query != null)
+                    {
+                        foreach (User _user in query)
+                        {
+                            user = new User()
+                            {
+                                Id = _user.Id,
+                                Username = _user.Username,
+                                Password = _user.Password,
+                                Role = _user.Role
+                            };
+
+                            users.Add(user);
+                        }
+                    }
+                }
+            }
+
+            return users;
         }
 
         /// <summary>
         /// Sign an existing account in.
         /// </summary>
         /// <param name="model">User details to validate login.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Login(User model)
+        /// <returns>Null on failure, user object on success.</returns>
+        public User Login(User model)
         {
-            int result = 0;
+            User result = null;
 
             using (var db = new DataConnection())
             {
@@ -43,7 +82,13 @@ namespace SamenSterk.Controllers
                 if (query != null)
                 {
                     model.Id = query.Id;
-                    result = 1;
+                    result = new User()
+                    {
+                        Id = query.Id,
+                        Username = query.Username,
+                        Password = query.Password,
+                        Role = query.Role
+                    };
                 }
             }
 
@@ -78,9 +123,9 @@ namespace SamenSterk.Controllers
                     {
                         result = 3;
                     }
-                } 
+                }
             }
-	        else 
+            else
             {
                 result = 2;
             }
@@ -124,25 +169,19 @@ namespace SamenSterk.Controllers
         /// <summary>
         /// Logs a user of and redirect to specified view.
         /// </summary>
-        /// <param name="id">Id of the user.</param>
         /// <param name="view">View to redirect to.</param>
         /// <returns>0 on failure, 1 on success.</returns>
-        public int LogOff(uint id, Form view)
+        public int LogOff(Type view)
         {
             int result = 0;
+            ConstructorInfo constructor = view.GetConstructor(Type.EmptyTypes);
+            object classObject = constructor.Invoke(new object[] { });
+            MethodInfo method = view.GetMethod("Show", new Type[] { } );
+            method.Invoke(classObject, null);
 
-            using (var db = new DataConnection())
+            if (method != null)
             {
-                User query = (from user in db.User
-                             where user.Id == id
-                             select user).SingleOrDefault();
-
-                if (query != null)
-                {
-                    result = 1;
-                    view = new Form();
-                    view.Show();
-                }
+                result = 1;
             }
 
             return result;

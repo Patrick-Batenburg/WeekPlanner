@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SamenSterk.Views
@@ -30,12 +23,11 @@ namespace SamenSterk.Views
 
         private void startDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-
         }
 
         private void btnEditSchedule_Click(object sender, EventArgs e)
         {
-            shedule.statDate = startDateTimePicker.Value;
+            shedule.startDate = startDateTimePicker.Value;
             this.Close();
         }
     }

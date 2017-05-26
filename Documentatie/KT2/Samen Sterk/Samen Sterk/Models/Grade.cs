@@ -1,9 +1,4 @@
 ﻿using LinqToDB.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SamenSterk.Models
 {
@@ -20,7 +15,6 @@ namespace SamenSterk.Models
         /// </summary>
         public Grade()
         {
-
         }
 
         /// <summary>
@@ -37,6 +31,7 @@ namespace SamenSterk.Models
             this.columnIndex = columnIndex;
             this.number = number;
         }
+
         /// <summary>
         /// Gets/Sets the row index of the Grade object.
         /// </summary>

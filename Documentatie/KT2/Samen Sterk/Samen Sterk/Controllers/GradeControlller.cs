@@ -1,13 +1,8 @@
-﻿using MySql.Data.MySqlClient;
+﻿using LinqToDB;
 using SamenSterk.Database;
 using SamenSterk.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SamenSterk.Providers;
-using LinqToDB;
 
 namespace SamenSterk.Controllers
 {
@@ -20,42 +15,43 @@ namespace SamenSterk.Controllers
         /// </summary>
         public GradeController()
         {
-
         }
 
         /// <summary>
         /// View the details about all the grades of the specified user.
         /// </summary>
         /// <param name="userId">User id of the grade.</param>
-        /// <returns>A list of grades with values from the database.</returns>
+        /// <returns>A list of grades filled with values from the database.</returns>
         public List<Grade> Details(uint? userId)
         {
-            List<Grade> grades = null;
+            List<Grade> grades = new List<Grade>();
 
             if (userId == null)
             {
                 grades = null;
             }
-
-            using (var db = new DataConnection())
+            else
             {
-                var query = (from grade in db.Grade
-                             where grade.UserId == userId
-                             select grade).ToList();
-
-                if (query != null)
+                using (var db = new DataConnection())
                 {
-                    foreach (Grade _grade in query)
-                    {
-                        grade = new Grade()
-                        {
-                            UserId = _grade.UserId,
-                            RowIndex = _grade.RowIndex,
-                            ColumnIndex = _grade.ColumnIndex,
-                            Number = _grade.Number
-                        };
+                    var query = (from grade in db.Grade
+                                 where grade.UserId == userId
+                                 select grade).ToList();
 
-                        grades.Add(grade);
+                    if (query != null)
+                    {
+                        foreach (Grade _grade in query)
+                        {
+                            grade = new Grade()
+                            {
+                                UserId = _grade.UserId,
+                                RowIndex = _grade.RowIndex,
+                                ColumnIndex = _grade.ColumnIndex,
+                                Number = _grade.Number
+                            };
+
+                            grades.Add(grade);
+                        }
                     }
                 }
             }

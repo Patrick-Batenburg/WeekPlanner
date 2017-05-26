@@ -7,69 +7,77 @@ using System.Linq;
 
 namespace SamenSterk.Controllers
 {
-    public class TaskController : ControllerBase
+    public class RepeatingTaskController : ControllerBase
     {
-        private Task task = null;
+        private RepeatingTask repeatingTask = null;
 
         /// <summary>
         /// Initializes a new instance of the TaskController class.
         /// </summary>
-        public TaskController()
+        public RepeatingTaskController()
         {
         }
 
         /// <summary>
-        /// View the details about all the tasks of the specified user.
+        /// View the details about all the repeating tasks of the specified user.
         /// </summary>
         /// <param name="userId">User id of the task.</param>
-        /// <returns>A list of tasks filled with values from the database.</returns>
-        public List<Task> Details(uint? userId)
+        /// <returns>A list of repeating tasks filled with values from the database.</returns>
+        public List<RepeatingTask> Details(uint? userId)
         {
-            List<Task> tasks = new List<Task>();
+            List<RepeatingTask> repeatingTasks = new List<RepeatingTask>();
 
             if (userId == null)
             {
-                tasks = null;
+                repeatingTasks = null;
             }
             else
             {
                 using (var db = new DataConnection())
                 {
-                    var query = (from task in db.Task
-                                 where task.UserId == userId
-                                 select task).ToList();
+                    List<RepeatingTask> query = (from repeatingTask in db.RepeatingTask
+                                                 where repeatingTask.UserId == userId
+                                                 select repeatingTask).ToList();
 
                     if (query != null)
                     {
-                        foreach (Task _task in query)
+                        foreach (RepeatingTask _repeatingTask in query)
                         {
-                            task = new Task()
+                            repeatingTask = new RepeatingTask()
                             {
-                                Id = _task.Id,
-                                UserId = _task.UserId,
-                                Title = _task.Title,
-                                Date = _task.Date,
-                                Duration = _task.Duration,
-                                Label = _task.Label
+                                Id = _repeatingTask.Id,
+                                UserId = _repeatingTask.UserId,
+                                Title = _repeatingTask.Title,
+                                Day = _repeatingTask.Day,
+                                Time = _repeatingTask.Time,
+                                Duration = _repeatingTask.Duration,
+                                Label = _repeatingTask.Label
                             };
 
-                            tasks.Add(task);
+                            repeatingTasks.Add(repeatingTask);
                         }
                     }
                 }
             }
 
-            return tasks;
+            return repeatingTasks;
         }
 
         /// <summary>
-        /// Creates a new task.
+        /// Creates a new repeating task.
         /// </summary>
-        /// <param name="model">Task details to create.</param>
-        /// <returns>0 on failure, 1 on success, 2 on DateTime overlaps another task.</returns>
-        public int Create(Task model)
+        /// <param name="model">Repeating task details to create.</param>
+        /// <returns>0 on failure, 1 on success.</returns>
+        public int Create(RepeatingTask model)
         {
             int result = 0;
+            int[] totalrecords = new int[4]; 
+            TaskController taskController = new TaskController();
+            List<RepeatingTask> repeatingTasks = new List<RepeatingTask>();
+            List<Task> tasks = new List<Task>();
+
+            repeatingTasks = Details(model.UserId);
+            tasks = taskController.Details(model.UserId);
 
             using (var db = new DataConnection())
             {
@@ -79,12 +87,12 @@ namespace SamenSterk.Controllers
             return result;
         }
 
-        /// <summary>
-        /// Edit an existing task.
+        /// <summary>   
+        /// Edit an existing repeating task.
         /// </summary>
-        /// <param name="model">Task details to edit.</param>
+        /// <param name="model">Repeating task details to edit.</param>
         /// <returns>0 on failure, 1 on success.</returns>
-        public int Edit(Task model)
+        public int Edit(RepeatingTask model)
         {
             int result = 0;
 
@@ -97,39 +105,38 @@ namespace SamenSterk.Controllers
         }
 
         /// <summary>
-        /// Checks if an existing task exceeds another repeating task or task.
+        /// Checks if an existing repeating task exceeds another repeating task or task.
         /// </summary>
         /// <param name="model">Repeating task details to check on.</param>
         /// <returns>0 on failure, 1 on success, 2 on datetime exceeds.</returns>
-        public int Exceeds(Task model)
+        public int Exceeds(RepeatingTask model)
         {
             int result = 0;
             int[] totalrecords = new int[4];
-            RepeatingTaskController taskController = new RepeatingTaskController();
+            TaskController taskController = new TaskController();
             List<RepeatingTask> repeatingTasks = new List<RepeatingTask>();
             List<Task> tasks = new List<Task>();
 
-            repeatingTasks = taskController.Details(model.UserId);
-            tasks = Details(model.UserId);
+            repeatingTasks = Details(model.UserId);
+            tasks = taskController.Details(model.UserId);
 
             using (var db = new DataConnection())
             {
                 List<RepeatingTask> repeatingTaskQuery = (from repeatingTask in repeatingTasks
-                                                          where repeatingTask.Day == model.Date.ToString("dddd")
+                                                          where repeatingTask.Day == model.Day && repeatingTask.Id != model.Id
                                                           select repeatingTask).ToList();
 
                 List<RepeatingTask> repeatingTaskDate = (from repeatingTask in repeatingTaskQuery
-                                                         where repeatingTask.Time.Add(new TimeSpan(repeatingTask.Duration - 1, 0, 0)) < new TimeSpan(model.Date.Hour, 0, 0)
+                                                         where repeatingTask.Time.Add(new TimeSpan(repeatingTask.Duration - 1, 0, 0)) < model.Time
                                                          select repeatingTask).ToList();
 
                 totalrecords[0] = repeatingTaskDate.Count;
 
                 repeatingTaskDate = (from repeatingTask in repeatingTaskQuery
-                                     where repeatingTask.Time > new TimeSpan(model.Date.Hour + model.Duration - 1, 0, 0)
+                                     where repeatingTask.Time > new TimeSpan(model.Time.Hours + model.Duration - 1, 0, 0)
                                      select repeatingTask).ToList();
 
                 totalrecords[1] = repeatingTaskDate.Count;
-
 
                 if (repeatingTaskQuery.Count != totalrecords[0] + totalrecords[1])
                 {
@@ -138,22 +145,20 @@ namespace SamenSterk.Controllers
                 else
                 {
                     List<Task> taskQuery = (from task in tasks
-                                            where task.Date.DayOfWeek == model.Date.DayOfWeek && task.Id != model.Id
+                                            where task.Date.ToString("dddd") == model.Day
                                             select task).ToList();
 
-
                     List<Task> taskDate = (from task in taskQuery
-                                           where task.Date.AddHours(task.Duration - 1) < model.Date
+                                           where task.Date.AddHours(task.Duration - 1) < new DateTime(task.Date.Year, task.Date.Month, task.Date.Day, 0, 0, 0).Add(model.Time)
                                            select task).ToList();
 
                     totalrecords[2] = taskDate.Count;
 
                     taskDate = (from task in taskQuery
-                                where task.Date > model.Date.AddHours(model.Duration - 1)
+                                where task.Date > new DateTime(task.Date.Year, task.Date.Month, task.Date.Day, 0, 0, 0).Add(model.Time).AddHours(model.Duration - 1)
                                 select task).ToList();
 
                     totalrecords[3] = taskDate.Count;
-
 
                     if (taskQuery.Count != totalrecords[2] + totalrecords[3])
                     {
@@ -167,15 +172,15 @@ namespace SamenSterk.Controllers
             }
 
             return result;
-
         }
 
+
         /// <summary>
-        /// Deletes an existing task.
+        /// Deletes an existing repeating task.
         /// </summary>
-        /// <param name="model">Task details to delete.</param>
+        /// <param name="model">Repeating task details to delete.</param>
         /// <returns>0 on failure, 1 on success.</returns>
-        public int Delete(Task model)
+        public int Delete(RepeatingTask model)
         {
             int result = 0;
 
