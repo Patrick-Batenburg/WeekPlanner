@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LinqToDB.Mapping;
+﻿using LinqToDB.Mapping;
 
 namespace SamenSterk.Models
 {
@@ -20,7 +15,6 @@ namespace SamenSterk.Models
         /// </summary>
         public User()
         {
-
         }
 
         /// <summary>

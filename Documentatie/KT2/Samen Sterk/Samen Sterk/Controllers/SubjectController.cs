@@ -1,10 +1,8 @@
-﻿using System;
+﻿using LinqToDB;
+using SamenSterk.Database;
+using SamenSterk.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SamenSterk.Models;
-using SamenSterk.Database;
-using LinqToDB;
 
 namespace SamenSterk.Controllers
 {
@@ -17,41 +15,42 @@ namespace SamenSterk.Controllers
         /// </summary>
         public SubjectController()
         {
-
         }
 
         /// <summary>
         /// View the details about all the subjects of the specified user.
         /// </summary>
         /// <param name="userId">User id of the subject.</param>
-        /// <returns>A list of subjects with values from the database.</returns>
+        /// <returns>A list of subjects filled with values from the database.</returns>
         public List<Subject> Details(uint? userId)
         {
-            List<Subject> subjects = null;
+            List<Subject> subjects = new List<Subject>();
 
             if (userId == null)
             {
                 subjects = null;
             }
-
-            using (var db = new DataConnection())
+            else
             {
-                var query = (from subject in db.Subject
-                             where subject.UserId == userId
-                             select subject).ToList();
-
-                if (query != null)
+                using (var db = new DataConnection())
                 {
-                    foreach (Subject _subject in query)
-                    {
-                        subject = new Subject()
-                        {
-                            UserId = _subject.UserId,
-                            RowIndex = _subject.RowIndex,
-                            Name = _subject.Name
-                        };
+                    var query = (from subject in db.Subject
+                                 where subject.UserId == userId
+                                 select subject).ToList();
 
-                        subjects.Add(subject);
+                    if (query != null)
+                    {
+                        foreach (Subject _subject in query)
+                        {
+                            subject = new Subject()
+                            {
+                                UserId = _subject.UserId,
+                                RowIndex = _subject.RowIndex,
+                                Name = _subject.Name
+                            };
+
+                            subjects.Add(subject);
+                        }
                     }
                 }
             }
@@ -109,6 +108,5 @@ namespace SamenSterk.Controllers
 
             return result;
         }
-
     }
 }

@@ -1,225 +1,241 @@
-﻿using SamenSterk.Models;
-using SamenSterk.Controllers;
+﻿using SamenSterk.Controllers;
+using SamenSterk.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
 
 namespace SamenSterk.Views
 {
     public partial class Shedule : Form
     {
-        private Login login;
+        public DateTime startDate;
+        public User user;
+        private int[] cellPos;
         private bool logout;
-        private int[] cellPos = new int[] { 0, 0 };
-        public uint userId;
-        public string title;
-        public int duration;
-        public string label;
-        public bool repeating;
-        public DateTime statDate;
-        private TaskController taskController = new TaskController();
-        private List<Task> tasks = new List<Task>();
+        private List<Task> tasks;
+        private List<RepeatingTask> repeatingTasks;
+        private TaskController taskController;
+        private RepeatingTaskController repeatingTaskController;
+        private UserController userController;
 
-        public Shedule(Login login, uint userId)
+        public Shedule(User user)
         {
             InitializeComponent();
-            this.login = login;
-            this.userId = userId;
-            dgvShedule.ColumnHeaderMouseClick += dgvShedule_ColumnHeaderMouseClick;
-            tasks = taskController.Details(userId);
-            if (tasks == null)
-            {
-                for (int i = 0; i < 7; i++)
-                {
-                    dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("dd-MM-yyyy");
-                }
-            }
-            else
-            {
-                Task query = (from task in tasks
-                              where task.Date.ToString("dd-MM-yyyy") == DateTime.Now.ToString("dd-MM-yyyy")
-                              select task).Single();
+            tasks = new List<Task>();
+            repeatingTasks = new List<RepeatingTask>();
+            userController = new UserController();
+            taskController = new TaskController();
+            repeatingTaskController = new RepeatingTaskController();
+            cellPos = new int[] { 0, 0 };
 
-                if (query == null)
-                {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("dd-MM-yyyy");
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        dgvShedule.Columns[i].HeaderText = query.Date.AddDays(i).ToString("dd-MM-yyyy");
-                    }
-                }
+            this.user = user;
+            dgvShedule.AutoGenerateColumns = false;
+            tasks = taskController.Details(user.Id);
+            repeatingTasks = repeatingTaskController.Details(user.Id);
+
+            this.FormClosing += Shedule_FormClosing;
+            cbUsernames.Click += cbUsernames_Click;
+            dgvShedule.ColumnHeaderMouseDoubleClick += dgvShedule_ColumnHeaderMouseDoubleClick;
+
+            for (int i = 0; i < 7; i++)
+            {
+                dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("dd-MM-yyyy");
             }
         }
 
-        //GENERAL\\
-
-        private void Shedule_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Determine which type to load into the DataGridView.
+        /// </summary>
+        /// <param name="obj">Typeof the object.</param>
+        public void LoadToGrid(Type obj)
         {
-            for (int i = 0; i < 17; i++)
+            byte rowIndex = 0;
+            byte columnIndex = 0;
+
+            switch (obj.ToString())
             {
-                dgvShedule.Rows.Add();
-                dgvShedule.Rows[i].HeaderCell.Value = (7 + i) + ":00";
-            }
+                case "SamenSterk.Models.Task":
+                    dgvShedule.Rows.Clear();
 
-            LoadToGrid();
-            //load tasks from database
-        }
-
-        private void LoadToGrid()
-        {
-            int rowIndex = 0;
-            int columnIndex = 0;
-
-            List<Task> query = (from task in tasks
-                                where task.Date >= Convert.ToDateTime(dgvShedule.Columns[0].HeaderText) && task.Date <= Convert.ToDateTime(dgvShedule.Columns[6].HeaderText)
-                                select task).ToList();
-
-            if (query != null)
-            {
-                foreach (var element in query)
-	            {
                     for (int i = 0; i < 17; i++)
                     {
-                        if (dgvShedule.Rows[i].HeaderCell.Value.ToString() == element.Date.ToString("H:mm"))
-                        {
-                            rowIndex = i;
-                        } 
+                        dgvShedule.Rows.Add();
+                        dgvShedule.Rows[i].HeaderCell.Value = (7 + i) + ":00";
                     }
 
-                    for (int i = 0; i < 7; i++)
+                    tasks = taskController.Details(user.Id);
+                    repeatingTasks = repeatingTaskController.Details(user.Id);
+
+                    List<Task> taskQuery = (from task in tasks
+                                            where task.Date >= Convert.ToDateTime(dgvShedule.Columns[0].HeaderText) && task.Date <= Convert.ToDateTime(dgvShedule.Columns[6].HeaderText)
+                                            select task).ToList();
+
+                    if (taskQuery.Count != 0)
                     {
-                        if (dgvShedule.Columns[i].HeaderText == element.Date.ToString("dd-MM-yyyy"))
+                        foreach (var element in taskQuery)
                         {
-                            columnIndex = i;
+                            for (byte i = 0; i < 17; i++)
+                            {
+                                if (dgvShedule.Rows[i].HeaderCell.Value.ToString() == element.Date.ToString("H:mm"))
+                                {
+                                    rowIndex = i;
+                                }
+                            }
+
+                            for (byte i = 0; i < 7; i++)
+                            {
+                                if (dgvShedule.Columns[i].HeaderText == element.Date.ToString("dd-MM-yyyy"))
+                                {
+                                    columnIndex = i;
+                                }
+                            }
+
+                            dgvShedule.Rows[rowIndex].Cells[columnIndex].Value = element.Title;
+
+                            for (byte i = 0; i <= element.Duration - 1; i++)
+                            {
+                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.BackColor = Color.Gray;
+                            }
+
+                            rowIndex = 0;
+                            columnIndex = 0;
                         }
                     }
 
-                    dgvShedule.Rows[rowIndex].Cells[columnIndex].Value = element.Title;
-
-                    for (int i = 0; i <= duration; i++)
+                    if (repeatingTasks.Count != 0)
                     {
-                        dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.BackColor = Color.Gray;
+                        foreach (var element in repeatingTasks)
+                        {
+                            for (byte i = 0; i < 17; i++)
+                            {
+                                if (dgvShedule.Rows[i].HeaderCell.Value.ToString().Length == 4)
+                                {
+                                    if (Convert.ToInt32(dgvShedule.Rows[i].HeaderCell.Value.ToString().Substring(0, 1)) == element.Time.Hours)
+                                    {
+                                        rowIndex = i;
+                                    }
+                                }
+                                else
+                                {
+                                    if (Convert.ToInt32(dgvShedule.Rows[i].HeaderCell.Value.ToString().Substring(0, 2)) == element.Time.Hours)
+                                    {
+                                        rowIndex = i;
+                                    }
+                                }
+                            }
+
+                            for (byte i = 0; i < 7; i++)
+                            {
+                                if (Convert.ToDateTime(dgvShedule.Columns[i].HeaderText).ToString("dddd") == element.Day)
+                                {
+                                    columnIndex = i;
+                                }
+                            }
+
+                            dgvShedule.Rows[rowIndex].Cells[columnIndex].Value = element.Title;
+
+                            for (byte i = 0; i <= element.Duration - 1; i++)
+                            {
+                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.BackColor = Color.Gray;
+                            }
+
+                            rowIndex = 0;
+                            columnIndex = 0;
+                        }
                     }
-	            }
+                    break;
+                case "SamenSterk.Models.Grade":
+                    /*if (grades != null)
+                    { 
+
+                    }*/
+                    break;
+                case "SamenSterk.Models.Appointment":
+                    /*if (appointments != null)
+                    { 
+
+                    }*/
+                    break;
+                case "SamenSterk.Models.Subject":
+                    /*if (subjects != null)
+                    { 
+
+                    }*/
+                    break;
+                default:
+                    break;
             }
         }
 
-        private void btnLogout_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Determine which type to from the DataGridView.
+        /// </summary>
+        /// <param name="obj">Typeof the object.</param>
+        public void DeleteFromGrid(Type obj)
         {
-            logout = true;
-            this.Close();
-        }
-
-        private void Shedule_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (logout == true)
+            switch (obj.ToString())
             {
-                login.Show();
-            }
-            else
-            {
-                login.Close();
-            }
-        }
-
-        //MAIN SHEDULE\\
-
-        private void dgvShedule_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-            //checks if it didn't touched the headers
-            if (e.RowIndex > -1 && e.ColumnIndex > -1)
-            {
-                cellPos = new int[] { e.RowIndex, e.ColumnIndex }; //gets the position of the selected cell
-                string cellContent = "";
-                if (dgvShedule.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
-                {
-                    //if the cell value has content
-                    cellContent = dgvShedule.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
-                }
-                else if (!dgvShedule.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor.IsEmpty)
-                {
-                    //if the cell value is empty, but is different colored
-                    //look up to most upper cell with value
+                case "SamenSterk.Models.Task":
                     int i = 0;
-                    do
+                    Task taskQuery = (from task in tasks
+                                      where task.Date == Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString())
+                                      select task).FirstOrDefault();
+
+                    RepeatingTask repeatingTaskQuery = (from repeatingTask in repeatingTasks
+                                                        where repeatingTask.Day == Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText).ToString("dddd") && repeatingTask.Time == TimeSpan.Parse(dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString())
+                                                        select repeatingTask).FirstOrDefault();
+
+                    if (taskQuery != null)
                     {
-                        if (dgvShedule.Rows[e.RowIndex - i].Cells[e.ColumnIndex].Value != null)
+                        dgvShedule.Rows[cellPos[0]].Cells[cellPos[1]].Value = "";
+
+                        do
                         {
-                            cellContent = dgvShedule.Rows[e.RowIndex - i].Cells[e.ColumnIndex].Value.ToString(); 
-                            cellPos = new int[] { e.RowIndex, e.ColumnIndex }; //gets the position of the selected cell
+                            dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor = Color.Empty;
+                            i++;
                         }
-                        i++;
+                        while (dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Value == null && dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor.IsEmpty == false && cellPos[0] + i - 1 < dgvShedule.Rows.Count);
+
+                        taskController.Delete(taskQuery);
                     }
-                    while (dgvShedule.Rows[e.RowIndex - i + 1].Cells[e.ColumnIndex].Value == null);
-                }
-                else
-                {
-                    //the cell is empty.
-                    cellContent = null;
-                }
-                if (string.IsNullOrEmpty(cellContent))
-                {
-                    string selectedDay = dgvShedule.Columns[e.ColumnIndex].HeaderText;
-                    string selectedTime = dgvShedule.Rows[e.RowIndex].HeaderCell.Value.ToString();
-                    AddTask addTask = new AddTask(this, selectedDay, selectedTime, userId);
-                    addTask.ShowDialog();
-                }
-                else
-                {
-                    title = cellContent;
-
-                    List<Task> query = (from task in tasks
-                                        where task.Date == Convert.ToDateTime(dgvShedule.Columns[e.ColumnIndex].HeaderText + " " + dgvShedule.Rows[e.RowIndex].HeaderCell.Value.ToString())
-                                        select task).ToList();
-
-                    foreach (var element in query)
+                    else
                     {
-                        EditTask editTask = new EditTask(this, element.Title, element.Duration, element.Label, element.Repeats);
-                        editTask.ShowDialog();
+                        dgvShedule.Rows[cellPos[0]].Cells[cellPos[1]].Value = "";
+
+                        do
+                        {
+                            dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor = Color.Empty;
+                            i++;
+                        }
+                        while (dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Value == null && dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor.IsEmpty == false && cellPos[0] + i - 1 < dgvShedule.Rows.Count);
+
+                        repeatingTaskController.Delete(repeatingTaskQuery);
                     }
-                }
+                    break;
+                case "SamenSterk.Models.Grade":
+                    /*if (grades != null)
+                    { 
+
+                    }*/
+                    break;
+                case "SamenSterk.Models.Appointment":
+                    /*if (appointments != null)
+                    { 
+
+                    }*/
+                    break;
+                case "SamenSterk.Models.Subject":
+                    /*if (subjects != null)
+                    { 
+
+                    }*/
+                    break;
+                default:
+                    break;
             }
         }
-
-        public void AddTaskToTable()
-        {
-            dgvShedule.Rows[cellPos[0]].Cells[cellPos[1]].Value = title;
-            //gives a color with it's length depending on the duration.
-            int i = 0;
-            do
-            {
-                dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor = Color.Gray;
-                i++;
-            }
-            while (cellPos[0] + i < dgvShedule.Rows.Count && i < duration);
-        }
-
-        public void DeleteTaskFromTable()
-        {
-            dgvShedule.Rows[cellPos[0]].Cells[cellPos[1]].Value = ""; 
-            int i = 0;
-            do
-            {
-                dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor = Color.Empty;
-                i++;
-            }
-            while (dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Value == null && cellPos[0] + i - 1 < dgvShedule.Rows.Count);
-        }
-
-        //GRADE LIST\\
 
         private void btnAddColumn_Click(object sender, EventArgs e)
         {
@@ -235,19 +251,159 @@ namespace SamenSterk.Views
             txtColumnName.Text = "";
         }
 
-        private void dgvShedule_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void btnLogout_Click(object sender, EventArgs e)
         {
-
+            userController.LogOff(typeof(Login));
+            logout = true;
+            this.Close();
         }
 
-        private void dgvShedule_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvShedule_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //checks if it didn't touched the headers
+            if (e.RowIndex > -1 && e.ColumnIndex > -1)
+            {
+                string cellContent = "";
+                cellPos = new int[] { e.RowIndex, e.ColumnIndex }; //gets the position of the selected cell
+
+                if (dgvShedule.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+                {
+                    //if the cell value has content
+                    cellContent = dgvShedule.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+                }
+                else if (!dgvShedule.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor.IsEmpty)
+                {
+                    //if the cell value is empty, but is different colored
+                    //look up to most upper cell with value
+                    int i = 0;
+
+                    do
+                    {
+                        if (dgvShedule.Rows[e.RowIndex - i].Cells[e.ColumnIndex].Value != null)
+                        {
+                            cellContent = dgvShedule.Rows[e.RowIndex - i].Cells[e.ColumnIndex].Value.ToString();
+                            cellPos = new int[] { e.RowIndex - i, e.ColumnIndex }; //gets the position of the selected cell
+                        }
+                        i++;
+                    }
+                    while (dgvShedule.Rows[e.RowIndex - i + 1].Cells[e.ColumnIndex].Value == null);
+                }
+                else
+                {
+                    //the cell is empty.
+                    cellContent = null;
+                }
+
+                if (string.IsNullOrEmpty(cellContent))
+                {
+                    AddTask addTask = new AddTask(this, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()), user.Id);
+                    addTask.ShowDialog();
+                    tasks = taskController.Details(user.Id);
+                }
+                else
+                {
+                    Task taskQuery = (from task in tasks
+                                      where task.Date == Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString())
+                                      select task).FirstOrDefault();
+
+                    RepeatingTask repeatingTaskQuery = (from repeatingTask in repeatingTasks
+                                                        where repeatingTask.Day == Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText).ToString("dddd")
+                                                        select repeatingTask).FirstOrDefault();
+
+                    if (taskQuery != null)
+                    {
+                        EditTask editTask = new EditTask(this, new Task() { Id = taskQuery.Id, UserId = user.Id, Title = taskQuery.Title, Duration = taskQuery.Duration, Label = taskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
+                        editTask.ShowDialog();
+                        tasks = taskController.Details(user.Id);
+                        repeatingTasks = repeatingTaskController.Details(user.Id);
+                    }
+                    else if (repeatingTaskQuery != null)
+	                {
+                        EditTask editTask = new EditTask(this, new RepeatingTask() { Id = repeatingTaskQuery.Id, UserId = user.Id, Title = repeatingTaskQuery.Title, Duration = repeatingTaskQuery.Duration, Label = repeatingTaskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
+                        editTask.ShowDialog();
+                        tasks = taskController.Details(user.Id);
+                        repeatingTasks = repeatingTaskController.Details(user.Id);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Kon de taak niet ophalen.");
+                    }
+                }
+            }
+        }
+
+        //MAIN SHEDULE
+        private void dgvShedule_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             EditSchedule editSchedule = new EditSchedule(this, Convert.ToDateTime(this.dgvShedule.Columns[0].HeaderText));
             editSchedule.ShowDialog();
 
             for (int i = 0; i < 7; i++)
             {
-                dgvShedule.Columns[i].HeaderText = statDate.AddDays(i).ToString("d");
+                dgvShedule.Columns[i].HeaderText = startDate.AddDays(i).ToString("d");
+                LoadToGrid(typeof(Task));
+            }
+        }
+
+        void Shedule_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (logout != true)
+            {
+                Application.Exit();
+            }
+        }
+
+        private void Shedule_Load(object sender, EventArgs e)
+        {
+            LoadToGrid(typeof(Task));
+        }
+
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            DateTime firstDate = Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-1);
+
+
+            if (Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-7) > DateTime.Today)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    dgvShedule.Columns[6 - i].HeaderText = firstDate.AddDays(-i).ToString("dd-MM-yyyy");
+                    LoadToGrid(typeof(Task));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("dd-MM-yyyy");
+                    LoadToGrid(typeof(Task));
+                }
+            }
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            DateTime lastDate = Convert.ToDateTime(dgvShedule.Columns[6].HeaderText).AddDays(1);
+
+            for (int i = 0; i < 7; i++)
+            {
+                dgvShedule.Columns[i].HeaderText = lastDate.AddDays(i).ToString("dd-MM-yyyy");
+                LoadToGrid(typeof(Task));
+            }
+        }
+
+        private void cbUsernames_Click(object sender, EventArgs e)
+        {
+            List<User> users = new List<User>();
+            users = userController.Details(user);
+            cbUsernames.Items.Clear();
+
+            if (users != null)
+            {
+                foreach (User element in users)
+                {
+                    cbUsernames.Items.Add(element.Username);
+                }             
             }
         }
     }

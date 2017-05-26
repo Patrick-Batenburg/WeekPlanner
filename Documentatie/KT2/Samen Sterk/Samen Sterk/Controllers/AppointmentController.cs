@@ -1,11 +1,8 @@
-﻿using System;
+﻿using LinqToDB;
+using SamenSterk.Database;
+using SamenSterk.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SamenSterk.Models;
-using SamenSterk.Database;
-using LinqToDB;
 
 namespace SamenSterk.Controllers
 {
@@ -18,42 +15,43 @@ namespace SamenSterk.Controllers
         /// </summary>
         public AppointmentController()
         {
-
         }
 
         /// <summary>
         /// View the details about all the appointments of the specified user.
         /// </summary>
         /// <param name="userId">User id of the appointment.</param>
-        /// <returns>A list of appointments with values from the database.</returns>
+        /// <returns>A list of appointments filled with values from the database.</returns>
         public List<Appointment> Details(uint? userId)
         {
-            List<Appointment> appointments = null;
+            List<Appointment> appointments = new List<Appointment>();
 
             if (userId == null)
             {
                 appointments = null;
             }
-
-            using (var db = new DataConnection())
+            else
             {
-                var query = (from appointment in db.Appointment
-                             where appointment.UserId == userId
-                             select appointment).ToList();
-
-                if (query != null)
+                using (var db = new DataConnection())
                 {
-                    foreach (Appointment _appointment in query)
-                    {
-                        appointment = new Appointment()
-                        {
-                            Id = _appointment.Id,
-                            UserId = _appointment.UserId,
-                            Description = _appointment.Description,
-                            Date = _appointment.Date
-                        };
+                    var query = (from appointment in db.Appointment
+                                 where appointment.UserId == userId
+                                 select appointment).ToList();
 
-                        appointments.Add(appointment);
+                    if (query != null)
+                    {
+                        foreach (Appointment _appointment in query)
+                        {
+                            appointment = new Appointment()
+                            {
+                                Id = _appointment.Id,
+                                UserId = _appointment.UserId,
+                                Description = _appointment.Description,
+                                Date = _appointment.Date
+                            };
+
+                            appointments.Add(appointment);
+                        }
                     }
                 }
             }

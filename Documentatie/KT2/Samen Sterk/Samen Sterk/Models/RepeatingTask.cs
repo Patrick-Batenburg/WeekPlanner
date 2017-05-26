@@ -3,43 +3,44 @@ using System;
 
 namespace SamenSterk.Models
 {
-    [Table(Name = "Tasks")]
-    public class Task : ModelBase
+    [Table(Name = "repeatingtasks")]
+    public class RepeatingTask : ModelBase
     {
         private uint id;
         private uint userId;
         private string title;
-        private DateTime date;
+        private string day;
+        private TimeSpan time;
         private byte duration;
         private string label;
 
         /// <summary>
-        /// Creates an empty Task.
+        /// Creates an empty RepeatingTask.
         /// </summary>
-        public Task()
+        public RepeatingTask()
         {
         }
 
         /// <summary>
-        /// Creates a new Task.
+        /// Creates a new RepeatingTask.
         /// </summary>
-        /// <param name="userId">User id of the the Task object.</param>
-        /// <param name="title">Title of the the Task object.</param>
-        /// <param name="date">Date of the the Task object.</param>
-        /// <param name="duration">Duration of the the Task object.</param>
-        /// <param name="repeats">Repeating of the the Task object, 0 is false and 1 or above is true. Default value is 0.</param>
-        /// <param name="label">Label of the the Task object.</param>
-        public Task(uint userId, string title, DateTime date, byte duration, string label = "")
+        /// <param name="userId">User id of the the RepeatingTask object.</param>
+        /// <param name="title">Title of the the RepeatingTask object.</param>
+        /// <param name="day">Day of the the RepeatingTask object.</param>
+        /// <param name="duration">Duration of the the RepeatingTask object.</param>
+        /// <param name="label">Label of the the RepeatingTask object.</param>
+        public RepeatingTask(uint userId, string title, string day, TimeSpan time, byte duration, string label = "")
         {
             this.userId = userId;
             this.title = title;
-            this.date = date;
+            this.day = day;
+            this.time = time;
             this.duration = duration;
             this.label = label;
         }
 
         /// <summary>
-        /// Gets/Sets the id of the Task object.
+        /// Gets/Sets the id of the RepeatingTasks object.
         /// </summary>
         [PrimaryKey, Identity]
         public uint Id
@@ -53,7 +54,7 @@ namespace SamenSterk.Models
         }
 
         /// <summary>
-        /// Gets/Sets the user id of the Task object.
+        /// Gets/Sets the user id of the RepeatingTasks object.
         /// </summary>
         [Column(Name = "UserId"), NotNull]
         public uint UserId
@@ -67,7 +68,7 @@ namespace SamenSterk.Models
         }
 
         /// <summary>
-        /// Gets/Sets the title of the Task object.
+        /// Gets/Sets the title of the RepeatingTasks object.
         /// </summary>
         [Column(Name = "Title"), NotNull]
         public string Title
@@ -81,21 +82,35 @@ namespace SamenSterk.Models
         }
 
         /// <summary>
-        /// Gets/Sets the date of the Task object.
+        /// Gets/Sets the day of the RepeatingTasks object.
         /// </summary>
-        [Column(Name = "Date"), NotNull]
-        public DateTime Date
+        [Column(Name = "Day"), NotNull]
+        public string Day
         {
-            get { return date; }
+            get { return day; }
             set
             {
-                date = value;
-                OnPropertyChanged("Date");
+                day = value;
+                OnPropertyChanged("Day");
             }
         }
 
         /// <summary>
-        /// Gets/Sets the duration of the Task object.
+        /// Gets/Sets the time of the RepeatingTasks object.
+        /// </summary>
+        [Column(Name = "Time"), NotNull]
+        public TimeSpan Time
+        {
+            get { return time; }
+            set
+            {
+                time = value;
+                OnPropertyChanged("Time");
+            }
+        }
+
+        /// <summary>
+        /// Gets/Sets the duration of the RepeatingTasks object.
         /// </summary>
         [Column(Name = "Duration"), NotNull]
         public byte Duration
@@ -109,7 +124,7 @@ namespace SamenSterk.Models
         }
 
         /// <summary>
-        /// Gets/Sets the label of the Task object.
+        /// Gets/Sets the label of the RepeatingTasks object.
         /// </summary>
         [Column(Name = "Label"), Nullable]
         public string Label

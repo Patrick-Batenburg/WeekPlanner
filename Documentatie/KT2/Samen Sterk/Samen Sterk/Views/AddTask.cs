@@ -1,49 +1,89 @@
 ﻿using SamenSterk.Controllers;
 using SamenSterk.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace SamenSterk.Views
 {
     public partial class AddTask : Form
     {
-        private TaskController taskController = new TaskController();
+        private TaskController taskController;
         private Shedule shedule;
-        private string selectedDay, selectedTime;
         private uint userId;
+        private DateTime dateTime;
+        private RepeatingTaskController repeatingTaskController;
+        private int result;
+        private RepeatingTask repeatingTask;
+        private Task task;
 
-        public AddTask(Shedule shedule, string selectedDay, string selectedTime, uint userId)
+        public AddTask(Shedule shedule, DateTime dateTime, uint userId)
         {
             InitializeComponent();
             this.shedule = shedule;
-            this.selectedDay = selectedDay;
-            this.selectedTime = selectedTime;
+            this.dateTime = dateTime;
             this.userId = userId;
+            taskController = new TaskController();
+            repeatingTaskController = new RepeatingTaskController();
+            result = 0;
         }
 
         private void btnAddTask_Click(object sender, EventArgs e)
         {
-            shedule.title = txtTitle.Text;
-            shedule.duration = Convert.ToByte(nudDuration.Value);
-            shedule.label = txtLabel.Text;
-            shedule.repeating = cbRepeating.Checked;
-            taskController.Create(new Task() 
+            if (string.IsNullOrEmpty(txtTitle.Text))
             {
-                UserId = userId,
-                Title  = txtTitle.Text, 
-                Duration = Convert.ToByte(nudDuration.Value),
-                Date = Convert.ToDateTime(selectedDay + " " + selectedTime),
-                Label = txtLabel.Text,
-                Repeats = Convert.ToByte(cbRepeating.Checked)
-            });
-            shedule.AddTaskToTable();
-            this.Close();
+                txtTitle.Text = "[Geen titel]";
+            }
+
+            if (Convert.ToByte(nudDuration.Value) == 0)
+            {
+                nudDuration.Value = 1;
+            }
+
+            if (cbRepeating.Checked == false)
+            {
+                task = new Task()
+                {
+                    UserId = userId,
+                    Title = txtTitle.Text,
+                    Duration = Convert.ToByte(nudDuration.Value),
+                    Date = Convert.ToDateTime(dateTime),
+                    Label = txtLabel.Text,
+                };
+
+                result = taskController.Exceeds(task);
+                if (result != 0 && result != 2)
+                {
+                    result = taskController.Create(task);
+                }
+            }
+            else
+            {
+                repeatingTask = new RepeatingTask()
+                {
+                    UserId = userId,
+                    Title = txtTitle.Text,
+                    Day = dateTime.ToString("dddd"),
+                    Time = dateTime.TimeOfDay,
+                    Duration = Convert.ToByte(nudDuration.Value),
+                    Label = txtLabel.Text
+                };
+
+                result = repeatingTaskController.Exceeds(repeatingTask);
+                if (result != 0 && result != 2)
+                {
+                    result = repeatingTaskController.Create(repeatingTask);
+                }
+            }
+
+            if (result != 2)
+            {
+                shedule.LoadToGrid(typeof(Task));
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Kan de taak niet toevoegen. De tijd overlapt over een andere taak.");
+            }
         }
     }
 }

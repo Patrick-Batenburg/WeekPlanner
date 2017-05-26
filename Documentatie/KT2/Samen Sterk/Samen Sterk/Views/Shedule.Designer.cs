@@ -95,43 +95,49 @@
             this.dgvShedule.RowHeadersWidth = 70;
             this.dgvShedule.Size = new System.Drawing.Size(776, 397);
             this.dgvShedule.TabIndex = 1;
-            this.dgvShedule.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellContentClick);
             this.dgvShedule.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellDoubleClick);
             // 
             // columnDay1
             // 
             this.columnDay1.HeaderText = "Maandag";
             this.columnDay1.Name = "columnDay1";
+            this.columnDay1.ReadOnly = true;
             // 
             // columnDay2
             // 
             this.columnDay2.HeaderText = "Dinsdag";
             this.columnDay2.Name = "columnDay2";
+            this.columnDay2.ReadOnly = true;
             // 
             // columnDay3
             // 
             this.columnDay3.HeaderText = "Woensdag";
             this.columnDay3.Name = "columnDay3";
+            this.columnDay3.ReadOnly = true;
             // 
             // columnDay4
             // 
             this.columnDay4.HeaderText = "Donderdag";
             this.columnDay4.Name = "columnDay4";
+            this.columnDay4.ReadOnly = true;
             // 
             // columnDay5
             // 
             this.columnDay5.HeaderText = "Vrijdag";
             this.columnDay5.Name = "columnDay5";
+            this.columnDay5.ReadOnly = true;
             // 
             // columnDay6
             // 
             this.columnDay6.HeaderText = "Zaterdag";
             this.columnDay6.Name = "columnDay6";
+            this.columnDay6.ReadOnly = true;
             // 
             // columnDay7
             // 
             this.columnDay7.HeaderText = "Zondag";
             this.columnDay7.Name = "columnDay7";
+            this.columnDay7.ReadOnly = true;
             // 
             // tabControl
             // 
@@ -268,6 +274,7 @@
             this.btnPrevious.TabIndex = 2;
             this.btnPrevious.Text = "Vorige";
             this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
             // 
             // btnNext
             // 
@@ -277,6 +284,7 @@
             this.btnNext.TabIndex = 4;
             this.btnNext.Text = "Volgende";
             this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // lblViewUser
             // 
@@ -301,7 +309,6 @@
             this.MinimumSize = new System.Drawing.Size(340, 226);
             this.Name = "Shedule";
             this.Text = "Samen Sterk";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Shedule_FormClosing);
             this.Load += new System.EventHandler(this.Shedule_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).EndInit();
             this.tabControl.ResumeLayout(false);
