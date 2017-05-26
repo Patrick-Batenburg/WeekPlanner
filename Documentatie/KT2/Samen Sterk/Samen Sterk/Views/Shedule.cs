@@ -11,7 +11,8 @@ namespace SamenSterk.Views
     public partial class Shedule : Form
     {
         public DateTime startDate;
-        public User user;
+        public User currentUser;
+        public User selectedUser;
         private int[] cellPos;
         private bool logout;
         private List<Task> tasks;
@@ -30,18 +31,33 @@ namespace SamenSterk.Views
             repeatingTaskController = new RepeatingTaskController();
             cellPos = new int[] { 0, 0 };
 
-            this.user = user;
+            this.currentUser = user;
+            this.selectedUser = currentUser;
             dgvShedule.AutoGenerateColumns = false;
             tasks = taskController.Details(user.Id);
             repeatingTasks = repeatingTaskController.Details(user.Id);
 
             this.FormClosing += Shedule_FormClosing;
-            cbUsernames.Click += cbUsernames_Click;
             dgvShedule.ColumnHeaderMouseDoubleClick += dgvShedule_ColumnHeaderMouseDoubleClick;
 
             for (int i = 0; i < 7; i++)
             {
                 dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("dd-MM-yyyy");
+            }
+
+            if (user.Role != "Admin")
+            {
+                lblViewUser.Visible = false;
+                cbUsernames.Visible = false;
+            }
+            else
+            {
+                cbUsernames.Click += cbUsernames_Click;
+                lblViewUser.Visible = true;
+                cbUsernames.Visible = true;
+                cbUsernames.Items.Add("Ik");
+                cbUsernames.DropDownStyle = ComboBoxStyle.DropDownList;
+                cbUsernames.SelectedIndex = 0;
             }
         }
 
@@ -64,9 +80,6 @@ namespace SamenSterk.Views
                         dgvShedule.Rows.Add();
                         dgvShedule.Rows[i].HeaderCell.Value = (7 + i) + ":00";
                     }
-
-                    tasks = taskController.Details(user.Id);
-                    repeatingTasks = repeatingTaskController.Details(user.Id);
 
                     List<Task> taskQuery = (from task in tasks
                                             where task.Date >= Convert.ToDateTime(dgvShedule.Columns[0].HeaderText) && task.Date <= Convert.ToDateTime(dgvShedule.Columns[6].HeaderText)
@@ -296,9 +309,16 @@ namespace SamenSterk.Views
 
                 if (string.IsNullOrEmpty(cellContent))
                 {
-                    AddTask addTask = new AddTask(this, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()), user.Id);
-                    addTask.ShowDialog();
-                    tasks = taskController.Details(user.Id);
+                    if (selectedUser.Id == currentUser.Id)
+                    {
+                        AddTask addTask = new AddTask(this, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()), currentUser.Id);
+                        addTask.ShowDialog();
+                        tasks = taskController.Details(currentUser.Id);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Kan taken voor andere gebruikers niet toevoegen/wijzigen.");
+                    }
                 }
                 else
                 {
@@ -310,23 +330,32 @@ namespace SamenSterk.Views
                                                         where repeatingTask.Day == Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText).ToString("dddd")
                                                         select repeatingTask).FirstOrDefault();
 
-                    if (taskQuery != null)
+                    if (selectedUser.Id == currentUser.Id)
                     {
-                        EditTask editTask = new EditTask(this, new Task() { Id = taskQuery.Id, UserId = user.Id, Title = taskQuery.Title, Duration = taskQuery.Duration, Label = taskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
-                        editTask.ShowDialog();
-                        tasks = taskController.Details(user.Id);
-                        repeatingTasks = repeatingTaskController.Details(user.Id);
-                    }
-                    else if (repeatingTaskQuery != null)
-	                {
-                        EditTask editTask = new EditTask(this, new RepeatingTask() { Id = repeatingTaskQuery.Id, UserId = user.Id, Title = repeatingTaskQuery.Title, Duration = repeatingTaskQuery.Duration, Label = repeatingTaskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
-                        editTask.ShowDialog();
-                        tasks = taskController.Details(user.Id);
-                        repeatingTasks = repeatingTaskController.Details(user.Id);
+                        if (taskQuery != null)
+                        {
+
+                            EditTask editTask = new EditTask(this, new Task() { Id = taskQuery.Id, UserId = currentUser.Id, Title = taskQuery.Title, Duration = taskQuery.Duration, Label = taskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
+                            editTask.ShowDialog();
+                            tasks = taskController.Details(currentUser.Id);
+                            repeatingTasks = repeatingTaskController.Details(currentUser.Id);
+
+                        }
+                        else if (repeatingTaskQuery != null)
+                        {
+                            EditTask editTask = new EditTask(this, new RepeatingTask() { Id = repeatingTaskQuery.Id, UserId = currentUser.Id, Title = repeatingTaskQuery.Title, Duration = repeatingTaskQuery.Duration, Label = repeatingTaskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
+                            editTask.ShowDialog();
+                            tasks = taskController.Details(currentUser.Id);
+                            repeatingTasks = repeatingTaskController.Details(currentUser.Id);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Kon de taak niet ophalen.");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Kon de taak niet ophalen.");
+                        MessageBox.Show("Kan taken voor andere gebruikers niet toevoegen/wijzigen.");
                     }
                 }
             }
@@ -395,8 +424,10 @@ namespace SamenSterk.Views
         private void cbUsernames_Click(object sender, EventArgs e)
         {
             List<User> users = new List<User>();
-            users = userController.Details(user);
+            users = userController.Details(currentUser);
             cbUsernames.Items.Clear();
+            cbUsernames.Items.Add("Ik");
+            cbUsernames.SelectedIndex = 0;
 
             if (users != null)
             {
@@ -404,6 +435,36 @@ namespace SamenSterk.Views
                 {
                     cbUsernames.Items.Add(element.Username);
                 }             
+            }
+        }
+
+        private void cbUsernames_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            List<User> users = new List<User>();
+            User selected = new User();
+            if (cbUsernames.SelectedIndex != 0)
+            {
+                users = userController.Details(currentUser);
+                string comboSelectedValue = cbUsernames.SelectedItem.ToString(); 
+
+                selected = (from user in users
+                            where user.Username == cbUsernames.SelectedItem.ToString()
+                            select user).FirstOrDefault();
+                this.selectedUser = selected;
+
+                if (selected != null)
+                {
+                    tasks = taskController.Details(selected.Id);
+                    repeatingTasks = repeatingTaskController.Details(selected.Id);
+                    LoadToGrid(typeof(Task));
+                }
+            }
+            else
+            {
+                this.selectedUser = currentUser;
+                tasks = taskController.Details(currentUser.Id);
+                repeatingTasks = repeatingTaskController.Details(currentUser.Id);
+                LoadToGrid(typeof(Task));
             }
         }
     }

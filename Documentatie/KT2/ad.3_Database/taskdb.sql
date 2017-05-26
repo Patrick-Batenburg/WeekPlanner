@@ -43,6 +43,22 @@ CREATE TABLE IF NOT EXISTS `grades` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+-- Dumping structure for table TaskDatabase.repeatingtasks
+DROP TABLE IF EXISTS `repeatingtasks`;
+CREATE TABLE IF NOT EXISTS `repeatingtasks` (
+  `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `UserId` int(10) unsigned NOT NULL,
+  `Title` varchar(64) NOT NULL,
+  `Day` varchar(50) NOT NULL,
+  `Time` time NOT NULL,
+  `Duration` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `Label` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  UNIQUE KEY `Id` (`Id`),
+  KEY `UserFK` (`UserId`)
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+
+-- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.subjects
 DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE IF NOT EXISTS `subjects` (
@@ -61,14 +77,14 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
   `Title` varchar(64) NOT NULL,
-  `Date` date NOT NULL,
+  `Date` datetime NOT NULL,
   `Duration` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `Repeats` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `Label` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id` (`Id`),
+  UNIQUE KEY `Date` (`Date`),
   KEY `UserFK` (`UserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.users
@@ -81,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Username` (`Username`),
   UNIQUE KEY `Id` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

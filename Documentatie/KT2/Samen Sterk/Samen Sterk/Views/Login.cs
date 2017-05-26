@@ -13,6 +13,7 @@ namespace SamenSterk.Views
         public Login()
         {
             InitializeComponent();
+            this.FormClosing += Login_FormClosing;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -41,6 +42,11 @@ namespace SamenSterk.Views
             Register register = new Register(this);
             register.Show();
             this.Hide();
+        }
+
+        void Login_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

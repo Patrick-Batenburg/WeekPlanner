@@ -31,7 +31,7 @@ namespace SamenSterk.Controllers
         {
             List<User> users = new List<User>();
 
-            if (model.Role != "Member")
+            if (model.Role == "Member")
             {
                 users = null;
             }
@@ -40,7 +40,7 @@ namespace SamenSterk.Controllers
                 using (var db = new DataConnection())
                 {
                     List<User> query = (from user in db.User
-                                        where user.Role != "Admin"
+                                        where user.Role != "Admin" && user.Id != model.Id
                                         select user).ToList();
 
                     if (query != null)

@@ -265,6 +265,7 @@
             this.cbUsernames.Name = "cbUsernames";
             this.cbUsernames.Size = new System.Drawing.Size(88, 21);
             this.cbUsernames.TabIndex = 3;
+            this.cbUsernames.SelectedIndexChanged += new System.EventHandler(this.cbUsernames_SelectedIndexChanged);
             // 
             // btnPrevious
             // 
