@@ -85,6 +85,9 @@ namespace SamenSterk.Views
                                             where task.Date >= Convert.ToDateTime(dgvShedule.Columns[0].HeaderText) && task.Date <= Convert.ToDateTime(dgvShedule.Columns[6].HeaderText)
                                             select task).ToList();
 
+                    tasks = taskController.Details(selectedUser.Id);
+                    repeatingTasks = repeatingTaskController.Details(selectedUser.Id);
+
                     if (taskQuery.Count != 0)
                     {
                         foreach (var element in taskQuery)
@@ -442,11 +445,10 @@ namespace SamenSterk.Views
         {
             List<User> users = new List<User>();
             User selected = new User();
+
             if (cbUsernames.SelectedIndex != 0)
             {
                 users = userController.Details(currentUser);
-                string comboSelectedValue = cbUsernames.SelectedItem.ToString(); 
-
                 selected = (from user in users
                             where user.Username == cbUsernames.SelectedItem.ToString()
                             select user).FirstOrDefault();
