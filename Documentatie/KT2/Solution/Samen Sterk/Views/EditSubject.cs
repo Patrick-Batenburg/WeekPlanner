@@ -54,7 +54,7 @@ namespace SamenSterk.Views
 
             if (gradeQuery.Count != 0)
             {
-                for (int i = 0; i < gradeQuery.Count - 1; i++)
+                for (int i = 0; i < gradeQuery.Count; i++)
                 {
                     gradeController.Delete(grades[i]);
                 }

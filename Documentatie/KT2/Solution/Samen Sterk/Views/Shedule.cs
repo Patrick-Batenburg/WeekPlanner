@@ -58,7 +58,6 @@ namespace SamenSterk.Views
             dgvGrades.MouseUp += dgvGrades_MouseUp;
             dgvGrades.AllowUserToAddRows = false;
             dgvGrades.ColumnHeadersVisible = false;
-            dgvGrades.ColumnCount = 1;
             dgvAppointments.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvAppointments.AllowUserToAddRows = false;
             tasks = taskController.Details(model.Id);
@@ -194,8 +193,8 @@ namespace SamenSterk.Views
                 case "SamenSterk.Models.Grade":
                     int index = -1;
                     dgvGrades.CellValueChanged -= dgvGrades_CellValueChanged;
-
                     dgvGrades.Rows.Clear();
+                    dgvGrades.ColumnCount = 1;
                     grades = gradeController.Details(selectedUser.Id);
                     subjects = subjectController.Details(selectedUser.Id);
 
@@ -203,7 +202,6 @@ namespace SamenSterk.Views
                     {
                         dgvGrades.ColumnCount = grades.Max(grade => Convert.ToInt32(grade.ColumnIndex)) + 1;
                     }
-
 
                     if (subjects.Count != 0)
                     {
@@ -217,19 +215,29 @@ namespace SamenSterk.Views
                         {
                             for (int i = 0; i < grades.Count; i++)
                             {
-                                if ( grades[i].Number == 10.0f)
+                                if (grades[i].Number == 10.0f)
                                 {
-                                    dgvGrades[Convert.ToInt32(grades[i].ColumnIndex), Convert.ToInt32(grades[i].RowIndex)].Value = grades[i].Number.ToString("0");
+                                    dgvGrades[Convert.ToInt32(grades[i].ColumnIndex), Convert.ToInt32(grades[i].RowIndex)].Value = grades[i].Number.ToString("0").Replace('.', ',');
                                 }
                                 else
                                 {
-                                    dgvGrades[Convert.ToInt32(grades[i].ColumnIndex), Convert.ToInt32(grades[i].RowIndex)].Value = grades[i].Number.ToString("0.0");
+                                    dgvGrades[Convert.ToInt32(grades[i].ColumnIndex), Convert.ToInt32(grades[i].RowIndex)].Value = grades[i].Number.ToString("0.0").Replace('.', ',');
                                 }
                             }
 
-                            index = (from row in dgvGrades.Rows.Cast<DataGridViewRow>()
-                                     where row.Cells[dgvGrades.ColumnCount - 1].Value != null && row.Cells[dgvGrades.ColumnCount - 1].Value.ToString().Length > 0
-                                     select row.Index).First();
+                            if (dgvGrades.ColumnCount > 0)
+                            {
+                               List<DataGridViewRow> rows = (from row in dgvGrades.Rows.Cast<DataGridViewRow>()
+                                                            select row).ToList();
+
+                               if (rows.Count != 0)
+                               {
+                                   index = (from row in rows
+                                            where row.Cells[dgvGrades.ColumnCount - 1].Value != null
+                                            select row.Index).FirstOrDefault();
+                               }
+
+                            }
                         }
                     }
 
@@ -352,7 +360,7 @@ namespace SamenSterk.Views
                     if (query == null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == false)
                     {
                         float number;
-                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString();
+                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(',', '.');
                         Single.TryParse(value, out number);
 
                         if (number > 10.0 || number < 1.0)
