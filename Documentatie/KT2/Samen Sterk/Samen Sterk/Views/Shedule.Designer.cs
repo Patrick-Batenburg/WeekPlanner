@@ -41,8 +41,8 @@
             this.tabShedule = new System.Windows.Forms.TabPage();
             this.tabGrades = new System.Windows.Forms.TabPage();
             this.lblInsertName = new System.Windows.Forms.Label();
-            this.txtColumnName = new System.Windows.Forms.TextBox();
-            this.btnAddColumn = new System.Windows.Forms.Button();
+            this.txtSubjectName = new System.Windows.Forms.TextBox();
+            this.btnAddSubject = new System.Windows.Forms.Button();
             this.dgvGrades = new System.Windows.Forms.DataGridView();
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.dgvAppointments = new System.Windows.Forms.DataGridView();
@@ -167,8 +167,8 @@
             // tabGrades
             // 
             this.tabGrades.Controls.Add(this.lblInsertName);
-            this.tabGrades.Controls.Add(this.txtColumnName);
-            this.tabGrades.Controls.Add(this.btnAddColumn);
+            this.tabGrades.Controls.Add(this.txtSubjectName);
+            this.tabGrades.Controls.Add(this.btnAddSubject);
             this.tabGrades.Controls.Add(this.dgvGrades);
             this.tabGrades.Location = new System.Drawing.Point(4, 22);
             this.tabGrades.Name = "tabGrades";
@@ -189,22 +189,22 @@
             this.lblInsertName.Text = "Voer een naam in";
             this.lblInsertName.Visible = false;
             // 
-            // txtColumnName
+            // txtSubjectName
             // 
-            this.txtColumnName.Location = new System.Drawing.Point(6, 6);
-            this.txtColumnName.Name = "txtColumnName";
-            this.txtColumnName.Size = new System.Drawing.Size(85, 20);
-            this.txtColumnName.TabIndex = 2;
+            this.txtSubjectName.Location = new System.Drawing.Point(6, 6);
+            this.txtSubjectName.Name = "txtSubjectName";
+            this.txtSubjectName.Size = new System.Drawing.Size(85, 20);
+            this.txtSubjectName.TabIndex = 2;
             // 
-            // btnAddColumn
+            // btnAddSubject
             // 
-            this.btnAddColumn.Location = new System.Drawing.Point(97, 5);
-            this.btnAddColumn.Name = "btnAddColumn";
-            this.btnAddColumn.Size = new System.Drawing.Size(91, 23);
-            this.btnAddColumn.TabIndex = 1;
-            this.btnAddColumn.Text = "Vak toevoegen";
-            this.btnAddColumn.UseVisualStyleBackColor = true;
-            this.btnAddColumn.Click += new System.EventHandler(this.btnAddColumn_Click);
+            this.btnAddSubject.Location = new System.Drawing.Point(97, 5);
+            this.btnAddSubject.Name = "btnAddSubject";
+            this.btnAddSubject.Size = new System.Drawing.Size(91, 23);
+            this.btnAddSubject.TabIndex = 1;
+            this.btnAddSubject.Text = "Vak toevoegen";
+            this.btnAddSubject.UseVisualStyleBackColor = true;
+            this.btnAddSubject.Click += new System.EventHandler(this.btnAddSubject_Click);
             // 
             // dgvGrades
             // 
@@ -310,7 +310,6 @@
             this.MinimumSize = new System.Drawing.Size(340, 226);
             this.Name = "Shedule";
             this.Text = "Samen Sterk";
-            this.Load += new System.EventHandler(this.Shedule_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.tabShedule.ResumeLayout(false);
@@ -345,8 +344,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn columnDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnName2;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnDuration;
-        private System.Windows.Forms.Button btnAddColumn;
-        private System.Windows.Forms.TextBox txtColumnName;
+        private System.Windows.Forms.Button btnAddSubject;
+        private System.Windows.Forms.TextBox txtSubjectName;
         private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label lblInsertName;

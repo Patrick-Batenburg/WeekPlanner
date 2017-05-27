@@ -97,6 +97,12 @@
     <Compile Include="Views\EditSchedule.Designer.cs">
       <DependentUpon>EditSchedule.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EditSubject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EditSubject.Designer.cs">
+      <DependentUpon>EditSubject.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditTask.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EditSchedule.resx">
       <DependentUpon>EditSchedule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EditSubject.resx">
+      <DependentUpon>EditSubject.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EditTask.resx">
       <DependentUpon>EditTask.cs</DependentUpon>

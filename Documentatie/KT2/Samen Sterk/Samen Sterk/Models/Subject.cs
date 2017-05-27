@@ -5,6 +5,7 @@ namespace SamenSterk.Models
     [Table(Name = "Subjects")]
     public class Subject : ModelBase
     {
+        private uint id;
         private uint userId;
         private uint rowIndex;
         private string name;
@@ -30,9 +31,19 @@ namespace SamenSterk.Models
         }
 
         /// <summary>
+        /// Gets/Sets the id of the Subject object.
+        /// </summary>
+        [PrimaryKey, Identity]
+        public uint Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        /// <summary>
         /// Gets/Sets the user id of the Subject object.
         /// </summary>
-        [PrimaryKey]
+        [Column(Name = "UserId"), NotNull]
         public uint UserId
         {
             get { return userId; }

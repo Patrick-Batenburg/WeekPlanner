@@ -34,9 +34,9 @@ namespace SamenSterk.Controllers
             {
                 using (var db = new DataConnection())
                 {
-                    var query = (from subject in db.Subject
-                                 where subject.UserId == userId
-                                 select subject).ToList();
+                    List<Subject> query = (from subject in db.Subject
+                                           where subject.UserId == userId
+                                           select subject).ToList();
 
                     if (query != null)
                     {
@@ -44,6 +44,7 @@ namespace SamenSterk.Controllers
                         {
                             subject = new Subject()
                             {
+                                Id = _subject.Id,
                                 UserId = _subject.UserId,
                                 RowIndex = _subject.RowIndex,
                                 Name = _subject.Name
@@ -62,14 +63,27 @@ namespace SamenSterk.Controllers
         /// Creates a new subject.
         /// </summary>
         /// <param name="model">Subject details to create.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
+        /// <returns>0 on failure, 1 on success, 2 on subject already exists.</returns>
         public int Create(Subject model)
         {
             int result = 0;
+            List<Subject> subjects = new List<Subject>();
+            subjects = Details(model.UserId);
 
             using (var db = new DataConnection())
             {
-                result = db.Insert(model);
+                Subject query = (from subject in subjects
+                                 where subject.Name == model.Name
+                                 select subject).FirstOrDefault();
+
+                if (query == null)
+                {
+                    result = db.Insert(model);
+                }
+                else
+                {
+                    result = 2;
+                }
             }
 
             return result;
@@ -79,14 +93,27 @@ namespace SamenSterk.Controllers
         /// Edit an existing subject.
         /// </summary>
         /// <param name="model">Subject details to edit.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
+        /// <returns>0 on failure, 1 on success, 2 on subject already exists.</returns>
         public int Edit(Subject model)
         {
             int result = 0;
+            List<Subject> subjects = new List<Subject>();
+            subjects = Details(model.UserId);
 
             using (var db = new DataConnection())
             {
-                result = db.Update(model);
+                Subject query = (from subject in subjects
+                                 where subject.Name == model.Name && subject.Id != model.Id
+                                 select subject).FirstOrDefault();
+
+                if (query == null)
+                {
+                    result = db.Update(model);
+                }
+                else
+                {
+                    result = 2;
+                }
             }
 
             return result;

@@ -34,9 +34,9 @@ namespace SamenSterk.Controllers
             {
                 using (var db = new DataConnection())
                 {
-                    var query = (from grade in db.Grade
-                                 where grade.UserId == userId
-                                 select grade).ToList();
+                    List<Grade> query = (from grade in db.Grade
+                                         where grade.UserId == userId
+                                         select grade).ToList();
 
                     if (query != null)
                     {
@@ -44,6 +44,7 @@ namespace SamenSterk.Controllers
                         {
                             grade = new Grade()
                             {
+                                Id = _grade.Id,
                                 UserId = _grade.UserId,
                                 RowIndex = _grade.RowIndex,
                                 ColumnIndex = _grade.ColumnIndex,

@@ -8,7 +8,6 @@ namespace SamenSterk.Views
     public partial class AddTask : Form
     {
         private TaskController taskController;
-        private Shedule shedule;
         private uint userId;
         private DateTime dateTime;
         private RepeatingTaskController repeatingTaskController;
@@ -16,10 +15,9 @@ namespace SamenSterk.Views
         private RepeatingTask repeatingTask;
         private Task task;
 
-        public AddTask(Shedule shedule, DateTime dateTime, uint userId)
+        public AddTask(DateTime dateTime, uint userId)
         {
             InitializeComponent();
-            this.shedule = shedule;
             this.dateTime = dateTime;
             this.userId = userId;
             taskController = new TaskController();
@@ -77,7 +75,6 @@ namespace SamenSterk.Views
 
             if (result != 2)
             {
-                shedule.LoadToGrid(typeof(Task));
                 this.Close();
             }
             else

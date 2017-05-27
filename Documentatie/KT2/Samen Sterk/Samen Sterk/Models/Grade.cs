@@ -5,6 +5,7 @@ namespace SamenSterk.Models
     [Table(Name = "Grades")]
     public class Grade : ModelBase
     {
+        private uint id;
         private uint userId;
         private uint rowIndex;
         private uint columnIndex;
@@ -35,7 +36,21 @@ namespace SamenSterk.Models
         /// <summary>
         /// Gets/Sets the row index of the Grade object.
         /// </summary>
-        [PrimaryKey, NotNull]
+        [PrimaryKey, Identity]
+        public uint Id
+        {
+            get { return id; }
+            set
+            {
+                id = value; 
+                OnPropertyChanged("RowIndex");
+            }
+        }
+
+        /// <summary>
+        /// Gets/Sets the row index of the Grade object.
+        /// </summary>
+        [Column(Name = "RowIndex"), NotNull]
         public uint RowIndex
         {
             get { return rowIndex; }
@@ -49,7 +64,7 @@ namespace SamenSterk.Models
         /// <summary>
         /// Gets/Sets the user id of the Grade object.
         /// </summary>
-        [Column(Name = "UserId")]
+        [Column(Name = "UserId"), NotNull]
         public uint UserId
         {
             get { return userId; }
