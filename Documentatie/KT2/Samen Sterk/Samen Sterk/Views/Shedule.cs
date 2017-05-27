@@ -17,28 +17,53 @@ namespace SamenSterk.Views
         private bool logout;
         private List<Task> tasks;
         private List<RepeatingTask> repeatingTasks;
+        private List<Grade> grades;
+        private List<Subject> subjects;
+        private List<Appointment> appointments;
         private TaskController taskController;
         private RepeatingTaskController repeatingTaskController;
         private UserController userController;
+        private GradeController gradeController;
+        private SubjectController subjectController;
+        private AppointmentController appointmentController;
 
         public Shedule(User user)
         {
             InitializeComponent();
-            tasks = new List<Task>();
-            repeatingTasks = new List<RepeatingTask>();
-            userController = new UserController();
-            taskController = new TaskController();
-            repeatingTaskController = new RepeatingTaskController();
-            cellPos = new int[] { 0, 0 };
-
             this.currentUser = user;
             this.selectedUser = currentUser;
-            dgvShedule.AutoGenerateColumns = false;
+            this.FormClosing += Shedule_FormClosing;
+            cellPos = new int[2];
+            logout = false;
+            tasks = new List<Task>();
+            repeatingTasks = new List<RepeatingTask>();
+            grades = new List<Grade>();
+            subjects = new List<Subject>();
+            appointments = new List<Appointment>();
+            taskController = new TaskController();
+            repeatingTaskController = new RepeatingTaskController();
+            userController = new UserController();
+            gradeController = new GradeController();
+            subjectController = new SubjectController();
+            appointmentController = new AppointmentController();
+            dgvShedule.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvShedule.ColumnHeaderMouseDoubleClick += dgvShedule_ColumnHeaderMouseDoubleClick;
+            dgvGrades.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dgvGrades.RowHeaderMouseDoubleClick += dgvGrades_RowHeaderMouseDoubleClick;
+            dgvGrades.MouseUp += dgvGrades_MouseUp;
+            dgvGrades.AllowUserToAddRows = false;
+            dgvGrades.ColumnHeadersVisible = false;
+            dgvGrades.ColumnCount = 1;
+            dgvAppointments.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvAppointments.AllowUserToAddRows = false;
             tasks = taskController.Details(user.Id);
             repeatingTasks = repeatingTaskController.Details(user.Id);
+            tabControl.Selected += tabControl_Selected;
 
-            this.FormClosing += Shedule_FormClosing;
-            dgvShedule.ColumnHeaderMouseDoubleClick += dgvShedule_ColumnHeaderMouseDoubleClick;
+            for (int i = 0; i < dgvShedule.Columns.Count; i++) 
+            {
+                dgvShedule.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable; 
+            }
 
             for (int i = 0; i < 7; i++)
             {
@@ -74,6 +99,8 @@ namespace SamenSterk.Views
             {
                 case "SamenSterk.Models.Task":
                     dgvShedule.Rows.Clear();
+                    tasks = taskController.Details(currentUser.Id);
+                    repeatingTasks = repeatingTaskController.Details(currentUser.Id);
 
                     for (int i = 0; i < 17; i++)
                     {
@@ -85,12 +112,9 @@ namespace SamenSterk.Views
                                             where task.Date >= Convert.ToDateTime(dgvShedule.Columns[0].HeaderText) && task.Date <= Convert.ToDateTime(dgvShedule.Columns[6].HeaderText)
                                             select task).ToList();
 
-                    tasks = taskController.Details(selectedUser.Id);
-                    repeatingTasks = repeatingTaskController.Details(selectedUser.Id);
-
                     if (taskQuery.Count != 0)
                     {
-                        foreach (var element in taskQuery)
+                        foreach (Task element in taskQuery)
                         {
                             for (byte i = 0; i < 17; i++)
                             {
@@ -122,7 +146,7 @@ namespace SamenSterk.Views
 
                     if (repeatingTasks.Count != 0)
                     {
-                        foreach (var element in repeatingTasks)
+                        foreach (RepeatingTask element in repeatingTasks)
                         {
                             for (byte i = 0; i < 17; i++)
                             {
@@ -163,19 +187,53 @@ namespace SamenSterk.Views
                     }
                     break;
                 case "SamenSterk.Models.Grade":
-                    /*if (grades != null)
-                    { 
+                    int index = -1;
+                    dgvGrades.CellValueChanged -= dgvGrades_CellValueChanged;
 
-                    }*/
+                    dgvGrades.Rows.Clear();
+                    grades = gradeController.Details(selectedUser.Id);
+                    subjects = subjectController.Details(selectedUser.Id);
+
+                    dgvGrades.ColumnCount = grades.Max(grade => Convert.ToInt32(grade.ColumnIndex)) + 1;
+
+
+                    if (subjects.Count != 0)
+                    {
+                        for (int i = 0; i < subjects.Count; i++)
+                        {
+                            dgvGrades.Rows.Add();
+                            dgvGrades.Rows[i].HeaderCell.Value = subjects[i].Name;
+                        }
+
+                        if (grades.Count != 0)
+                        {
+                            for (int i = 0; i < grades.Count; i++)
+                            {
+                                if ( grades[i].Number == 10.0f)
+                                {
+                                    dgvGrades[Convert.ToInt32(grades[i].ColumnIndex), Convert.ToInt32(grades[i].RowIndex)].Value = grades[i].Number.ToString("0");
+                                }
+                                else
+                                {
+                                    dgvGrades[Convert.ToInt32(grades[i].ColumnIndex), Convert.ToInt32(grades[i].RowIndex)].Value = grades[i].Number.ToString("0.0");
+                                }
+                            }
+                        }
+                    }
+                    
+                    index = (from row in dgvGrades.Rows.Cast<DataGridViewRow>()
+                             where row.Cells[dgvGrades.ColumnCount - 1].Value != null && row.Cells[dgvGrades.ColumnCount - 1].Value.ToString().Length > 0
+                             select row.Index).First();
+
+                    if (index != -1)
+                    {
+                        dgvGrades.ColumnCount += 1;
+                    }
+
+                    dgvGrades.CellValueChanged += dgvGrades_CellValueChanged;
                     break;
                 case "SamenSterk.Models.Appointment":
                     /*if (appointments != null)
-                    { 
-
-                    }*/
-                    break;
-                case "SamenSterk.Models.Subject":
-                    /*if (subjects != null)
                     { 
 
                     }*/
@@ -185,95 +243,156 @@ namespace SamenSterk.Views
             }
         }
 
+        #region Grade eventhandlers
         /// <summary>
-        /// Determine which type to from the DataGridView.
+        /// Occurs when the Button control is clicked.
         /// </summary>
-        /// <param name="obj">Typeof the object.</param>
-        public void DeleteFromGrid(Type obj)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        private void btnAddSubject_Click(object sender, EventArgs e)
         {
-            switch (obj.ToString())
+            int result = 0;
+
+            if (!string.IsNullOrWhiteSpace(txtSubjectName.Text))
             {
-                case "SamenSterk.Models.Task":
-                    int i = 0;
-                    Task taskQuery = (from task in tasks
-                                      where task.Date == Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString())
-                                      select task).FirstOrDefault();
+                result = subjectController.Create(new Subject()
+                {
+                    RowIndex = Convert.ToUInt32(dgvGrades.RowCount),
+                    UserId = selectedUser.Id,
+                    Name = txtSubjectName.Text
+                });
 
-                    RepeatingTask repeatingTaskQuery = (from repeatingTask in repeatingTasks
-                                                        where repeatingTask.Day == Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText).ToString("dddd") && repeatingTask.Time == TimeSpan.Parse(dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString())
-                                                        select repeatingTask).FirstOrDefault();
-
-                    if (taskQuery != null)
-                    {
-                        dgvShedule.Rows[cellPos[0]].Cells[cellPos[1]].Value = "";
-
-                        do
-                        {
-                            dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor = Color.Empty;
-                            i++;
-                        }
-                        while (dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Value == null && dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor.IsEmpty == false && cellPos[0] + i - 1 < dgvShedule.Rows.Count);
-
-                        taskController.Delete(taskQuery);
-                    }
-                    else
-                    {
-                        dgvShedule.Rows[cellPos[0]].Cells[cellPos[1]].Value = "";
-
-                        do
-                        {
-                            dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor = Color.Empty;
-                            i++;
-                        }
-                        while (dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Value == null && dgvShedule.Rows[cellPos[0] + i].Cells[cellPos[1]].Style.BackColor.IsEmpty == false && cellPos[0] + i - 1 < dgvShedule.Rows.Count);
-
-                        repeatingTaskController.Delete(repeatingTaskQuery);
-                    }
-                    break;
-                case "SamenSterk.Models.Grade":
-                    /*if (grades != null)
-                    { 
-
-                    }*/
-                    break;
-                case "SamenSterk.Models.Appointment":
-                    /*if (appointments != null)
-                    { 
-
-                    }*/
-                    break;
-                case "SamenSterk.Models.Subject":
-                    /*if (subjects != null)
-                    { 
-
-                    }*/
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void btnAddColumn_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(txtColumnName.Text))
-            {
-                dgvGrades.Columns.Add("clm" + txtColumnName.Text, txtColumnName.Text);
-                lblInsertName.Visible = false;
+                if (result != 2)
+                {
+                    LoadToGrid(typeof(Grade));
+                    lblInsertName.Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
+                }
             }
             else
             {
                 lblInsertName.Visible = true;
             }
-            txtColumnName.Text = "";
+
+            txtSubjectName.Text = "";
         }
 
-        private void btnLogout_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Occurs when a row header is double-clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
+        void dgvGrades_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            userController.LogOff(typeof(Login));
-            logout = true;
-            this.Close();
+            Subject model = (from subject in subjects 
+                             where subject.RowIndex == Convert.ToUInt32(e.RowIndex)
+                             select subject).FirstOrDefault();
+
+            EditSubject editSubject = new EditSubject(model);
+            editSubject.ShowDialog();
+            LoadToGrid(typeof(Grade));
         }
 
+        /// <summary>
+        /// Occurs when the mouse pointer is over the control and a mouse button is released.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
+        void dgvGrades_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (dgvGrades.HitTest(e.X, e.Y) == System.Windows.Forms.DataGridView.HitTestInfo.Nowhere)
+                {
+                    dgvGrades.EndEdit();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the value of a cell changes.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
+        private void dgvGrades_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex > -1 && subjects.Count == dgvGrades.RowCount)
+            {
+                string.IsNullOrEmpty(dgvGrades[0, 0].Value.ToString());
+
+                int result = 0;
+                Grade query = (from grade in grades
+                               where grade.RowIndex == Convert.ToUInt32(e.RowIndex) && grade.ColumnIndex == Convert.ToUInt32(e.ColumnIndex)
+                               select grade).FirstOrDefault();
+
+                if (query == null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == false)
+                {
+                    float number;
+                    string value =  dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString();
+                    Single.TryParse(value, out number);
+
+                    if (number > 10.0 || number < 1.0)
+                    {
+                        number = 1.0f;
+                    }
+
+                    result = gradeController.Create(new Grade()
+                    {
+                        ColumnIndex = Convert.ToUInt32(e.ColumnIndex),
+                        RowIndex = Convert.ToUInt32(e.RowIndex),
+                        UserId = selectedUser.Id,
+                        Number = (float)Math.Round(number, 1)
+                    });
+
+                    if (result == 0)
+                    {
+                        MessageBox.Show("Kon het cijfer niet toevoegen.");
+                    }
+                }
+                else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == true)
+                {
+                    result = gradeController.Delete(query);
+
+                    if (result == 0)
+                    {
+                        MessageBox.Show("Kon het cijfer niet verwijderen.");
+                    }
+                }
+                else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) != true)
+                {
+                    float number;
+                    string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString();
+                    Single.TryParse(value, out number);
+
+                    if (number > 10.0 || number < 1.0)
+                    {
+                        number = 1.0f;
+                    }
+
+                    query.Number = Convert.ToSingle(Convert.ToDecimal(number).ToString("0.0"));
+                    result = gradeController.Edit(query);
+
+                    if (result == 0)
+                    {
+                        MessageBox.Show("Kon het cijfer niet wijzigen.");
+                    }
+                }
+
+                LoadToGrid(typeof(Grade));
+            }
+
+        }
+        #endregion Grade eventhandlers
+
+        #region Task eventhandlers
+        /// <summary>
+        /// Occurs when the user double-clicks anywhere in a cell.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
         private void dgvShedule_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //checks if it didn't touched the headers
@@ -314,9 +433,9 @@ namespace SamenSterk.Views
                 {
                     if (selectedUser.Id == currentUser.Id)
                     {
-                        AddTask addTask = new AddTask(this, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()), currentUser.Id);
+                        AddTask addTask = new AddTask(Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()), currentUser.Id);
                         addTask.ShowDialog();
-                        tasks = taskController.Details(currentUser.Id);
+                        LoadToGrid(typeof(Task));
                     }
                     else
                     {
@@ -338,18 +457,15 @@ namespace SamenSterk.Views
                         if (taskQuery != null)
                         {
 
-                            EditTask editTask = new EditTask(this, new Task() { Id = taskQuery.Id, UserId = currentUser.Id, Title = taskQuery.Title, Duration = taskQuery.Duration, Label = taskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
+                            EditTask editTask = new EditTask(new Task() { Id = taskQuery.Id, UserId = currentUser.Id, Title = taskQuery.Title, Duration = taskQuery.Duration, Label = taskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
                             editTask.ShowDialog();
-                            tasks = taskController.Details(currentUser.Id);
-                            repeatingTasks = repeatingTaskController.Details(currentUser.Id);
-
+                            LoadToGrid(typeof(Task));
                         }
                         else if (repeatingTaskQuery != null)
                         {
-                            EditTask editTask = new EditTask(this, new RepeatingTask() { Id = repeatingTaskQuery.Id, UserId = currentUser.Id, Title = repeatingTaskQuery.Title, Duration = repeatingTaskQuery.Duration, Label = repeatingTaskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
+                            EditTask editTask = new EditTask(new RepeatingTask() { Id = repeatingTaskQuery.Id, UserId = currentUser.Id, Title = repeatingTaskQuery.Title, Duration = repeatingTaskQuery.Duration, Label = repeatingTaskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
                             editTask.ShowDialog();
-                            tasks = taskController.Details(currentUser.Id);
-                            repeatingTasks = repeatingTaskController.Details(currentUser.Id);
+                            LoadToGrid(typeof(Task));
                         }
                         else
                         {
@@ -364,7 +480,11 @@ namespace SamenSterk.Views
             }
         }
 
-        //MAIN SHEDULE
+        /// <summary>
+        /// Occurs when a column header is double-clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void dgvShedule_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             EditSchedule editSchedule = new EditSchedule(this, Convert.ToDateTime(this.dgvShedule.Columns[0].HeaderText));
@@ -372,28 +492,20 @@ namespace SamenSterk.Views
 
             for (int i = 0; i < 7; i++)
             {
-                dgvShedule.Columns[i].HeaderText = startDate.AddDays(i).ToString("d");
-                LoadToGrid(typeof(Task));
+                dgvShedule.Columns[i].HeaderText = startDate.AddDays(i).ToString("dd-MM-yyyy");
             }
-        }
 
-        void Shedule_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (logout != true)
-            {
-                Application.Exit();
-            }
-        }
-
-        private void Shedule_Load(object sender, EventArgs e)
-        {
             LoadToGrid(typeof(Task));
         }
 
+        /// <summary>
+        /// Occurs when the Button control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             DateTime firstDate = Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-1);
-
 
             if (Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-7) > DateTime.Today)
             {
@@ -413,6 +525,11 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when the Button control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnNext_Click(object sender, EventArgs e)
         {
             DateTime lastDate = Convert.ToDateTime(dgvShedule.Columns[6].HeaderText).AddDays(1);
@@ -423,7 +540,68 @@ namespace SamenSterk.Views
                 LoadToGrid(typeof(Task));
             }
         }
+        #endregion Task eventhandlers
 
+        #region Global eventhandlers
+        /// <summary>
+        /// Occurs before the form is closed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param> 
+        void Shedule_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (logout != true)
+            {
+                Application.Exit();
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the Button control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            userController.LogOff(typeof(Login));
+            logout = true;
+            this.Close();
+        }
+
+        /// <summary>
+        /// Occurs when a tab is selected.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="TabControlEventArgs"/> instance containing the event data.</param> 
+        void tabControl_Selected(object sender, TabControlEventArgs e)
+        {
+            switch (e.TabPage.Text)
+            {
+                case "Rooster":
+                    btnPrevious.Enabled = true;
+                    btnNext.Enabled = true;
+                    LoadToGrid(typeof(Task));
+                    break;
+                case "Cijfers":
+                    btnPrevious.Enabled = false;
+                    btnNext.Enabled = false;
+                    LoadToGrid(typeof(Grade));
+                    break;
+                case "Belangrijke Afspraken":
+                    btnPrevious.Enabled = false;
+                    btnNext.Enabled = false;
+                    LoadToGrid(typeof(Appointment));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the ComboBox control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void cbUsernames_Click(object sender, EventArgs e)
         {
             List<User> users = new List<User>();
@@ -441,6 +619,11 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when the SelectedIndex property has changed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void cbUsernames_SelectedIndexChanged(object sender, EventArgs e)
         {
             List<User> users = new List<User>();
@@ -456,18 +639,15 @@ namespace SamenSterk.Views
 
                 if (selected != null)
                 {
-                    tasks = taskController.Details(selected.Id);
-                    repeatingTasks = repeatingTaskController.Details(selected.Id);
                     LoadToGrid(typeof(Task));
                 }
             }
             else
             {
                 this.selectedUser = currentUser;
-                tasks = taskController.Details(currentUser.Id);
-                repeatingTasks = repeatingTaskController.Details(currentUser.Id);
                 LoadToGrid(typeof(Task));
             }
         }
+        #endregion Global eventhandlers
     }
 }

@@ -34,9 +34,9 @@ namespace SamenSterk.Controllers
             {
                 using (var db = new DataConnection())
                 {
-                    var query = (from appointment in db.Appointment
-                                 where appointment.UserId == userId
-                                 select appointment).ToList();
+                    List<Appointment> query = (from appointment in db.Appointment
+                                               where appointment.UserId == userId
+                                               select appointment).ToList();
 
                     if (query != null)
                     {

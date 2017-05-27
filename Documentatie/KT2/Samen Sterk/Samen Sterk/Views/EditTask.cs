@@ -9,7 +9,6 @@ namespace SamenSterk.Views
     {
         private TaskController taskController;
         private RepeatingTaskController repeatingTaskController;
-        private Shedule shedule;
         private Task task;
         private int result;
         private RepeatingTask repeatingTask;
@@ -18,12 +17,12 @@ namespace SamenSterk.Views
         /// <summary>
         /// Initializes a new instance of the form EditTask class.
         /// </summary>
-        /// <param name="shedule">Details of the shedule to edit.</param>
+        /// <param name="shedule">Details of the shedule.</param>
         /// <param name="model">Task details to edit.</param>
-        public EditTask(Shedule shedule, Task model, DateTime dateTime)
+        /// <param name="dateTime">DateTime to edit.</param>
+        public EditTask(Task model, DateTime dateTime)
         {
             InitializeComponent();
-            this.shedule = shedule;
             this.dateTime = dateTime;
             this.task = new Task()
             {
@@ -47,10 +46,10 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="shedule">Details of the shedule to edit.</param>
         /// <param name="model">Repeating task details to edit.</param>
-        public EditTask(Shedule shedule, RepeatingTask model, DateTime dateTime)
+        /// <param name="dateTime">DateTime to edit.</param>
+        public EditTask(RepeatingTask model, DateTime dateTime)
         {
             InitializeComponent();
-            this.shedule = shedule;
             this.dateTime = dateTime;
             this.repeatingTask = new RepeatingTask()
             {
@@ -154,7 +153,6 @@ namespace SamenSterk.Views
 
             if (result != 2)
             {
-                shedule.LoadToGrid(typeof(Task));
                 this.Close();
             }
             else
@@ -169,7 +167,14 @@ namespace SamenSterk.Views
 
             if (dialogResult == DialogResult.Yes)
             {
-                shedule.DeleteFromGrid(typeof(Task));
+                if (task != null)
+                {
+                    taskController.Delete(task);
+                }
+                if (repeatingTask != null)
+                {
+                    repeatingTaskController.Delete(repeatingTask);
+                }
                 this.Close();
             }
         }

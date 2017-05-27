@@ -13,20 +13,30 @@ namespace SamenSterk.Views
             InitializeComponent();
             this.shedule = shedule;
             this.date = date;
-            startDateTimePicker.Value = Convert.ToDateTime(date);
+            startDateTimePicker.Value = date;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            shedule.startDate = date;
             this.Close();
         }
 
         private void startDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
+            if (startDateTimePicker.Value < DateTime.Today)
+            {
+                startDateTimePicker.Value = DateTime.Today;
+            }
         }
 
         private void btnEditSchedule_Click(object sender, EventArgs e)
         {
+            if (startDateTimePicker.Value < DateTime.Today)
+            {
+                startDateTimePicker.Value = DateTime.Today;
+            }
+
             shedule.startDate = startDateTimePicker.Value;
             this.Close();
         }
