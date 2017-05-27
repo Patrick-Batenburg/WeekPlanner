@@ -20,6 +20,10 @@ namespace SamenSterk.Views
         private GradeController gradeController;
         private SubjectController subjectController;
 
+        /// <summary>
+        /// Initializes a new instance of the form EditSubject class.
+        /// </summary>
+        /// <param name="model">Subject details to edit.</param>
         public EditSubject(Subject model)
         {
             InitializeComponent();
@@ -31,6 +35,11 @@ namespace SamenSterk.Views
             txtName.Text = model.Name; 
         }
 
+        /// <summary>
+        /// Occurs when the Button control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnDelete_Click(object sender, EventArgs e)
         {
             int result = 0;
@@ -72,6 +81,11 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when the Button control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnEditSubject_Click(object sender, EventArgs e)
         {
             this.model.Name = txtName.Text;

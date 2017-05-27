@@ -15,6 +15,11 @@ namespace SamenSterk.Views
         private RepeatingTask repeatingTask;
         private Task task;
 
+        /// <summary>
+        /// Initializes a new instance of the form AddTask class.
+        /// </summary>
+        /// <param name="dateTime">DateTime of the task.</param>
+        /// <param name="userId">Id of the user who initiated AddTask.</param>
         public AddTask(DateTime dateTime, uint userId)
         {
             InitializeComponent();
@@ -25,6 +30,11 @@ namespace SamenSterk.Views
             result = 0;
         }
 
+        /// <summary>
+        /// Occurs when the Button control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnAddTask_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtTitle.Text))

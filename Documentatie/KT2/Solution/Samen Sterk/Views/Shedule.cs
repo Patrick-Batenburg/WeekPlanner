@@ -26,11 +26,16 @@ namespace SamenSterk.Views
         private GradeController gradeController;
         private SubjectController subjectController;
         private AppointmentController appointmentController;
+        private byte selectedTabIndex;
 
-        public Shedule(User user)
+        /// <summary>
+        /// Initializes a new instance of the form Shedule class.
+        /// </summary>
+        /// <param name="model">User details to extract.</param>
+        public Shedule(User model)
         {
             InitializeComponent();
-            this.currentUser = user;
+            this.currentUser = model;
             this.selectedUser = currentUser;
             this.FormClosing += Shedule_FormClosing;
             cellPos = new int[2];
@@ -56,8 +61,8 @@ namespace SamenSterk.Views
             dgvGrades.ColumnCount = 1;
             dgvAppointments.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvAppointments.AllowUserToAddRows = false;
-            tasks = taskController.Details(user.Id);
-            repeatingTasks = repeatingTaskController.Details(user.Id);
+            tasks = taskController.Details(model.Id);
+            repeatingTasks = repeatingTaskController.Details(model.Id);
             tabControl.Selected += tabControl_Selected;
 
             for (int i = 0; i < dgvShedule.Columns.Count; i++) 
@@ -70,7 +75,7 @@ namespace SamenSterk.Views
                 dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("dd-MM-yyyy");
             }
 
-            if (user.Role != "Admin")
+            if (model.Role != "Admin")
             {
                 lblViewUser.Visible = false;
                 cbUsernames.Visible = false;
@@ -194,7 +199,10 @@ namespace SamenSterk.Views
                     grades = gradeController.Details(selectedUser.Id);
                     subjects = subjectController.Details(selectedUser.Id);
 
-                    dgvGrades.ColumnCount = grades.Max(grade => Convert.ToInt32(grade.ColumnIndex)) + 1;
+                    if (grades.Count != 0)
+                    {
+                        dgvGrades.ColumnCount = grades.Max(grade => Convert.ToInt32(grade.ColumnIndex)) + 1;
+                    }
 
 
                     if (subjects.Count != 0)
@@ -218,12 +226,12 @@ namespace SamenSterk.Views
                                     dgvGrades[Convert.ToInt32(grades[i].ColumnIndex), Convert.ToInt32(grades[i].RowIndex)].Value = grades[i].Number.ToString("0.0");
                                 }
                             }
+
+                            index = (from row in dgvGrades.Rows.Cast<DataGridViewRow>()
+                                     where row.Cells[dgvGrades.ColumnCount - 1].Value != null && row.Cells[dgvGrades.ColumnCount - 1].Value.ToString().Length > 0
+                                     select row.Index).First();
                         }
                     }
-                    
-                    index = (from row in dgvGrades.Rows.Cast<DataGridViewRow>()
-                             where row.Cells[dgvGrades.ColumnCount - 1].Value != null && row.Cells[dgvGrades.ColumnCount - 1].Value.ToString().Length > 0
-                             select row.Index).First();
 
                     if (index != -1)
                     {
@@ -252,29 +260,35 @@ namespace SamenSterk.Views
         private void btnAddSubject_Click(object sender, EventArgs e)
         {
             int result = 0;
-
-            if (!string.IsNullOrWhiteSpace(txtSubjectName.Text))
+            if (selectedUser.Id == currentUser.Id)
             {
-                result = subjectController.Create(new Subject()
+                if (!string.IsNullOrWhiteSpace(txtSubjectName.Text))
                 {
-                    RowIndex = Convert.ToUInt32(dgvGrades.RowCount),
-                    UserId = selectedUser.Id,
-                    Name = txtSubjectName.Text
-                });
+                    result = subjectController.Create(new Subject()
+                    {
+                        RowIndex = Convert.ToUInt32(dgvGrades.RowCount),
+                        UserId = selectedUser.Id,
+                        Name = txtSubjectName.Text
+                    });
 
-                if (result != 2)
-                {
-                    LoadToGrid(typeof(Grade));
-                    lblInsertName.Visible = false;
+                    if (result != 2)
+                    {
+                        LoadToGrid(typeof(Grade));
+                        lblInsertName.Visible = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
+                    lblInsertName.Visible = true;
                 }
             }
             else
             {
-                lblInsertName.Visible = true;
+                MessageBox.Show("Kan vaken voor andere gebruikers niet toevoegen.");
             }
 
             txtSubjectName.Text = "";
@@ -287,13 +301,20 @@ namespace SamenSterk.Views
         /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
         void dgvGrades_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            Subject model = (from subject in subjects 
-                             where subject.RowIndex == Convert.ToUInt32(e.RowIndex)
-                             select subject).FirstOrDefault();
+            if (selectedUser.Id == currentUser.Id)
+            {
+                Subject model = (from subject in subjects
+                                 where subject.RowIndex == Convert.ToUInt32(e.RowIndex)
+                                 select subject).FirstOrDefault();
 
-            EditSubject editSubject = new EditSubject(model);
-            editSubject.ShowDialog();
-            LoadToGrid(typeof(Grade));
+                EditSubject editSubject = new EditSubject(model);
+                editSubject.ShowDialog();
+                LoadToGrid(typeof(Grade));
+            }
+            else
+            {
+                MessageBox.Show("Kan vaken voor andere gebruikers niet wijzigen.");
+            }
         }
 
         /// <summary>
@@ -321,69 +342,73 @@ namespace SamenSterk.Views
         {
             if (e.ColumnIndex > -1 && subjects.Count == dgvGrades.RowCount)
             {
-                string.IsNullOrEmpty(dgvGrades[0, 0].Value.ToString());
-
-                int result = 0;
-                Grade query = (from grade in grades
-                               where grade.RowIndex == Convert.ToUInt32(e.RowIndex) && grade.ColumnIndex == Convert.ToUInt32(e.ColumnIndex)
-                               select grade).FirstOrDefault();
-
-                if (query == null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == false)
+                if (selectedUser.Id == currentUser.Id)
                 {
-                    float number;
-                    string value =  dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString();
-                    Single.TryParse(value, out number);
+                    int result = 0;
+                    Grade query = (from grade in grades
+                                   where grade.RowIndex == Convert.ToUInt32(e.RowIndex) && grade.ColumnIndex == Convert.ToUInt32(e.ColumnIndex)
+                                   select grade).FirstOrDefault();
 
-                    if (number > 10.0 || number < 1.0)
+                    if (query == null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == false)
                     {
-                        number = 1.0f;
+                        float number;
+                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString();
+                        Single.TryParse(value, out number);
+
+                        if (number > 10.0 || number < 1.0)
+                        {
+                            number = 1.0f;
+                        }
+
+                        result = gradeController.Create(new Grade()
+                        {
+                            ColumnIndex = Convert.ToUInt32(e.ColumnIndex),
+                            RowIndex = Convert.ToUInt32(e.RowIndex),
+                            UserId = selectedUser.Id,
+                            Number = (float)Math.Round(number, 1)
+                        });
+
+                        if (result == 0)
+                        {
+                            MessageBox.Show("Kon het cijfer niet toevoegen.");
+                        }
+                    }
+                    else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == true)
+                    {
+                        result = gradeController.Delete(query);
+
+                        if (result == 0)
+                        {
+                            MessageBox.Show("Kon het cijfer niet verwijderen.");
+                        }
+                    }
+                    else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) != true)
+                    {
+                        float number;
+                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString();
+                        Single.TryParse(value, out number);
+
+                        if (number > 10.0 || number < 1.0)
+                        {
+                            number = 1.0f;
+                        }
+
+                        query.Number = Convert.ToSingle(Convert.ToDecimal(number).ToString("0.0"));
+                        result = gradeController.Edit(query);
+
+                        if (result == 0)
+                        {
+                            MessageBox.Show("Kon het cijfer niet wijzigen.");
+                        }
                     }
 
-                    result = gradeController.Create(new Grade()
-                    {
-                        ColumnIndex = Convert.ToUInt32(e.ColumnIndex),
-                        RowIndex = Convert.ToUInt32(e.RowIndex),
-                        UserId = selectedUser.Id,
-                        Number = (float)Math.Round(number, 1)
-                    });
-
-                    if (result == 0)
-                    {
-                        MessageBox.Show("Kon het cijfer niet toevoegen.");
-                    }
+                    LoadToGrid(typeof(Grade));
                 }
-                else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == true)
-                {
-                    result = gradeController.Delete(query);
-
-                    if (result == 0)
-                    {
-                        MessageBox.Show("Kon het cijfer niet verwijderen.");
-                    }
-                }
-                else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) != true)
-                {
-                    float number;
-                    string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString();
-                    Single.TryParse(value, out number);
-
-                    if (number > 10.0 || number < 1.0)
-                    {
-                        number = 1.0f;
-                    }
-
-                    query.Number = Convert.ToSingle(Convert.ToDecimal(number).ToString("0.0"));
-                    result = gradeController.Edit(query);
-
-                    if (result == 0)
-                    {
-                        MessageBox.Show("Kon het cijfer niet wijzigen.");
-                    }
-                }
-
-                LoadToGrid(typeof(Grade));
             }
-
+            else
+            {
+                MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
+            }
         }
         #endregion Grade eventhandlers
 
@@ -449,14 +474,13 @@ namespace SamenSterk.Views
                                       select task).FirstOrDefault();
 
                     RepeatingTask repeatingTaskQuery = (from repeatingTask in repeatingTasks
-                                                        where repeatingTask.Day == Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText).ToString("dddd")
+                                                        where repeatingTask.Day == Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText).ToString("dddd") && repeatingTask.Time.ToString(@"h\:mm") == dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()
                                                         select repeatingTask).FirstOrDefault();
 
                     if (selectedUser.Id == currentUser.Id)
                     {
                         if (taskQuery != null)
                         {
-
                             EditTask editTask = new EditTask(new Task() { Id = taskQuery.Id, UserId = currentUser.Id, Title = taskQuery.Title, Duration = taskQuery.Duration, Label = taskQuery.Label }, Convert.ToDateTime(dgvShedule.Columns[cellPos[1]].HeaderText + " " + dgvShedule.Rows[cellPos[0]].HeaderCell.Value.ToString()));
                             editTask.ShowDialog();
                             LoadToGrid(typeof(Task));
@@ -547,7 +571,7 @@ namespace SamenSterk.Views
         /// Occurs before the form is closed.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
         void Shedule_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (logout != true)
@@ -580,16 +604,19 @@ namespace SamenSterk.Views
                 case "Rooster":
                     btnPrevious.Enabled = true;
                     btnNext.Enabled = true;
+                    selectedTabIndex = 0;
                     LoadToGrid(typeof(Task));
                     break;
                 case "Cijfers":
                     btnPrevious.Enabled = false;
                     btnNext.Enabled = false;
+                    selectedTabIndex = 1;
                     LoadToGrid(typeof(Grade));
                     break;
                 case "Belangrijke Afspraken":
                     btnPrevious.Enabled = false;
                     btnNext.Enabled = false;
+                    selectedTabIndex = 2;
                     LoadToGrid(typeof(Appointment));
                     break;
                 default:
@@ -639,13 +666,40 @@ namespace SamenSterk.Views
 
                 if (selected != null)
                 {
-                    LoadToGrid(typeof(Task));
+                    switch (selectedTabIndex)
+                    {
+                        case 0:
+                            LoadToGrid(typeof(Task));
+                            break;
+                        case 1:
+                            LoadToGrid(typeof(Grade));
+                            break;
+                        case 2:
+                            LoadToGrid(typeof(Appointment));
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
             else
             {
                 this.selectedUser = currentUser;
-                LoadToGrid(typeof(Task));
+
+                switch (selectedTabIndex)
+                {
+                    case 0:
+                        LoadToGrid(typeof(Task));
+                        break;
+                    case 1:
+                        LoadToGrid(typeof(Grade));
+                        break;
+                    case 2:
+                        LoadToGrid(typeof(Appointment));
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         #endregion Global eventhandlers

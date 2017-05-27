@@ -9,9 +9,9 @@ namespace SamenSterk.Views
     {
         private TaskController taskController;
         private RepeatingTaskController repeatingTaskController;
-        private Task task;
+        private Task taskModel;
+        private RepeatingTask repeatingTaskModel;
         private int result;
-        private RepeatingTask repeatingTask;
         private DateTime dateTime;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace SamenSterk.Views
         {
             InitializeComponent();
             this.dateTime = dateTime;
-            this.task = new Task()
+            this.taskModel = new Task()
             {
                 Id = model.Id,
                 UserId = model.UserId,
@@ -51,7 +51,7 @@ namespace SamenSterk.Views
         {
             InitializeComponent();
             this.dateTime = dateTime;
-            this.repeatingTask = new RepeatingTask()
+            this.repeatingTaskModel = new RepeatingTask()
             {
                 Id = model.Id,
                 UserId = model.UserId,
@@ -70,6 +70,11 @@ namespace SamenSterk.Views
             result = 0;
         }
 
+        /// <summary>
+        /// Occurs when the Button control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnEditTask_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtTitle.Text))
@@ -84,29 +89,29 @@ namespace SamenSterk.Views
 
             if (cbRepeating.Checked == false)
             {
-                if (task != null)
+                if (taskModel != null)
                 {
-                    this.task.Duration = Convert.ToByte(nudDuration.Value);
-                    this.task.Title = txtTitle.Text;
-                    this.task.Label = txtLabel.Text;
-                    result = taskController.Exceeds(task);
+                    this.taskModel.Duration = Convert.ToByte(nudDuration.Value);
+                    this.taskModel.Title = txtTitle.Text;
+                    this.taskModel.Label = txtLabel.Text;
+                    result = taskController.Exceeds(taskModel);
 
                     if (result != 0 && result != 2)
                     {
-                        result = taskController.Edit(task);
+                        result = taskController.Edit(taskModel);
                     }
                 }
                 else
                 {
-                    task = new Task()
+                    Task task = new Task()
                     {
-                        UserId = repeatingTask.UserId,
+                        UserId = repeatingTaskModel.UserId,
                         Title = txtTitle.Text,
                         Date = dateTime,
                         Duration = Convert.ToByte(nudDuration.Value),
                         Label = txtLabel.Text
                     };
-                    repeatingTaskController.Delete(repeatingTask);
+                    repeatingTaskController.Delete(repeatingTaskModel);
                     result = taskController.Exceeds(task);
 
                     if (result != 0 && result != 2)
@@ -117,31 +122,31 @@ namespace SamenSterk.Views
             }
             else
             {
-                if (repeatingTask != null)
+                if (repeatingTaskModel != null)
                 {
-                    this.repeatingTask.Duration = Convert.ToByte(nudDuration.Value);
-                    this.repeatingTask.Title = txtTitle.Text;
-                    this.repeatingTask.Label = txtLabel.Text;
-                    this.repeatingTask.Time = dateTime.TimeOfDay;
-                    result = repeatingTaskController.Exceeds(repeatingTask);
+                    this.repeatingTaskModel.Duration = Convert.ToByte(nudDuration.Value);
+                    this.repeatingTaskModel.Title = txtTitle.Text;
+                    this.repeatingTaskModel.Label = txtLabel.Text;
+                    this.repeatingTaskModel.Time = dateTime.TimeOfDay;
+                    result = repeatingTaskController.Exceeds(repeatingTaskModel);
 
                     if (result != 0 && result != 2)
                     {
-                        result = repeatingTaskController.Edit(repeatingTask);
+                        result = repeatingTaskController.Edit(repeatingTaskModel);
                     }
                 }
                 else
                 {
-                    repeatingTask = new RepeatingTask()
+                    RepeatingTask repeatingTask = new RepeatingTask()
                     {
-                        UserId = task.UserId,
+                        UserId = taskModel.UserId,
                         Title = txtTitle.Text,
                         Day = dateTime.ToString("dddd"),
                         Time = dateTime.TimeOfDay,
                         Duration = Convert.ToByte(nudDuration.Value),
                         Label = txtLabel.Text
                     };
-                    taskController.Delete(task);
+                    taskController.Delete(taskModel);
                     result = repeatingTaskController.Exceeds(repeatingTask);
 
                     if (result != 0 && result != 2)
@@ -161,19 +166,24 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when the Button control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Weet je het zeker?", "Taak verwijderen", MessageBoxButtons.YesNo);
 
             if (dialogResult == DialogResult.Yes)
             {
-                if (task != null)
+                if (taskModel != null)
                 {
-                    taskController.Delete(task);
+                    taskController.Delete(taskModel);
                 }
-                if (repeatingTask != null)
+                if (repeatingTaskModel != null)
                 {
-                    repeatingTaskController.Delete(repeatingTask);
+                    repeatingTaskController.Delete(repeatingTaskModel);
                 }
                 this.Close();
             }
