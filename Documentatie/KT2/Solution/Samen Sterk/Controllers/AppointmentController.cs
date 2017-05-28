@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SamenSterk.Controllers
 {
-    public class AppointmentController
+    public class AppointmentController : ControllerBase
     {
         private Appointment appointment = null;
 

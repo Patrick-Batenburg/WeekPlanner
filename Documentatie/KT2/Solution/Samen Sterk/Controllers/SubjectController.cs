@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SamenSterk.Controllers
 {
-    public class SubjectController
+    public class SubjectController : ControllerBase
     {
         private Subject subject;
 
