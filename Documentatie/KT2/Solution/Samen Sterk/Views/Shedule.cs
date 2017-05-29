@@ -59,7 +59,6 @@ namespace SamenSterk.Views
             dgvGrades.AllowUserToAddRows = false;
             dgvGrades.ColumnHeadersVisible = false;
             dgvAppointments.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dgvAppointments.AllowUserToAddRows = false;
             tasks = taskController.Details(model.Id);
             repeatingTasks = repeatingTaskController.Details(model.Id);
             tabControl.Selected += tabControl_Selected;
@@ -381,7 +380,7 @@ namespace SamenSterk.Views
                             MessageBox.Show("Kon het cijfer niet toevoegen.");
                         }
                     }
-                    else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == true)
+                    else if (query != null && dgvGrades[e.ColumnIndex, e.RowIndex].Value == null)
                     {
                         result = gradeController.Delete(query);
 
@@ -393,7 +392,7 @@ namespace SamenSterk.Views
                     else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) != true)
                     {
                         float number;
-                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString();
+                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(',', '.');
                         Single.TryParse(value, out number);
 
                         if (number > 10.0 || number < 1.0)
@@ -401,7 +400,7 @@ namespace SamenSterk.Views
                             number = 1.0f;
                         }
 
-                        query.Number = Convert.ToSingle(Convert.ToDecimal(number).ToString("0.0"));
+                        query.Number = (float)Math.Round(number, 1);
                         result = gradeController.Edit(query);
 
                         if (result == 0)
@@ -564,12 +563,26 @@ namespace SamenSterk.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            DateTime lastDate = Convert.ToDateTime(dgvShedule.Columns[6].HeaderText).AddDays(1);
+            DateTime lastDate = Convert.ToDateTime(dgvShedule.Columns[6].HeaderText);
 
-            for (int i = 0; i < 7; i++)
+            if (lastDate <= DateTime.MaxValue.AddDays(-6))
             {
-                dgvShedule.Columns[i].HeaderText = lastDate.AddDays(i).ToString("dd-MM-yyyy");
-                LoadToGrid(typeof(Task));
+                lastDate = Convert.ToDateTime(dgvShedule.Columns[6].HeaderText).AddDays(1);
+
+                for (int i = 0; i < 7; i++)
+                {
+                    dgvShedule.Columns[i].HeaderText = lastDate.AddDays(i).ToString("dd-MM-yyyy");
+                    LoadToGrid(typeof(Task));
+                }
+            }
+            else
+            {
+                lastDate = Convert.ToDateTime(dgvShedule.Columns[6].HeaderText);
+                for (int i = 0; i < 7; i++)
+                {
+                    dgvShedule.Columns[i].HeaderText = DateTime.MaxValue.AddDays(-6).AddDays(i).ToString("dd-MM-yyyy");
+                    LoadToGrid(typeof(Task));
+                }
             }
         }
         #endregion Task eventhandlers
