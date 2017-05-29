@@ -46,7 +46,7 @@ namespace SamenSterk.Controllers
                             {
                                 Id = _appointment.Id,
                                 UserId = _appointment.UserId,
-                                Description = _appointment.Description,
+                                Name = _appointment.Name,
                                 Date = _appointment.Date
                             };
 

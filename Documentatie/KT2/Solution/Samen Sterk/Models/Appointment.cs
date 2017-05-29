@@ -8,7 +8,7 @@ namespace SamenSterk.Models
     {
         private uint id;
         private uint userId;
-        private string description;
+        private string name;
         private DateTime date;
 
         /// <summary>
@@ -24,10 +24,10 @@ namespace SamenSterk.Models
         /// <param name="userId">User id of the the Appointment object.</param>
         /// <param name="description">Description of the the Appointment object.</param>
         /// <param name="date">Date of the the Appointment object.</param>
-        public Appointment(uint userId, string description, DateTime date)
+        public Appointment(uint userId, string name, DateTime date)
         {
             this.userId = userId;
-            this.description = description;
+            this.name = name;
             this.date = date;
         }
 
@@ -62,13 +62,13 @@ namespace SamenSterk.Models
         /// <summary>
         /// Gets/Sets the description of the Appointment object.
         /// </summary>
-        [Column(Name = "Description"), NotNull]
-        public string Description
+        [Column(Name = "Name"), NotNull]
+        public string Name
         {
-            get { return description; }
+            get { return name; }
             set
             {
-                description = value;
+                name = value;
                 OnPropertyChanged("Description");
             }
         }
