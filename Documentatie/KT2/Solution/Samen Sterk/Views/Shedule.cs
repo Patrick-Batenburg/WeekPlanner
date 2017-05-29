@@ -3,6 +3,7 @@ using SamenSterk.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -360,7 +361,7 @@ namespace SamenSterk.Views
                     {
                         float number;
                         string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(',', '.');
-                        Single.TryParse(value, out number);
+                        number = float.Parse(value, CultureInfo.InvariantCulture);
 
                         if (number > 10.0 || number < 1.0)
                         {
@@ -393,7 +394,7 @@ namespace SamenSterk.Views
                     {
                         float number;
                         string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(',', '.');
-                        Single.TryParse(value, out number);
+                        number = float.Parse(value, CultureInfo.InvariantCulture);
 
                         if (number > 10.0 || number < 1.0)
                         {
