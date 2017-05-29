@@ -57,8 +57,9 @@ namespace SamenSterk.Views
             {
                 startDateTimePicker.Value = DateTime.Today;
             }
-
             shedule.startDate = startDateTimePicker.Value;
+
+            shedule.SetHeaderDate();
             this.Close();
         }
     }

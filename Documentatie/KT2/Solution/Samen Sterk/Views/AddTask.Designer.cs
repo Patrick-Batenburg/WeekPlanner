@@ -52,7 +52,7 @@
             // 
             this.txtTitle.Location = new System.Drawing.Point(15, 25);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(133, 20);
+            this.txtTitle.Size = new System.Drawing.Size(157, 20);
             this.txtTitle.TabIndex = 1;
             // 
             // lblDuration
@@ -77,7 +77,7 @@
             // 
             this.txtLabel.Location = new System.Drawing.Point(15, 106);
             this.txtLabel.Name = "txtLabel";
-            this.txtLabel.Size = new System.Drawing.Size(133, 20);
+            this.txtLabel.Size = new System.Drawing.Size(157, 20);
             this.txtLabel.TabIndex = 5;
             // 
             // cbRepeating
@@ -92,7 +92,7 @@
             // 
             // btnAddTask
             // 
-            this.btnAddTask.Location = new System.Drawing.Point(29, 156);
+            this.btnAddTask.Location = new System.Drawing.Point(45, 156);
             this.btnAddTask.Name = "btnAddTask";
             this.btnAddTask.Size = new System.Drawing.Size(107, 23);
             this.btnAddTask.TabIndex = 7;
@@ -114,7 +114,7 @@
             0,
             0});
             this.nudDuration.Name = "nudDuration";
-            this.nudDuration.Size = new System.Drawing.Size(132, 20);
+            this.nudDuration.Size = new System.Drawing.Size(156, 20);
             this.nudDuration.TabIndex = 8;
             this.nudDuration.Value = new decimal(new int[] {
             1,
@@ -126,7 +126,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(160, 187);
+            this.ClientSize = new System.Drawing.Size(184, 187);
             this.Controls.Add(this.nudDuration);
             this.Controls.Add(this.btnAddTask);
             this.Controls.Add(this.cbRepeating);

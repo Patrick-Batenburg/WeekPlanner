@@ -52,7 +52,6 @@ namespace SamenSterk.Views
             subjectController = new SubjectController();
             appointmentController = new AppointmentController();
             dgvShedule.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dgvShedule.ColumnHeaderMouseDoubleClick += dgvShedule_ColumnHeaderMouseDoubleClick;
             dgvGrades.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dgvGrades.RowHeaderMouseDoubleClick += dgvGrades_RowHeaderMouseDoubleClick;
             dgvGrades.MouseUp += dgvGrades_MouseUp;
@@ -88,6 +87,7 @@ namespace SamenSterk.Views
                 cbUsernames.DropDownStyle = ComboBoxStyle.DropDownList;
                 cbUsernames.SelectedIndex = 0;
             }
+            LoadToGrid(typeof(Task));
         }
 
         /// <summary>
@@ -517,17 +517,19 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
-        private void dgvShedule_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvShedule_ColumnHeaderMouseDoubleClick_1(object sender, DataGridViewCellMouseEventArgs e)
         {
             EditSchedule editSchedule = new EditSchedule(this, Convert.ToDateTime(this.dgvShedule.Columns[0].HeaderText));
             editSchedule.ShowDialog();
 
+            LoadToGrid(typeof(Task));
+        }
+        public void SetHeaderDate()
+        {
             for (int i = 0; i < 7; i++)
             {
                 dgvShedule.Columns[i].HeaderText = startDate.AddDays(i).ToString("dd-MM-yyyy");
             }
-
-            LoadToGrid(typeof(Task));
         }
 
         /// <summary>
@@ -538,22 +540,19 @@ namespace SamenSterk.Views
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             DateTime firstDate = Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-1);
-
+            DateTime dateTime;
             if (Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-7) > DateTime.Today)
             {
-                for (int i = 0; i < 7; i++)
-                {
-                    dgvShedule.Columns[6 - i].HeaderText = firstDate.AddDays(-i).ToString("dd-MM-yyyy");
-                    LoadToGrid(typeof(Task));
-                }
+                dateTime = firstDate;
             }
             else
             {
-                for (int i = 0; i < 7; i++)
-                {
-                    dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("dd-MM-yyyy");
-                    LoadToGrid(typeof(Task));
-                }
+                dateTime = DateTime.Today;
+            }
+            for (int i = 0; i < 7; i++)
+            {
+                dgvShedule.Columns[6 - i].HeaderText = dateTime.AddDays(-i).ToString("dd-MM-yyyy");
+                LoadToGrid(typeof(Task));
             }
         }
 
@@ -711,5 +710,6 @@ namespace SamenSterk.Views
             }
         }
         #endregion Global eventhandlers
+
     }
 }

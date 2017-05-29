@@ -65,7 +65,7 @@
             this.lblRegister.Location = new System.Drawing.Point(57, 217);
             this.lblRegister.Name = "lblRegister";
             this.lblRegister.Size = new System.Drawing.Size(55, 13);
-            this.lblRegister.TabIndex = 2;
+            this.lblRegister.TabIndex = 7;
             this.lblRegister.Text = "Registreer";
             this.lblRegister.Click += new System.EventHandler(this.lblRegister_Click);
             // 
@@ -75,6 +75,7 @@
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(100, 20);
             this.txtUsername.TabIndex = 4;
+            this.txtUsername.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUsername_KeyPress);
             // 
             // txtPassword
             // 
@@ -83,6 +84,7 @@
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
             this.txtPassword.TabIndex = 5;
+            this.txtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPassword_KeyPress);
             // 
             // btnLogin
             // 
@@ -109,7 +111,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(178, 242);
+            this.ClientSize = new System.Drawing.Size(184, 242);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);

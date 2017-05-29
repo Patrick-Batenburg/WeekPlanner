@@ -66,5 +66,21 @@ namespace SamenSterk.Views
         {
             Application.Exit();
         }
+
+        private void txtUsername_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                txtPassword.Select();
+            }
+        }
+
+        private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnLogin_Click(sender, e);
+            }
+        }
     }
 }
