@@ -84,6 +84,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditSchedule";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wijzig datum";
             this.ResumeLayout(false);
             this.PerformLayout();

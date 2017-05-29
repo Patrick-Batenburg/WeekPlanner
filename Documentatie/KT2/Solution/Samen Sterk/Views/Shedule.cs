@@ -15,11 +15,13 @@ namespace SamenSterk.Views
         public User selectedUser;
         private int[] cellPos;
         private bool logout;
+
         private List<Task> tasks;
         private List<RepeatingTask> repeatingTasks;
         private List<Grade> grades;
         private List<Subject> subjects;
         private List<Appointment> appointments;
+
         private TaskController taskController;
         private RepeatingTaskController repeatingTaskController;
         private UserController userController;
@@ -40,20 +42,22 @@ namespace SamenSterk.Views
             this.FormClosing += Shedule_FormClosing;
             cellPos = new int[2];
             logout = false;
+
             tasks = new List<Task>();
             repeatingTasks = new List<RepeatingTask>();
             grades = new List<Grade>();
             subjects = new List<Subject>();
             appointments = new List<Appointment>();
+
             taskController = new TaskController();
             repeatingTaskController = new RepeatingTaskController();
             userController = new UserController();
             gradeController = new GradeController();
             subjectController = new SubjectController();
             appointmentController = new AppointmentController();
+
             dgvShedule.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvGrades.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dgvGrades.RowHeaderMouseDoubleClick += dgvGrades_RowHeaderMouseDoubleClick;
             dgvGrades.MouseUp += dgvGrades_MouseUp;
             dgvGrades.AllowUserToAddRows = false;
             dgvGrades.ColumnHeadersVisible = false;
@@ -73,6 +77,7 @@ namespace SamenSterk.Views
                 dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("dd-MM-yyyy");
             }
 
+            lblUsername.Text = model.Username;
             if (model.Role != "Admin")
             {
                 lblViewUser.Visible = false;
@@ -140,7 +145,8 @@ namespace SamenSterk.Views
 
                             for (byte i = 0; i <= element.Duration - 1; i++)
                             {
-                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.BackColor = Color.Gray;
+                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.BackColor = ColorTranslator.FromHtml("#673AB7");
+                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.ForeColor = Color.White;
                             }
 
                             rowIndex = 0;
@@ -154,6 +160,7 @@ namespace SamenSterk.Views
                         {
                             for (byte i = 0; i < 17; i++)
                             {
+                                //Checks if the header time is longer than 4 characters
                                 if (dgvShedule.Rows[i].HeaderCell.Value.ToString().Length == 4)
                                 {
                                     if (Convert.ToInt32(dgvShedule.Rows[i].HeaderCell.Value.ToString().Substring(0, 1)) == element.Time.Hours)
@@ -182,7 +189,8 @@ namespace SamenSterk.Views
 
                             for (byte i = 0; i <= element.Duration - 1; i++)
                             {
-                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.BackColor = Color.Gray;
+                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.BackColor = ColorTranslator.FromHtml("#7986CB");
+                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.ForeColor = Color.White;
                             }
 
                             rowIndex = 0;
