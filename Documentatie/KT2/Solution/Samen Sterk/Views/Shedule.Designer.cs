@@ -243,7 +243,9 @@
             this.dgvAppointments.Name = "dgvAppointments";
             this.dgvAppointments.Size = new System.Drawing.Size(782, 397);
             this.dgvAppointments.TabIndex = 0;
-            this.dgvAppointments.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellClick);
+            this.dgvAppointments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellDoubleClick);
+            this.dgvAppointments.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellValueChanged);
+            this.dgvAppointments.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvAppointments_MouseUp);
             // 
             // columnName2
             // 

@@ -12,6 +12,7 @@ namespace SamenSterk.Views
     public partial class Shedule : Form
     {
         public DateTime startDate;
+        public DateTime appointmentDate;
         public User currentUser;
         public User selectedUser;
         private int[] cellPos;
@@ -30,8 +31,6 @@ namespace SamenSterk.Views
         private SubjectController subjectController;
         private AppointmentController appointmentController;
         private byte selectedTabIndex;
-        private DateTimePicker datePicker;
-        private DateTimePicker timePicker;
 
         /// <summary>
         /// Initializes a new instance of the form Shedule class.
@@ -65,6 +64,8 @@ namespace SamenSterk.Views
             dgvGrades.AllowUserToAddRows = false;
             dgvGrades.ColumnHeadersVisible = false;
             dgvAppointments.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvAppointments.Columns[1].ReadOnly = true;
+
             tasks = taskController.Details(model.Id);
             repeatingTasks = repeatingTaskController.Details(model.Id);
             tabControl.Selected += tabControl_Selected;
@@ -484,7 +485,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
-        void dgvGrades_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvGrades_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (selectedUser.Id == currentUser.Id)
             {
@@ -507,7 +508,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
-        void dgvGrades_MouseUp(object sender, MouseEventArgs e)
+        private void dgvGrades_MouseUp(object sender, MouseEventArgs e)
         {
             //exits edit mode when editing grades
             if (e.Button == MouseButtons.Left)
@@ -610,44 +611,163 @@ namespace SamenSterk.Views
         #endregion Grade eventhandlers
 
         #region Appointment eventhandlers
-
-        //{
-        //    if (e.ColumnIndex == 1 && e.RowIndex > -1)
-        //    {
-        //        datePicker = new DateTimePicker();
-        //        timePicker = new DateTimePicker();
-        //        dgvAppointments.Controls.Add(datePicker);
-        //        dgvAppointments.Controls.Add(timePicker);
-        //        datePicker.Format = DateTimePickerFormat.Custom;
-        //        datePicker.CustomFormat = "dd-MM-yyyy";
-        //        timePicker.Format = DateTimePickerFormat.Custom;
-        //        timePicker.CustomFormat = "hh:mm";
-        //        timePicker.ShowUpDown = true;
-        //        Rectangle Rectangle = dgvAppointments.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-        //        datePicker.Size = new Size(Rectangle.Width / 2, Rectangle.Height);
-        //        datePicker.Location = new Point(Rectangle.X, Rectangle.Y);
-        //        timePicker.Size = new Size(Rectangle.Width / 2, Rectangle.Height);
-        //        timePicker.Location = new Point(Rectangle.X + Rectangle.Width / 2, Rectangle.Height);
-
-        //        datePicker.CloseUp += new EventHandler(dateTimePicker_CloseUp);
-        //        datePicker.TextChanged += new EventHandler(dateTimePicker_OnTextChange);
-
-
-        //        datePicker.Visible = true;
-        //    }
-        //}
-        //private void dateTimePicker_OnTextChange(object sender, EventArgs e)
-        //{
-        //    dgvAppointments.CurrentCell.Value = (datePicker.Value.Date + timePicker.Value.TimeOfDay).ToString("dd-MM-yyyy hh:mm");
-        //}
-        //void dateTimePicker_CloseUp(object sender, EventArgs e)
-        //{
-        //    datePicker.Visible = false;
-        //    timePicker.Visible = false;
-        //} 
-        private void dgvAppointments_CellClick(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// Occurs when the user double-clicks anywhere in a cell.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvAppointments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.ColumnIndex > -1 && e.RowIndex > -1)
+            {
+                if (e.ColumnIndex == 1)
+                {
+                    EditAppointment editAppointment = new EditAppointment(this, new DateTime(2000, 5, 3));
+                    editAppointment.ShowDialog();
+                }
+            }
+        }
 
+        /// <summary>
+        /// Occurs when the mouse pointer is over the control and a mouse button is released.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
+        private void dgvAppointments_MouseUp(object sender, MouseEventArgs e)
+        {
+            //exits edit mode when editing grades
+            if (e.Button == MouseButtons.Left)
+            {
+                if (dgvAppointments.HitTest(e.X, e.Y) == System.Windows.Forms.DataGridView.HitTestInfo.Nowhere)
+                {
+                    dgvAppointments.EndEdit();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the value of a cell changes.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
+        private void dgvAppointments_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (selectedUser.Id == currentUser.Id)
+            {
+                if (e.ColumnIndex > -1 && e.RowIndex > -1)
+                {
+                    int result = 0;
+                    Appointment query = null;
+
+                    switch (e.ColumnIndex)
+                    {
+                        case 0:
+                            result = 0;
+                            query = null;
+
+                            if (dgvAppointments[e.ColumnIndex, e.RowIndex].Value != null)
+                            {
+                                query = (from appointment in appointments
+                                         where appointment.Name == dgvAppointments[e.ColumnIndex, e.RowIndex].Value.ToString() && appointment.Date == Convert.ToDateTime(dgvAppointments[1, e.RowIndex].Value)
+                                         select appointment).FirstOrDefault();
+                            }
+
+                            if (query == null)
+                            {
+                                //adds the appointment
+                                result = appointmentController.Create(new Appointment()
+                                {
+                                    UserId = selectedUser.Id,
+                                    Name = dgvAppointments[e.ColumnIndex, e.RowIndex].Value.ToString(),
+                                    Date = DateTime.MinValue
+                                });
+
+                                if (result == 0)
+                                {
+                                    MessageBox.Show("Kon de afspraak niet toevoegen.");
+                                }
+                            }
+                            else if (query != null && dgvGrades[e.ColumnIndex, e.RowIndex].Value == null)
+                            {
+                                //deletes the appointment
+                                result = appointmentController.Delete(query);
+
+                                if (result == 0)
+                                {
+                                    MessageBox.Show("Kon de afspraak niet verwijderen.");
+                                }
+                            }
+                            else if (query != null)
+                            {
+                                //edits the appointment
+                                query.Name = dgvAppointments[e.ColumnIndex, e.RowIndex].Value.ToString();
+                                result = appointmentController.Edit(query);
+
+                                if (result == 0)
+                                {
+                                    MessageBox.Show("Kon de afspraak niet wijzigen.");
+                                }
+                            }
+                            break;
+                        case 1:
+                            result = 0;
+                            query = null;
+
+                            if (dgvAppointments[0, e.RowIndex].Value != null)
+                            {
+                                query = (from appointment in appointments
+                                         where appointment.Name == dgvAppointments[0, e.RowIndex].Value.ToString() && appointment.Date == Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)
+                                         select appointment).FirstOrDefault();
+                            }
+
+                            if (query == null)
+                            {
+                                //adds the appointment
+                                result = appointmentController.Create(new Appointment()
+                                {
+                                    UserId = selectedUser.Id,
+                                    Name = "[Geen naam]",
+                                    Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)
+                                });
+
+                                if (result == 0)
+                                {
+                                    MessageBox.Show("Kon de afspraak niet toevoegen.");
+                                }
+                            }
+                            else if (query != null && dgvGrades[0, e.RowIndex].Value == null)
+                            {
+                                //deletes the appointment
+                                result = appointmentController.Delete(query);
+
+                                if (result == 0)
+                                {
+                                    MessageBox.Show("Kon de afspraak niet verwijderen.");
+                                }
+                            }
+                            else if (query != null)
+                            {
+                                //edits the appointment
+                                query.Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value);
+                                result = appointmentController.Edit(query);
+
+                                if (result == 0)
+                                {
+                                    MessageBox.Show("Kon de afspraak niet wijzigen.");
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    LoadToGrid(typeof(Appointment));
+                }
+            }
+            else
+            {
+                MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
+            }
         }
         #endregion Appointment eventhandlers
 
@@ -657,7 +777,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
-        void Shedule_FormClosing(object sender, FormClosingEventArgs e)
+        private void Shedule_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (logout != true)
             {
@@ -682,7 +802,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="TabControlEventArgs"/> instance containing the event data.</param> 
-        void tabControl_Selected(object sender, TabControlEventArgs e)
+        private void tabControl_Selected(object sender, TabControlEventArgs e)
         {
             switch (e.TabPage.Text)
             {
@@ -788,7 +908,5 @@ namespace SamenSterk.Views
             }
         }
         #endregion Global eventhandlers
-
-
     }
 }
