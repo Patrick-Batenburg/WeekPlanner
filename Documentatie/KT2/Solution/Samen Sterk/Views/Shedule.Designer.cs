@@ -46,9 +46,8 @@
             this.dgvGrades = new System.Windows.Forms.DataGridView();
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.dgvAppointments = new System.Windows.Forms.DataGridView();
-            this.columnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnName2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbUsernames = new System.Windows.Forms.ComboBox();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
@@ -238,28 +237,24 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvAppointments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAppointments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.columnDate,
             this.columnName2,
-            this.columnDuration});
+            this.columnDate});
             this.dgvAppointments.Location = new System.Drawing.Point(0, 0);
             this.dgvAppointments.Name = "dgvAppointments";
             this.dgvAppointments.Size = new System.Drawing.Size(782, 397);
             this.dgvAppointments.TabIndex = 0;
-            // 
-            // columnDate
-            // 
-            this.columnDate.HeaderText = "Datum";
-            this.columnDate.Name = "columnDate";
+            this.dgvAppointments.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellClick);
             // 
             // columnName2
             // 
             this.columnName2.HeaderText = "Naam";
             this.columnName2.Name = "columnName2";
             // 
-            // columnDuration
+            // columnDate
             // 
-            this.columnDuration.HeaderText = "Duur";
-            this.columnDuration.Name = "columnDuration";
+            this.columnDate.HeaderText = "Datum";
+            this.columnDate.Name = "columnDate";
+            this.columnDate.Width = 150;
             // 
             // cbUsernames
             // 
@@ -354,9 +349,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn columnDay6;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnDay7;
         private System.Windows.Forms.DataGridView dgvAppointments;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnName2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnDuration;
         private System.Windows.Forms.Button btnAddSubject;
         private System.Windows.Forms.TextBox txtSubjectName;
         private System.Windows.Forms.Button btnPrevious;
@@ -364,5 +356,7 @@
         private System.Windows.Forms.Label lblInsertName;
         private System.Windows.Forms.Label lblViewUser;
         private System.Windows.Forms.Label lblUsername;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnName2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDate;
     }
 }

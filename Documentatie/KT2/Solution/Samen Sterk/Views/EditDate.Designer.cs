@@ -1,6 +1,6 @@
 ﻿namespace SamenSterk.Views
 {
-    partial class EditSchedule
+    partial class EditDate
     {
         /// <summary>
         /// Required designer variable.
