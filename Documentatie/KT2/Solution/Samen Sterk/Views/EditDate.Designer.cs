@@ -36,27 +36,35 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(8, 51);
+            this.btnCancel.BackColor = System.Drawing.Color.Orchid;
+            this.btnCancel.FlatAppearance.BorderSize = 0;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.ForeColor = System.Drawing.Color.White;
+            this.btnCancel.Location = new System.Drawing.Point(8, 55);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(78, 23);
+            this.btnCancel.Size = new System.Drawing.Size(78, 25);
             this.btnCancel.TabIndex = 18;
             this.btnCancel.Text = "Annuleer";
-            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnEditSchedule
             // 
-            this.btnEditSchedule.Location = new System.Drawing.Point(98, 51);
+            this.btnEditSchedule.BackColor = System.Drawing.Color.Orchid;
+            this.btnEditSchedule.FlatAppearance.BorderSize = 0;
+            this.btnEditSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditSchedule.ForeColor = System.Drawing.Color.White;
+            this.btnEditSchedule.Location = new System.Drawing.Point(98, 55);
             this.btnEditSchedule.Name = "btnEditSchedule";
-            this.btnEditSchedule.Size = new System.Drawing.Size(78, 23);
+            this.btnEditSchedule.Size = new System.Drawing.Size(78, 25);
             this.btnEditSchedule.TabIndex = 17;
             this.btnEditSchedule.Text = "Wijzigen";
-            this.btnEditSchedule.UseVisualStyleBackColor = true;
+            this.btnEditSchedule.UseVisualStyleBackColor = false;
             this.btnEditSchedule.Click += new System.EventHandler(this.btnEditSchedule_Click);
             // 
             // startDateTimePicker
             // 
-            this.startDateTimePicker.Location = new System.Drawing.Point(8, 25);
+            this.startDateTimePicker.Location = new System.Drawing.Point(8, 27);
             this.startDateTimePicker.Name = "startDateTimePicker";
             this.startDateTimePicker.Size = new System.Drawing.Size(168, 20);
             this.startDateTimePicker.TabIndex = 19;
@@ -65,25 +73,28 @@
             // lblStartDate
             // 
             this.lblStartDate.AutoSize = true;
-            this.lblStartDate.Location = new System.Drawing.Point(8, 9);
+            this.lblStartDate.Location = new System.Drawing.Point(8, 10);
             this.lblStartDate.Name = "lblStartDate";
-            this.lblStartDate.Size = new System.Drawing.Size(61, 13);
+            this.lblStartDate.Size = new System.Drawing.Size(62, 14);
             this.lblStartDate.TabIndex = 20;
             this.lblStartDate.Text = "Start datum";
             // 
-            // EditSchedule
+            // EditDate
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(184, 79);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(184, 85);
             this.Controls.Add(this.lblStartDate);
             this.Controls.Add(this.startDateTimePicker);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnEditSchedule);
+            this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "EditSchedule";
+            this.Name = "EditDate";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wijzig datum";
             this.ResumeLayout(false);

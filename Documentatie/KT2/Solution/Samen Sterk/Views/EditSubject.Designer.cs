@@ -36,27 +36,35 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(10, 51);
+            this.btnDelete.BackColor = System.Drawing.Color.Orchid;
+            this.btnDelete.FlatAppearance.BorderSize = 0;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(10, 55);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(78, 23);
+            this.btnDelete.Size = new System.Drawing.Size(78, 25);
             this.btnDelete.TabIndex = 25;
             this.btnDelete.Text = "Verwijderen";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnEditSubject
             // 
-            this.btnEditSubject.Location = new System.Drawing.Point(94, 51);
+            this.btnEditSubject.BackColor = System.Drawing.Color.Orchid;
+            this.btnEditSubject.FlatAppearance.BorderSize = 0;
+            this.btnEditSubject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditSubject.ForeColor = System.Drawing.Color.White;
+            this.btnEditSubject.Location = new System.Drawing.Point(94, 55);
             this.btnEditSubject.Name = "btnEditSubject";
-            this.btnEditSubject.Size = new System.Drawing.Size(78, 23);
+            this.btnEditSubject.Size = new System.Drawing.Size(78, 25);
             this.btnEditSubject.TabIndex = 24;
             this.btnEditSubject.Text = "Wijzigen";
-            this.btnEditSubject.UseVisualStyleBackColor = true;
+            this.btnEditSubject.UseVisualStyleBackColor = false;
             this.btnEditSubject.Click += new System.EventHandler(this.btnEditSubject_Click);
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(10, 25);
+            this.txtName.Location = new System.Drawing.Point(10, 27);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(162, 20);
             this.txtName.TabIndex = 19;
@@ -64,24 +72,27 @@
             // lblSubjectName
             // 
             this.lblSubjectName.AutoSize = true;
-            this.lblSubjectName.Location = new System.Drawing.Point(7, 9);
+            this.lblSubjectName.Location = new System.Drawing.Point(7, 10);
             this.lblSubjectName.Name = "lblSubjectName";
-            this.lblSubjectName.Size = new System.Drawing.Size(56, 13);
+            this.lblSubjectName.Size = new System.Drawing.Size(54, 14);
             this.lblSubjectName.TabIndex = 18;
             this.lblSubjectName.Text = "Naam vak";
             // 
             // EditSubject
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(184, 82);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(184, 88);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEditSubject);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblSubjectName);
+            this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditSubject";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wijzig vak";
             this.ResumeLayout(false);

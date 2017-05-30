@@ -11,6 +11,10 @@ namespace SamenSterk.Views
 {
     public partial class Shedule : Form
     {
+        //color help:
+        //#ffffff //white background
+        //#5a5a5a //black / grey for text
+        //#bd7cbb //purple colors
         public DateTime startDate;
         public User currentUser;
         public User selectedUser;

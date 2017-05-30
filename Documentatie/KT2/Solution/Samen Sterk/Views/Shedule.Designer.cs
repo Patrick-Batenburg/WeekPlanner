@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Shedule));
             this.btnLogout = new System.Windows.Forms.Button();
             this.dgvShedule = new System.Windows.Forms.DataGridView();
             this.columnDay1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,12 +65,17 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(13, 34);
+            this.btnLogout.BackColor = System.Drawing.Color.Orchid;
+            this.btnLogout.FlatAppearance.BorderSize = 0;
+            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogout.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.btnLogout.ForeColor = System.Drawing.Color.White;
+            this.btnLogout.Location = new System.Drawing.Point(13, 37);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(74, 23);
+            this.btnLogout.Size = new System.Drawing.Size(74, 25);
             this.btnLogout.TabIndex = 0;
             this.btnLogout.Text = "Uitloggen";
-            this.btnLogout.UseVisualStyleBackColor = true;
+            this.btnLogout.UseVisualStyleBackColor = false;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // dgvShedule
@@ -93,7 +99,7 @@
             this.dgvShedule.Name = "dgvShedule";
             this.dgvShedule.ReadOnly = true;
             this.dgvShedule.RowHeadersWidth = 70;
-            this.dgvShedule.Size = new System.Drawing.Size(776, 397);
+            this.dgvShedule.Size = new System.Drawing.Size(776, 426);
             this.dgvShedule.TabIndex = 1;
             this.dgvShedule.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellDoubleClick);
             this.dgvShedule.ColumnHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvShedule_ColumnHeaderMouseDoubleClick_1);
@@ -148,19 +154,20 @@
             this.tabControl.Controls.Add(this.tabShedule);
             this.tabControl.Controls.Add(this.tabGrades);
             this.tabControl.Controls.Add(this.tabAppointments);
-            this.tabControl.Location = new System.Drawing.Point(102, 12);
+            this.tabControl.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.tabControl.Location = new System.Drawing.Point(102, 13);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(781, 423);
+            this.tabControl.Size = new System.Drawing.Size(781, 456);
             this.tabControl.TabIndex = 2;
             // 
             // tabShedule
             // 
             this.tabShedule.Controls.Add(this.dgvShedule);
-            this.tabShedule.Location = new System.Drawing.Point(4, 22);
+            this.tabShedule.Location = new System.Drawing.Point(4, 23);
             this.tabShedule.Name = "tabShedule";
             this.tabShedule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabShedule.Size = new System.Drawing.Size(773, 397);
+            this.tabShedule.Size = new System.Drawing.Size(773, 429);
             this.tabShedule.TabIndex = 0;
             this.tabShedule.Text = "Rooster";
             this.tabShedule.UseVisualStyleBackColor = true;
@@ -171,10 +178,10 @@
             this.tabGrades.Controls.Add(this.txtSubjectName);
             this.tabGrades.Controls.Add(this.btnAddSubject);
             this.tabGrades.Controls.Add(this.dgvGrades);
-            this.tabGrades.Location = new System.Drawing.Point(4, 22);
+            this.tabGrades.Location = new System.Drawing.Point(4, 23);
             this.tabGrades.Name = "tabGrades";
             this.tabGrades.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGrades.Size = new System.Drawing.Size(773, 397);
+            this.tabGrades.Size = new System.Drawing.Size(773, 429);
             this.tabGrades.TabIndex = 1;
             this.tabGrades.Text = "Cijfers";
             this.tabGrades.UseVisualStyleBackColor = true;
@@ -183,9 +190,9 @@
             // 
             this.lblInsertName.AutoSize = true;
             this.lblInsertName.ForeColor = System.Drawing.Color.Red;
-            this.lblInsertName.Location = new System.Drawing.Point(195, 12);
+            this.lblInsertName.Location = new System.Drawing.Point(195, 13);
             this.lblInsertName.Name = "lblInsertName";
-            this.lblInsertName.Size = new System.Drawing.Size(90, 13);
+            this.lblInsertName.Size = new System.Drawing.Size(91, 14);
             this.lblInsertName.TabIndex = 3;
             this.lblInsertName.Text = "Voer een naam in";
             this.lblInsertName.Visible = false;
@@ -199,12 +206,16 @@
             // 
             // btnAddSubject
             // 
+            this.btnAddSubject.BackColor = System.Drawing.Color.Orchid;
+            this.btnAddSubject.FlatAppearance.BorderSize = 0;
+            this.btnAddSubject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddSubject.ForeColor = System.Drawing.Color.White;
             this.btnAddSubject.Location = new System.Drawing.Point(97, 5);
             this.btnAddSubject.Name = "btnAddSubject";
-            this.btnAddSubject.Size = new System.Drawing.Size(91, 23);
+            this.btnAddSubject.Size = new System.Drawing.Size(91, 25);
             this.btnAddSubject.TabIndex = 1;
             this.btnAddSubject.Text = "Vak toevoegen";
-            this.btnAddSubject.UseVisualStyleBackColor = true;
+            this.btnAddSubject.UseVisualStyleBackColor = false;
             this.btnAddSubject.Click += new System.EventHandler(this.btnAddSubject_Click);
             // 
             // dgvGrades
@@ -213,19 +224,19 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvGrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvGrades.Location = new System.Drawing.Point(-4, 35);
+            this.dgvGrades.Location = new System.Drawing.Point(-4, 38);
             this.dgvGrades.Name = "dgvGrades";
-            this.dgvGrades.Size = new System.Drawing.Size(786, 362);
+            this.dgvGrades.Size = new System.Drawing.Size(786, 389);
             this.dgvGrades.TabIndex = 0;
             this.dgvGrades.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvGrades_RowHeaderMouseDoubleClick);
             // 
             // tabAppointments
             // 
             this.tabAppointments.Controls.Add(this.dgvAppointments);
-            this.tabAppointments.Location = new System.Drawing.Point(4, 22);
+            this.tabAppointments.Location = new System.Drawing.Point(4, 23);
             this.tabAppointments.Name = "tabAppointments";
             this.tabAppointments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAppointments.Size = new System.Drawing.Size(773, 397);
+            this.tabAppointments.Size = new System.Drawing.Size(773, 429);
             this.tabAppointments.TabIndex = 2;
             this.tabAppointments.Text = "Belangrijke Afspraken";
             this.tabAppointments.UseVisualStyleBackColor = true;
@@ -241,7 +252,7 @@
             this.columnDate});
             this.dgvAppointments.Location = new System.Drawing.Point(0, 0);
             this.dgvAppointments.Name = "dgvAppointments";
-            this.dgvAppointments.Size = new System.Drawing.Size(782, 397);
+            this.dgvAppointments.Size = new System.Drawing.Size(782, 426);
             this.dgvAppointments.TabIndex = 0;
             this.dgvAppointments.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellClick);
             // 
@@ -259,55 +270,67 @@
             // cbUsernames
             // 
             this.cbUsernames.FormattingEnabled = true;
-            this.cbUsernames.Location = new System.Drawing.Point(8, 169);
+            this.cbUsernames.Location = new System.Drawing.Point(8, 182);
             this.cbUsernames.Name = "cbUsernames";
-            this.cbUsernames.Size = new System.Drawing.Size(88, 21);
+            this.cbUsernames.Size = new System.Drawing.Size(88, 22);
             this.cbUsernames.TabIndex = 3;
             this.cbUsernames.SelectedIndexChanged += new System.EventHandler(this.cbUsernames_SelectedIndexChanged);
             // 
             // btnPrevious
             // 
-            this.btnPrevious.Location = new System.Drawing.Point(12, 80);
+            this.btnPrevious.BackColor = System.Drawing.Color.Orchid;
+            this.btnPrevious.FlatAppearance.BorderSize = 0;
+            this.btnPrevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPrevious.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.btnPrevious.ForeColor = System.Drawing.Color.White;
+            this.btnPrevious.Location = new System.Drawing.Point(12, 86);
             this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(75, 23);
+            this.btnPrevious.Size = new System.Drawing.Size(75, 25);
             this.btnPrevious.TabIndex = 2;
             this.btnPrevious.Text = "Vorige";
-            this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.UseVisualStyleBackColor = false;
             this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(12, 109);
+            this.btnNext.BackColor = System.Drawing.Color.Orchid;
+            this.btnNext.FlatAppearance.BorderSize = 0;
+            this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNext.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.btnNext.ForeColor = System.Drawing.Color.White;
+            this.btnNext.Location = new System.Drawing.Point(12, 117);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(75, 23);
+            this.btnNext.Size = new System.Drawing.Size(75, 25);
             this.btnNext.TabIndex = 4;
             this.btnNext.Text = "Volgende";
-            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.UseVisualStyleBackColor = false;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // lblViewUser
             // 
             this.lblViewUser.AutoSize = true;
-            this.lblViewUser.Location = new System.Drawing.Point(5, 153);
+            this.lblViewUser.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.lblViewUser.Location = new System.Drawing.Point(5, 165);
             this.lblViewUser.Name = "lblViewUser";
-            this.lblViewUser.Size = new System.Drawing.Size(83, 13);
+            this.lblViewUser.Size = new System.Drawing.Size(85, 14);
             this.lblViewUser.TabIndex = 5;
             this.lblViewUser.Text = "Gebruiker inzien";
             // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(13, 13);
+            this.lblUsername.Location = new System.Drawing.Point(13, 14);
             this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(84, 13);
+            this.lblUsername.Size = new System.Drawing.Size(86, 14);
             this.lblUsername.TabIndex = 6;
             this.lblUsername.Text = "Gebruikersnaam";
             // 
             // Shedule
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(891, 447);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(891, 481);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.lblViewUser);
             this.Controls.Add(this.btnNext);
@@ -315,7 +338,9 @@
             this.Controls.Add(this.cbUsernames);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabControl);
-            this.MinimumSize = new System.Drawing.Size(340, 226);
+            this.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(340, 240);
             this.Name = "Shedule";
             this.Text = "Samen Sterk";
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).EndInit();
