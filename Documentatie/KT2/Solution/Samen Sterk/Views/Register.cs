@@ -91,7 +91,10 @@ namespace SamenSterk.Views
 
         private void txtPasswordRepeat_KeyPress(object sender, KeyPressEventArgs e)
         {
-            btnRegister_Click(sender, e);
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnRegister_Click(sender, e);
+            }
         }
     }
 }

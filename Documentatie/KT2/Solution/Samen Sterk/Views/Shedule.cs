@@ -30,6 +30,8 @@ namespace SamenSterk.Views
         private SubjectController subjectController;
         private AppointmentController appointmentController;
         private byte selectedTabIndex;
+        private DateTimePicker datePicker;
+        private DateTimePicker timePicker;
 
         /// <summary>
         /// Initializes a new instance of the form Shedule class.
@@ -235,16 +237,15 @@ namespace SamenSterk.Views
 
                             if (dgvGrades.ColumnCount > 0)
                             {
-                               List<DataGridViewRow> rows = (from row in dgvGrades.Rows.Cast<DataGridViewRow>()
+                                List<DataGridViewRow> rows = (from row in dgvGrades.Rows.Cast<DataGridViewRow>()
                                                             select row).ToList();
 
-                               if (rows.Count != 0)
-                               {
-                                   index = (from row in rows
+                                if (rows.Count != 0)
+                                {
+                                    index = (from row in rows
                                             where row.Cells[dgvGrades.ColumnCount - 1].Value != null
                                             select row.Index).FirstOrDefault();
-                               }
-
+                                }
                             }
                         }
                     }
@@ -266,167 +267,6 @@ namespace SamenSterk.Views
                     break;
             }
         }
-
-        #region Grade eventhandlers
-        /// <summary>
-        /// Occurs when the Button control is clicked.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
-        private void btnAddSubject_Click(object sender, EventArgs e)
-        {
-            int result = 0;
-            if (selectedUser.Id == currentUser.Id)
-            {
-                if (!string.IsNullOrWhiteSpace(txtSubjectName.Text))
-                {
-                    result = subjectController.Create(new Subject()
-                    {
-                        RowIndex = Convert.ToUInt32(dgvGrades.RowCount),
-                        UserId = selectedUser.Id,
-                        Name = txtSubjectName.Text
-                    });
-
-                    if (result != 2)
-                    {
-                        LoadToGrid(typeof(Grade));
-                        lblInsertName.Visible = false;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
-                    }
-                }
-                else
-                {
-                    lblInsertName.Visible = true;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Kan vaken voor andere gebruikers niet toevoegen.");
-            }
-
-            txtSubjectName.Text = "";
-        }
-
-        /// <summary>
-        /// Occurs when a row header is double-clicked.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
-        void dgvGrades_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (selectedUser.Id == currentUser.Id)
-            {
-                Subject model = (from subject in subjects
-                                 where subject.RowIndex == Convert.ToUInt32(e.RowIndex)
-                                 select subject).FirstOrDefault();
-
-                EditSubject editSubject = new EditSubject(model);
-                editSubject.ShowDialog();
-                LoadToGrid(typeof(Grade));
-            }
-            else
-            {
-                MessageBox.Show("Kan vaken voor andere gebruikers niet wijzigen.");
-            }
-        }
-
-        /// <summary>
-        /// Occurs when the mouse pointer is over the control and a mouse button is released.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
-        void dgvGrades_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                if (dgvGrades.HitTest(e.X, e.Y) == System.Windows.Forms.DataGridView.HitTestInfo.Nowhere)
-                {
-                    dgvGrades.EndEdit();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Occurs when the value of a cell changes.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
-        private void dgvGrades_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex > -1 && subjects.Count == dgvGrades.RowCount)
-            {
-                if (selectedUser.Id == currentUser.Id)
-                {
-                    int result = 0;
-                    Grade query = (from grade in grades
-                                   where grade.RowIndex == Convert.ToUInt32(e.RowIndex) && grade.ColumnIndex == Convert.ToUInt32(e.ColumnIndex)
-                                   select grade).FirstOrDefault();
-
-                    if (query == null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == false)
-                    {
-                        float number;
-                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(',', '.');
-                        number = float.Parse(value, CultureInfo.InvariantCulture);
-
-                        if (number > 10.0 || number < 1.0)
-                        {
-                            number = 1.0f;
-                        }
-
-                        result = gradeController.Create(new Grade()
-                        {
-                            ColumnIndex = Convert.ToUInt32(e.ColumnIndex),
-                            RowIndex = Convert.ToUInt32(e.RowIndex),
-                            UserId = selectedUser.Id,
-                            Number = (float)Math.Round(number, 1)
-                        });
-
-                        if (result == 0)
-                        {
-                            MessageBox.Show("Kon het cijfer niet toevoegen.");
-                        }
-                    }
-                    else if (query != null && dgvGrades[e.ColumnIndex, e.RowIndex].Value == null)
-                    {
-                        result = gradeController.Delete(query);
-
-                        if (result == 0)
-                        {
-                            MessageBox.Show("Kon het cijfer niet verwijderen.");
-                        }
-                    }
-                    else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) != true)
-                    {
-                        float number;
-                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(',', '.');
-                        number = float.Parse(value, CultureInfo.InvariantCulture);
-
-                        if (number > 10.0 || number < 1.0)
-                        {
-                            number = 1.0f;
-                        }
-
-                        query.Number = (float)Math.Round(number, 1);
-                        result = gradeController.Edit(query);
-
-                        if (result == 0)
-                        {
-                            MessageBox.Show("Kon het cijfer niet wijzigen.");
-                        }
-                    }
-
-                    LoadToGrid(typeof(Grade));
-                }
-            }
-            else
-            {
-                MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
-            }
-        }
-        #endregion Grade eventhandlers
 
         #region Task eventhandlers
         /// <summary>
@@ -527,7 +367,7 @@ namespace SamenSterk.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void dgvShedule_ColumnHeaderMouseDoubleClick_1(object sender, DataGridViewCellMouseEventArgs e)
         {
-            EditSchedule editSchedule = new EditSchedule(this, Convert.ToDateTime(this.dgvShedule.Columns[0].HeaderText));
+            EditDate editSchedule = new EditDate(this, Convert.ToDateTime(this.dgvShedule.Columns[0].HeaderText));
             editSchedule.ShowDialog();
 
             LoadToGrid(typeof(Task));
@@ -594,6 +434,222 @@ namespace SamenSterk.Views
             }
         }
         #endregion Task eventhandlers
+        
+        #region Grade eventhandlers
+        /// <summary>
+        /// Occurs when the Button control is clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        private void btnAddSubject_Click(object sender, EventArgs e)
+        {
+            //adds a subject to the grades datagrid
+            int result = 0;
+            if (selectedUser.Id == currentUser.Id)
+            {
+                if (!string.IsNullOrWhiteSpace(txtSubjectName.Text))
+                {
+                    result = subjectController.Create(new Subject()
+                    {
+                        RowIndex = Convert.ToUInt32(dgvGrades.RowCount),
+                        UserId = selectedUser.Id,
+                        Name = txtSubjectName.Text
+                    });
+
+                    if (result != 2)
+                    {
+                        LoadToGrid(typeof(Grade));
+                        lblInsertName.Visible = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
+                    }
+                }
+                else
+                {
+                    lblInsertName.Visible = true;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Kan vaken voor andere gebruikers niet toevoegen.");
+            }
+
+            txtSubjectName.Text = "";
+        }
+
+        /// <summary>
+        /// Occurs when a row header is double-clicked.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
+        void dgvGrades_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (selectedUser.Id == currentUser.Id)
+            {
+                Subject model = (from subject in subjects
+                                 where subject.RowIndex == Convert.ToUInt32(e.RowIndex)
+                                 select subject).FirstOrDefault();
+
+                EditSubject editSubject = new EditSubject(model);
+                editSubject.ShowDialog();
+                LoadToGrid(typeof(Grade));
+            }
+            else
+            {
+                MessageBox.Show("Kan vakken voor andere gebruikers niet wijzigen.");
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the mouse pointer is over the control and a mouse button is released.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
+        void dgvGrades_MouseUp(object sender, MouseEventArgs e)
+        {
+            //exits edit mode when editing grades
+            if (e.Button == MouseButtons.Left)
+            {
+                if (dgvGrades.HitTest(e.X, e.Y) == System.Windows.Forms.DataGridView.HitTestInfo.Nowhere)
+                {
+                    dgvGrades.EndEdit();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the value of a cell changes.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
+        private void dgvGrades_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex > -1 && subjects.Count == dgvGrades.RowCount)
+            {
+                if (selectedUser.Id == currentUser.Id)
+                {
+                    int result = 0;
+                    Grade query = (from grade in grades
+                                   where grade.RowIndex == Convert.ToUInt32(e.RowIndex) && grade.ColumnIndex == Convert.ToUInt32(e.ColumnIndex)
+                                   select grade).FirstOrDefault();
+
+                    if (query == null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == false)
+                    {
+                        //adds a grade
+                        float number;
+                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(',', '.');
+                        float.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out number);
+
+                        if (number > 10.0 || number < 1.0)
+                        {
+                            MessageBox.Show("Kon het cijfer niet toevoegen.\nWaarde moet tussen de 1,0 en 10 liggen.");
+                            result = 2;
+                            number = 1.0f;
+                        }
+                        else
+                        {
+                            result = gradeController.Create(new Grade()
+                            {
+                                ColumnIndex = Convert.ToUInt32(e.ColumnIndex),
+                                RowIndex = Convert.ToUInt32(e.RowIndex),
+                                UserId = selectedUser.Id,
+                                Number = (float)Math.Round(number, 1)
+                            });
+                        }
+
+                        if (result == 0)
+                        {
+                            MessageBox.Show("Kon het cijfer niet toevoegen.");
+                        }
+                    }
+                    else if (query != null && dgvGrades[e.ColumnIndex, e.RowIndex].Value == null)
+                    {
+                        //deletes the grade
+                        result = gradeController.Delete(query);
+
+                        if (result == 0)
+                        {
+                            MessageBox.Show("Kon het cijfer niet verwijderen.");
+                        }
+                    }
+                    else if (query != null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) != true)
+                    {
+                        //edits the grade
+                        float number;
+                        string value = dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(',', '.');
+                        float.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out number);
+
+                        if (number > 10.0 || number < 1.0)
+                        {
+                            MessageBox.Show("Kon het cijfer niet wijzigen.\nWaarde moet tussen de 1,0 en 10 liggen.");
+                            result = 2;
+                            number = 1.0f;
+                        }
+                        else
+                        {
+                            query.Number = (float)Math.Round(number, 1);
+                            result = gradeController.Edit(query);
+                        }
+
+                        if (result == 0)
+                        {
+                            MessageBox.Show("Kon het cijfer niet wijzigen.");
+                        }
+                    }
+
+                    LoadToGrid(typeof(Grade));
+                }
+            }
+            else
+            {
+                MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
+            }
+        }
+        #endregion Grade eventhandlers
+
+        #region Appointment eventhandlers
+
+        //{
+        //    if (e.ColumnIndex == 1 && e.RowIndex > -1)
+        //    {
+        //        datePicker = new DateTimePicker();
+        //        timePicker = new DateTimePicker();
+        //        dgvAppointments.Controls.Add(datePicker);
+        //        dgvAppointments.Controls.Add(timePicker);
+        //        datePicker.Format = DateTimePickerFormat.Custom;
+        //        datePicker.CustomFormat = "dd-MM-yyyy";
+        //        timePicker.Format = DateTimePickerFormat.Custom;
+        //        timePicker.CustomFormat = "hh:mm";
+        //        timePicker.ShowUpDown = true;
+        //        Rectangle Rectangle = dgvAppointments.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+        //        datePicker.Size = new Size(Rectangle.Width / 2, Rectangle.Height);
+        //        datePicker.Location = new Point(Rectangle.X, Rectangle.Y);
+        //        timePicker.Size = new Size(Rectangle.Width / 2, Rectangle.Height);
+        //        timePicker.Location = new Point(Rectangle.X + Rectangle.Width / 2, Rectangle.Height);
+
+        //        datePicker.CloseUp += new EventHandler(dateTimePicker_CloseUp);
+        //        datePicker.TextChanged += new EventHandler(dateTimePicker_OnTextChange);
+
+
+        //        datePicker.Visible = true;
+        //    }
+        //}
+        //private void dateTimePicker_OnTextChange(object sender, EventArgs e)
+        //{
+        //    dgvAppointments.CurrentCell.Value = (datePicker.Value.Date + timePicker.Value.TimeOfDay).ToString("dd-MM-yyyy hh:mm");
+        //}
+        //void dateTimePicker_CloseUp(object sender, EventArgs e)
+        //{
+        //    datePicker.Visible = false;
+        //    timePicker.Visible = false;
+        //} 
+        private void dgvAppointments_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        #endregion Appointment eventhandlers
 
         #region Global eventhandlers
         /// <summary>
@@ -732,6 +788,7 @@ namespace SamenSterk.Views
             }
         }
         #endregion Global eventhandlers
+
 
     }
 }
