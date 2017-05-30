@@ -46,13 +46,13 @@
             this.dgvGrades = new System.Windows.Forms.DataGridView();
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.dgvAppointments = new System.Windows.Forms.DataGridView();
-            this.columnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnName2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.columnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbUsernames = new System.Windows.Forms.ComboBox();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.lblViewUser = new System.Windows.Forms.Label();
+            this.lblUsername = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabShedule.SuspendLayout();
@@ -64,7 +64,7 @@
             // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(12, 12);
+            this.btnLogout.Location = new System.Drawing.Point(13, 34);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(74, 23);
             this.btnLogout.TabIndex = 0;
@@ -96,6 +96,7 @@
             this.dgvShedule.Size = new System.Drawing.Size(776, 397);
             this.dgvShedule.TabIndex = 1;
             this.dgvShedule.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellDoubleClick);
+            this.dgvShedule.ColumnHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvShedule_ColumnHeaderMouseDoubleClick_1);
             // 
             // columnDay1
             // 
@@ -216,6 +217,7 @@
             this.dgvGrades.Name = "dgvGrades";
             this.dgvGrades.Size = new System.Drawing.Size(786, 362);
             this.dgvGrades.TabIndex = 0;
+            this.dgvGrades.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvGrades_RowHeaderMouseDoubleClick);
             // 
             // tabAppointments
             // 
@@ -235,33 +237,29 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvAppointments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAppointments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.columnDate,
             this.columnName2,
-            this.columnDuration});
+            this.columnDate});
             this.dgvAppointments.Location = new System.Drawing.Point(0, 0);
             this.dgvAppointments.Name = "dgvAppointments";
             this.dgvAppointments.Size = new System.Drawing.Size(782, 397);
             this.dgvAppointments.TabIndex = 0;
-            // 
-            // columnDate
-            // 
-            this.columnDate.HeaderText = "Datum";
-            this.columnDate.Name = "columnDate";
+            this.dgvAppointments.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellClick);
             // 
             // columnName2
             // 
             this.columnName2.HeaderText = "Naam";
             this.columnName2.Name = "columnName2";
             // 
-            // columnDuration
+            // columnDate
             // 
-            this.columnDuration.HeaderText = "Duur";
-            this.columnDuration.Name = "columnDuration";
+            this.columnDate.HeaderText = "Datum";
+            this.columnDate.Name = "columnDate";
+            this.columnDate.Width = 150;
             // 
             // cbUsernames
             // 
             this.cbUsernames.FormattingEnabled = true;
-            this.cbUsernames.Location = new System.Drawing.Point(8, 156);
+            this.cbUsernames.Location = new System.Drawing.Point(8, 169);
             this.cbUsernames.Name = "cbUsernames";
             this.cbUsernames.Size = new System.Drawing.Size(88, 21);
             this.cbUsernames.TabIndex = 3;
@@ -269,7 +267,7 @@
             // 
             // btnPrevious
             // 
-            this.btnPrevious.Location = new System.Drawing.Point(11, 57);
+            this.btnPrevious.Location = new System.Drawing.Point(12, 80);
             this.btnPrevious.Name = "btnPrevious";
             this.btnPrevious.Size = new System.Drawing.Size(75, 23);
             this.btnPrevious.TabIndex = 2;
@@ -279,7 +277,7 @@
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(12, 86);
+            this.btnNext.Location = new System.Drawing.Point(12, 109);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
             this.btnNext.TabIndex = 4;
@@ -290,17 +288,27 @@
             // lblViewUser
             // 
             this.lblViewUser.AutoSize = true;
-            this.lblViewUser.Location = new System.Drawing.Point(5, 140);
+            this.lblViewUser.Location = new System.Drawing.Point(5, 153);
             this.lblViewUser.Name = "lblViewUser";
             this.lblViewUser.Size = new System.Drawing.Size(83, 13);
             this.lblViewUser.TabIndex = 5;
             this.lblViewUser.Text = "Gebruiker inzien";
+            // 
+            // lblUsername
+            // 
+            this.lblUsername.AutoSize = true;
+            this.lblUsername.Location = new System.Drawing.Point(13, 13);
+            this.lblUsername.Name = "lblUsername";
+            this.lblUsername.Size = new System.Drawing.Size(84, 13);
+            this.lblUsername.TabIndex = 6;
+            this.lblUsername.Text = "Gebruikersnaam";
             // 
             // Shedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 447);
+            this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.lblViewUser);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrevious);
@@ -341,14 +349,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn columnDay6;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnDay7;
         private System.Windows.Forms.DataGridView dgvAppointments;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnName2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnDuration;
         private System.Windows.Forms.Button btnAddSubject;
         private System.Windows.Forms.TextBox txtSubjectName;
         private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label lblInsertName;
         private System.Windows.Forms.Label lblViewUser;
+        private System.Windows.Forms.Label lblUsername;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnName2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnDate;
     }
 }

@@ -45,7 +45,7 @@
             this.btnRegister.Location = new System.Drawing.Point(98, 240);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(75, 23);
-            this.btnRegister.TabIndex = 13;
+            this.btnRegister.TabIndex = 16;
             this.btnRegister.Text = "Registreer";
             this.btnRegister.UseVisualStyleBackColor = true;
             this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
@@ -57,6 +57,7 @@
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(100, 20);
             this.txtPassword.TabIndex = 12;
+            this.txtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPassword_KeyPress);
             // 
             // txtUsername
             // 
@@ -64,6 +65,7 @@
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(100, 20);
             this.txtUsername.TabIndex = 11;
+            this.txtUsername.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUsername_KeyPress);
             // 
             // pbLogo
             // 
@@ -98,7 +100,7 @@
             this.btnBack.Location = new System.Drawing.Point(11, 240);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
-            this.btnBack.TabIndex = 14;
+            this.btnBack.TabIndex = 17;
             this.btnBack.Text = "Terug";
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
@@ -110,6 +112,7 @@
             this.txtPasswordRepeat.PasswordChar = '*';
             this.txtPasswordRepeat.Size = new System.Drawing.Size(100, 20);
             this.txtPasswordRepeat.TabIndex = 15;
+            this.txtPasswordRepeat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPasswordRepeat_KeyPress);
             // 
             // lblRepeat
             // 

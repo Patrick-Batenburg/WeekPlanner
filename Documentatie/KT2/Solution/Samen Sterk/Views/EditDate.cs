@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace SamenSterk.Views
 {
-    public partial class EditSchedule : Form
+    public partial class EditDate : Form
     {
         private Shedule shedule;
         private DateTime date;
@@ -13,7 +13,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="shedule">Shedule form details to edit.</param>
         /// <param name="date">Date of first date in the DataGridView.</param>
-        public EditSchedule(Shedule shedule, DateTime date)
+        public EditDate(Shedule shedule, DateTime date)
         {
             InitializeComponent();
             this.shedule = shedule;
@@ -57,8 +57,9 @@ namespace SamenSterk.Views
             {
                 startDateTimePicker.Value = DateTime.Today;
             }
-
             shedule.startDate = startDateTimePicker.Value;
+
+            shedule.SetHeaderDate();
             this.Close();
         }
     }

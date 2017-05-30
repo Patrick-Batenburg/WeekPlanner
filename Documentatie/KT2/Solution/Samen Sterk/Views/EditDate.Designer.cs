@@ -1,6 +1,6 @@
 ﻿namespace SamenSterk.Views
 {
-    partial class EditSchedule
+    partial class EditDate
     {
         /// <summary>
         /// Required designer variable.
@@ -36,17 +36,17 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(12, 156);
+            this.btnCancel.Location = new System.Drawing.Point(8, 51);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(78, 23);
             this.btnCancel.TabIndex = 18;
-            this.btnCancel.Text = "Anuleer";
+            this.btnCancel.Text = "Annuleer";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnEditSchedule
             // 
-            this.btnEditSchedule.Location = new System.Drawing.Point(96, 156);
+            this.btnEditSchedule.Location = new System.Drawing.Point(98, 51);
             this.btnEditSchedule.Name = "btnEditSchedule";
             this.btnEditSchedule.Size = new System.Drawing.Size(78, 23);
             this.btnEditSchedule.TabIndex = 17;
@@ -56,16 +56,16 @@
             // 
             // startDateTimePicker
             // 
-            this.startDateTimePicker.Location = new System.Drawing.Point(12, 70);
+            this.startDateTimePicker.Location = new System.Drawing.Point(8, 25);
             this.startDateTimePicker.Name = "startDateTimePicker";
-            this.startDateTimePicker.Size = new System.Drawing.Size(160, 20);
+            this.startDateTimePicker.Size = new System.Drawing.Size(168, 20);
             this.startDateTimePicker.TabIndex = 19;
             this.startDateTimePicker.ValueChanged += new System.EventHandler(this.startDateTimePicker_ValueChanged);
             // 
             // lblStartDate
             // 
             this.lblStartDate.AutoSize = true;
-            this.lblStartDate.Location = new System.Drawing.Point(12, 54);
+            this.lblStartDate.Location = new System.Drawing.Point(8, 9);
             this.lblStartDate.Name = "lblStartDate";
             this.lblStartDate.Size = new System.Drawing.Size(61, 13);
             this.lblStartDate.TabIndex = 20;
@@ -75,14 +75,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(186, 187);
+            this.ClientSize = new System.Drawing.Size(184, 79);
             this.Controls.Add(this.lblStartDate);
             this.Controls.Add(this.startDateTimePicker);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnEditSchedule);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditSchedule";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wijzig datum";
             this.ResumeLayout(false);
             this.PerformLayout();

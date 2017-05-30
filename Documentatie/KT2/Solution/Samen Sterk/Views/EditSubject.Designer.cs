@@ -36,7 +36,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(61, 192);
+            this.btnDelete.Location = new System.Drawing.Point(10, 51);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(78, 23);
             this.btnDelete.TabIndex = 25;
@@ -46,7 +46,7 @@
             // 
             // btnEditSubject
             // 
-            this.btnEditSubject.Location = new System.Drawing.Point(145, 192);
+            this.btnEditSubject.Location = new System.Drawing.Point(94, 51);
             this.btnEditSubject.Name = "btnEditSubject";
             this.btnEditSubject.Size = new System.Drawing.Size(78, 23);
             this.btnEditSubject.TabIndex = 24;
@@ -56,15 +56,15 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(64, 61);
+            this.txtName.Location = new System.Drawing.Point(10, 25);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(159, 20);
+            this.txtName.Size = new System.Drawing.Size(162, 20);
             this.txtName.TabIndex = 19;
             // 
             // lblSubjectName
             // 
             this.lblSubjectName.AutoSize = true;
-            this.lblSubjectName.Location = new System.Drawing.Point(61, 45);
+            this.lblSubjectName.Location = new System.Drawing.Point(7, 9);
             this.lblSubjectName.Name = "lblSubjectName";
             this.lblSubjectName.Size = new System.Drawing.Size(56, 13);
             this.lblSubjectName.TabIndex = 18;
@@ -74,7 +74,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(184, 82);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEditSubject);
             this.Controls.Add(this.txtName);
@@ -82,6 +82,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditSubject";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Wijzig vak";
             this.ResumeLayout(false);
             this.PerformLayout();
