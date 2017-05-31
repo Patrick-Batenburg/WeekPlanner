@@ -32,7 +32,6 @@ namespace SamenSterk.Views
         private SubjectController subjectController;
         private AppointmentController appointmentController;
         private byte selectedTabIndex;
-        private string[] oldAppointmentValues;
 
         /// <summary>
         /// Initializes a new instance of the form Shedule class.
@@ -46,7 +45,6 @@ namespace SamenSterk.Views
             this.FormClosing += Shedule_FormClosing;
             cellPos = new int[2];
             logout = false;
-            oldAppointmentValues = new string[2];
 
             tasks = new List<Task>();
             repeatingTasks = new List<RepeatingTask>();
@@ -94,7 +92,7 @@ namespace SamenSterk.Views
                 cbUsernames.Click += cbUsernames_Click;
                 lblViewUser.Visible = true;
                 cbUsernames.Visible = true;
-                cbUsernames.Items.Add("Ik");
+                cbUsernames.Items.Add(currentUser.Username + " (Ik)");
                 cbUsernames.DropDownStyle = ComboBoxStyle.DropDownList;
                 cbUsernames.SelectedIndex = 0;
             }
@@ -653,24 +651,29 @@ namespace SamenSterk.Views
         {
             if (e.ColumnIndex > -1 && e.RowIndex > -1 && e.ColumnIndex == 1)
             {
-                if (dgvAppointments[1, e.RowIndex].Value != null)
+                if (selectedUser.Id == currentUser.Id)
                 {
-                    if (dgvAppointments[1, e.RowIndex].Value.ToString() == "[Geen datum]" || string.IsNullOrEmpty(dgvAppointments[1, e.RowIndex].Value.ToString()) == true)
-	                {
-                        EditAppointment editAppointment = new EditAppointment(this, DateTime.Now);
-                        editAppointment.ShowDialog();
-	                }
-                    else
+                    if (dgvAppointments[1, e.RowIndex].Value != null)
                     {
-                        EditAppointment editAppointment = new EditAppointment(this, Convert.ToDateTime(dgvAppointments[1, e.RowIndex].Value));
+                        if (dgvAppointments[1, e.RowIndex].Value.ToString() == "[Geen datum]" || string.IsNullOrEmpty(dgvAppointments[1, e.RowIndex].Value.ToString()) == true)
+                        {
+                            EditAppointment editAppointment = new EditAppointment(this, DateTime.Now);
+                            editAppointment.ShowDialog();
+                        }
+                        else
+                        {
+                            EditAppointment editAppointment = new EditAppointment(this, Convert.ToDateTime(dgvAppointments[1, e.RowIndex].Value));
 
-                        editAppointment.ShowDialog();
+                            editAppointment.ShowDialog();
+                        }
                     }
-                }
 
-                oldAppointmentValues[0] = dgvAppointments[0, e.RowIndex].Value.ToString();
-                oldAppointmentValues[1] = dgvAppointments[1, e.RowIndex].Value.ToString();
-                dgvAppointments[e.ColumnIndex, e.RowIndex].Value = appointmentDate.ToString("dd-MM-yyyy HH:mm");
+                    dgvAppointments[e.ColumnIndex, e.RowIndex].Value = appointmentDate.ToString("dd-MM-yyyy HH:mm");
+                }
+                else
+                {
+                    MessageBox.Show("Kan afspraken voor andere gebruikers niet toevoegen/wijzigen.");
+                }
             }
         }
 
@@ -713,17 +716,17 @@ namespace SamenSterk.Views
         {
             if (e.ColumnIndex > -1 && e.RowIndex > -1)
             {
-                if (selectedUser.Id == currentUser.Id)
-                {
-                    int result = 0;
-                    Appointment query = null;
-                    uint? id = null;
-                    List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
-                                                  select row).ToList();
+                int result = 0;
+                Appointment query = null;
+                uint? id = null;
+                List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
+                                              select row).ToList();
 
-                    switch (e.ColumnIndex)
-                    {
-                        case 0:
+                switch (e.ColumnIndex)
+                {
+                    case 0:
+                        if (selectedUser.Id == currentUser.Id)
+                        {
                             if (string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)) != true && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex + 1, e.RowIndex].Value)) == true)
                             {
                                 result = appointmentController.Create(new Appointment()
@@ -745,54 +748,61 @@ namespace SamenSterk.Views
                                     result = appointmentController.Edit(query);
                                 }
                             }
-                            break;
-                        case 1:
-                            if (string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)) != true && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex - 1, e.RowIndex].Value)) == true)
+                        }
+                        else
+                        {
+                            MessageBox.Show("Kan afspraken voor andere gebruikers niet toevoegen/wijzigen.");
+                        }
+                        break;
+                    case 1:
+                        if (string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)) != true && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex - 1, e.RowIndex].Value)) == true)
+                        {
+                            result = appointmentController.Create(new Appointment()
                             {
-                                result = appointmentController.Create(new Appointment()
-                                {
-                                    UserId = currentUser.Id,
-                                    Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)
-                                });
-                            }
-                            else
+                                UserId = currentUser.Id,
+                                Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)
+                            });
+                        }
+                        else
+                        {
+                            query = (from appointment in appointments
+                                        where appointment.Id == Convert.ToUInt32(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)
+                                        select appointment).FirstOrDefault();
+
+                            query.Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value);
+
+                            if (query != null)
                             {
-                                query = (from appointment in appointments
-                                         where appointment.Id == Convert.ToUInt32(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)
-                                         select appointment).FirstOrDefault();
-
-                                query.Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value);
-
-                                if (query != null)
-                                {
-                                    result = appointmentController.Edit(query);
-                                }
+                                result = appointmentController.Edit(query);
                             }
-                            break;
-                        case 2:
+                        }
+                        break;
+                    case 2:
+                        if (selectedUser.Id == currentUser.Id)
+                        {
                             id = (from row in rows
-                                  where Convert.ToBoolean(row.Cells[dgvAppointments.ColumnCount - 2].Value) == true
-                                  select Convert.ToUInt32(row.Cells[dgvAppointments.ColumnCount - 1].Value)).FirstOrDefault();
+                                    where Convert.ToBoolean(row.Cells[dgvAppointments.ColumnCount - 2].Value) == true
+                                    select Convert.ToUInt32(row.Cells[dgvAppointments.ColumnCount - 1].Value)).FirstOrDefault();
 
                             query = (from appointment in appointments
-                                     where appointment.Id == id
-                                     select appointment).FirstOrDefault();
+                                        where appointment.Id == id
+                                        select appointment).FirstOrDefault();
 
                             if (query != null)
                             {
                                 result = appointmentController.Delete(query);
                             }
-                            break;
-                        default:
-                            break;
-                    }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Kan afspraken voor andere gebruikers niet verwijderen.");
+                        }
+                        break;
+                    default:
+                        break;
+                }
 
-                    LoadToGrid(typeof(Appointment));
-                }
-                else
-                {
-                    MessageBox.Show("Kan afspraken voor andere gebruikers niet toevoegen/wijzigen of verwijderen.");
-                }
+                LoadToGrid(typeof(Appointment));              
             }
         }
         #endregion Appointment eventhandlers
@@ -862,19 +872,24 @@ namespace SamenSterk.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void cbUsernames_Click(object sender, EventArgs e)
         {
-            List<User> users = new List<User>();
-            users = userController.Details(currentUser);
-            cbUsernames.Items.Clear();
-            cbUsernames.Items.Add("Ik");
-            cbUsernames.SelectedIndex = 0;
+            string textValue = cbUsernames.Text;
+            List<User> users = userController.Details(currentUser);
+            ComboBox comboBox = (ComboBox)sender;
 
-            if (users != null)
+            users.Insert(0, new User()
             {
-                foreach (User element in users)
-                {
-                    cbUsernames.Items.Add(element.Username);
-                }
-            }
+                Id = currentUser.Id,
+                Username = currentUser.Username + " (Ik)"
+            });
+
+            cbUsernames.SelectedIndexChanged -= cbUsernames_SelectedIndexChanged;
+            cbUsernames.DataSource = null;
+            cbUsernames.Items.Clear();
+            cbUsernames.DataSource = users;
+            cbUsernames.ValueMember = "Id";
+            cbUsernames.DisplayMember = "Username";
+            cbUsernames.SelectedIndexChanged += cbUsernames_SelectedIndexChanged;
+            cbUsernames.Text = textValue;
         }
 
         /// <summary>
@@ -884,15 +899,17 @@ namespace SamenSterk.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void cbUsernames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<User> users = new List<User>();
             User selected = new User();
+            ComboBox comboBox = (ComboBox)sender;
 
             if (cbUsernames.SelectedIndex != 0)
             {
-                users = userController.Details(currentUser);
-                selected = (from user in users
-                            where user.Username == cbUsernames.SelectedItem.ToString()
-                            select user).FirstOrDefault();
+                if ((User)comboBox.SelectedItem != null)
+                {
+                    selected = (User)comboBox.SelectedItem;
+                    cbUsernames.Text = selected.Username;
+                }
+
                 this.selectedUser = selected;
 
                 if (selected != null)
