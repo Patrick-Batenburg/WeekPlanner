@@ -59,6 +59,7 @@ namespace SamenSterk.Views
                 };
 
                 result = taskController.Exceeds(task);
+
                 if (result != 0 && result != 2)
                 {
                     result = taskController.Create(task);
@@ -77,6 +78,7 @@ namespace SamenSterk.Views
                 };
 
                 result = repeatingTaskController.Exceeds(repeatingTask);
+
                 if (result != 0 && result != 2)
                 {
                     result = repeatingTaskController.Create(repeatingTask);

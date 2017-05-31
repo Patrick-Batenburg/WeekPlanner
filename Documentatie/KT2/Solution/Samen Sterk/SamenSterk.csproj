@@ -91,6 +91,12 @@
     <Compile Include="Views\AddTask.Designer.cs">
       <DependentUpon>AddTask.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EditAppointment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EditAppointment.Designer.cs">
+      <DependentUpon>EditAppointment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditDate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +137,9 @@
     </Compile>
     <EmbeddedResource Include="Views\AddTask.resx">
       <DependentUpon>AddTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EditAppointment.resx">
+      <DependentUpon>EditAppointment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EditDate.resx">
       <DependentUpon>EditDate.cs</DependentUpon>
