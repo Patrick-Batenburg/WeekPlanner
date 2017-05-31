@@ -15,6 +15,8 @@ namespace SamenSterk.Models
         /// </summary>
         public Subject()
         {
+            this.rowIndex = 0;
+            this.name = "[Geen naam]";
         }
 
         /// <summary>

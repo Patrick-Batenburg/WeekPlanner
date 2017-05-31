@@ -578,7 +578,6 @@ namespace SamenSterk.Views
                         {
                             MessageBox.Show("Kon het cijfer niet toevoegen.\nWaarde moet tussen de 1,0 en 10 liggen.");
                             result = 2;
-                            number = 1.0f;
                         }
                         else
                         {

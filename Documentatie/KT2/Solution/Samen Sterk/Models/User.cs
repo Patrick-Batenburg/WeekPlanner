@@ -15,6 +15,7 @@ namespace SamenSterk.Models
         /// </summary>
         public User()
         {
+            this.role = "Member";
         }
 
         /// <summary>
