@@ -16,7 +16,7 @@ namespace SamenSterk.Views
         private DateTime date;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the form EditAppointment class.
         /// </summary>
         /// <param name="shedule">Shedule form details to edit.</param>
         /// <param name="date">Date of first date in the DataGridView.</param>
@@ -70,6 +70,7 @@ namespace SamenSterk.Views
             }
 
             shedule.appointmentDate = datePicker.Value.Date + timePicker.Value.TimeOfDay;
+            this.Close();
         }
 
         /// <summary>

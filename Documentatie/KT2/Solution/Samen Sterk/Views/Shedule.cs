@@ -2,6 +2,7 @@
 using SamenSterk.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace SamenSterk.Views
         private SubjectController subjectController;
         private AppointmentController appointmentController;
         private byte selectedTabIndex;
+        private string[] oldAppointmentValues;
 
         /// <summary>
         /// Initializes a new instance of the form Shedule class.
@@ -44,6 +46,7 @@ namespace SamenSterk.Views
             this.FormClosing += Shedule_FormClosing;
             cellPos = new int[2];
             logout = false;
+            oldAppointmentValues = new string[2];
 
             tasks = new List<Task>();
             repeatingTasks = new List<RepeatingTask>();
@@ -64,15 +67,15 @@ namespace SamenSterk.Views
             dgvGrades.AllowUserToAddRows = false;
             dgvGrades.ColumnHeadersVisible = false;
             dgvAppointments.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dgvAppointments.Columns[1].ReadOnly = true;
+            dgvAppointments.AllowUserToAddRows = true;
 
             tasks = taskController.Details(model.Id);
             repeatingTasks = repeatingTaskController.Details(model.Id);
             tabControl.Selected += tabControl_Selected;
 
-            for (int i = 0; i < dgvShedule.Columns.Count; i++) 
+            for (int i = 0; i < dgvShedule.Columns.Count; i++)
             {
-                dgvShedule.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable; 
+                dgvShedule.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
             for (int i = 0; i < 7; i++)
@@ -95,6 +98,7 @@ namespace SamenSterk.Views
                 cbUsernames.DropDownStyle = ComboBoxStyle.DropDownList;
                 cbUsernames.SelectedIndex = 0;
             }
+
             LoadToGrid(typeof(Task));
         }
 
@@ -111,8 +115,8 @@ namespace SamenSterk.Views
             {
                 case "SamenSterk.Models.Task":
                     dgvShedule.Rows.Clear();
-                    tasks = taskController.Details(currentUser.Id);
-                    repeatingTasks = repeatingTaskController.Details(currentUser.Id);
+                    tasks = taskController.Details(selectedUser.Id);
+                    repeatingTasks = repeatingTaskController.Details(selectedUser.Id);
 
                     for (int i = 0; i < 17; i++)
                     {
@@ -239,13 +243,13 @@ namespace SamenSterk.Views
                             if (dgvGrades.ColumnCount > 0)
                             {
                                 List<DataGridViewRow> rows = (from row in dgvGrades.Rows.Cast<DataGridViewRow>()
-                                                            select row).ToList();
+                                                              select row).ToList();
 
                                 if (rows.Count != 0)
                                 {
                                     index = (from row in rows
-                                            where row.Cells[dgvGrades.ColumnCount - 1].Value != null
-                                            select row.Index).FirstOrDefault();
+                                             where row.Cells[dgvGrades.ColumnCount - 1].Value != null
+                                             select row.Index).FirstOrDefault();
                                 }
                             }
                         }
@@ -259,10 +263,39 @@ namespace SamenSterk.Views
                     dgvGrades.CellValueChanged += dgvGrades_CellValueChanged;
                     break;
                 case "SamenSterk.Models.Appointment":
-                    /*if (appointments != null)
-                    { 
+                    dgvAppointments.CellValueChanged -= dgvAppointments_CellValueChanged;
+                    dgvAppointments.DataSource = null;
+                    dgvAppointments.Rows.Clear();
+                    appointments = appointmentController.Details(selectedUser.Id);
 
-                    }*/
+                    appointments = (from appointment in appointments
+                                    where appointment.Date > DateTime.Today || appointment.Date == new DateTime(1980, 1, 1)
+                                    select appointment).ToList();
+
+                    DataTable dataTable = new DataTable();  
+                    dataTable.Columns.Add("Naam", typeof(string));
+                    dataTable.Columns.Add("Datum", typeof(string));
+                    dataTable.Columns.Add("Verwijderen?", typeof(bool));
+                    dataTable.Columns.Add("Id", typeof(uint));
+
+                    if (appointments.Count != 0)
+                    {
+                        for (int i = 0; i < appointments.Count; i++)
+                        {
+                            if (appointments[i].Date.ToString("dd-MM-yyyy HH:mm") == new DateTime(1980, 1, 1).ToString("dd-MM-yyyy HH:mm"))
+                            {
+                                dataTable.Rows.Add(appointments[i].Name, "[Geen datum]", false, appointments[i].Id);  
+                            }
+                            else
+                            {
+                                dataTable.Rows.Add(appointments[i].Name, appointments[i].Date.ToString("dd-MM-yyyy HH:mm"), false, appointments[i].Id);  
+                            }
+                        }
+                    }
+                    dgvAppointments.DataSource = dataTable;
+                    dgvAppointments.Columns[1].ReadOnly = true;
+                    dgvAppointments.Columns[dgvAppointments.ColumnCount - 1].Visible = false;
+                    dgvAppointments.CellValueChanged += dgvAppointments_CellValueChanged;
                     break;
                 default:
                     break;
@@ -435,7 +468,7 @@ namespace SamenSterk.Views
             }
         }
         #endregion Task eventhandlers
-        
+
         #region Grade eventhandlers
         /// <summary>
         /// Occurs when the Button control is clicked.
@@ -536,7 +569,7 @@ namespace SamenSterk.Views
                                    where grade.RowIndex == Convert.ToUInt32(e.RowIndex) && grade.ColumnIndex == Convert.ToUInt32(e.ColumnIndex)
                                    select grade).FirstOrDefault();
 
-                    if (query == null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == false)
+                    if (query == null && dgvGrades[e.ColumnIndex, e.RowIndex].Value != null)
                     {
                         //adds a grade
                         float number;
@@ -602,10 +635,10 @@ namespace SamenSterk.Views
 
                     LoadToGrid(typeof(Grade));
                 }
-            }
-            else
-            {
-                MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
+                else
+                {
+                    MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
+                }
             }
         }
         #endregion Grade eventhandlers
@@ -618,13 +651,26 @@ namespace SamenSterk.Views
         /// <param name="e"></param>
         private void dgvAppointments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex > -1 && e.RowIndex > -1)
+            if (e.ColumnIndex > -1 && e.RowIndex > -1 && e.ColumnIndex == 1)
             {
-                if (e.ColumnIndex == 1)
+                if (dgvAppointments[1, e.RowIndex].Value != null)
                 {
-                    EditAppointment editAppointment = new EditAppointment(this, new DateTime(2000, 5, 3));
-                    editAppointment.ShowDialog();
+                    if (dgvAppointments[1, e.RowIndex].Value.ToString() == "[Geen datum]" || string.IsNullOrEmpty(dgvAppointments[1, e.RowIndex].Value.ToString()) == true)
+	                {
+                        EditAppointment editAppointment = new EditAppointment(this, DateTime.Now);
+                        editAppointment.ShowDialog();
+	                }
+                    else
+                    {
+                        EditAppointment editAppointment = new EditAppointment(this, Convert.ToDateTime(dgvAppointments[1, e.RowIndex].Value));
+
+                        editAppointment.ShowDialog();
+                    }
                 }
+
+                oldAppointmentValues[0] = dgvAppointments[0, e.RowIndex].Value.ToString();
+                oldAppointmentValues[1] = dgvAppointments[1, e.RowIndex].Value.ToString();
+                dgvAppointments[e.ColumnIndex, e.RowIndex].Value = appointmentDate.ToString("dd-MM-yyyy HH:mm");
             }
         }
 
@@ -646,115 +692,95 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
+        /// Occurs when the user releases a mouse button while over a cell.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
+        private void dgvAppointments_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex == 2)
+            {
+                dgvAppointments.EndEdit();
+            }
+        }
+
+        /// <summary>
         /// Occurs when the value of a cell changes.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
         private void dgvAppointments_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (selectedUser.Id == currentUser.Id)
+            if (e.ColumnIndex > -1 && e.RowIndex > -1)
             {
-                if (e.ColumnIndex > -1 && e.RowIndex > -1)
+                if (selectedUser.Id == currentUser.Id)
                 {
                     int result = 0;
                     Appointment query = null;
+                    uint? id = null;
+                    List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
+                                                  select row).ToList();
 
                     switch (e.ColumnIndex)
                     {
                         case 0:
-                            result = 0;
-                            query = null;
-
-                            if (dgvAppointments[e.ColumnIndex, e.RowIndex].Value != null)
+                            if (string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)) != true && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex + 1, e.RowIndex].Value)) == true)
                             {
-                                query = (from appointment in appointments
-                                         where appointment.Name == dgvAppointments[e.ColumnIndex, e.RowIndex].Value.ToString() && appointment.Date == Convert.ToDateTime(dgvAppointments[1, e.RowIndex].Value)
-                                         select appointment).FirstOrDefault();
-                            }
-
-                            if (query == null)
-                            {
-                                //adds the appointment
                                 result = appointmentController.Create(new Appointment()
                                 {
-                                    UserId = selectedUser.Id,
-                                    Name = dgvAppointments[e.ColumnIndex, e.RowIndex].Value.ToString(),
-                                    Date = DateTime.MinValue
+                                    UserId = currentUser.Id,
+                                    Name = Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value),
                                 });
-
-                                if (result == 0)
-                                {
-                                    MessageBox.Show("Kon de afspraak niet toevoegen.");
-                                }
                             }
-                            else if (query != null && dgvGrades[e.ColumnIndex, e.RowIndex].Value == null)
+                            else
                             {
-                                //deletes the appointment
-                                result = appointmentController.Delete(query);
+                                query = (from appointment in appointments
+                                         where appointment.Id == Convert.ToUInt32(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)
+                                         select appointment).FirstOrDefault();
 
-                                if (result == 0)
-                                {
-                                    MessageBox.Show("Kon de afspraak niet verwijderen.");
-                                }
-                            }
-                            else if (query != null)
-                            {
-                                //edits the appointment
-                                query.Name = dgvAppointments[e.ColumnIndex, e.RowIndex].Value.ToString();
-                                result = appointmentController.Edit(query);
+                                query.Name = Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value);
 
-                                if (result == 0)
+                                if (query != null)
                                 {
-                                    MessageBox.Show("Kon de afspraak niet wijzigen.");
+                                    result = appointmentController.Edit(query);
                                 }
                             }
                             break;
                         case 1:
-                            result = 0;
-                            query = null;
-
-                            if (dgvAppointments[0, e.RowIndex].Value != null)
+                            if (string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)) != true && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex - 1, e.RowIndex].Value)) == true)
                             {
-                                query = (from appointment in appointments
-                                         where appointment.Name == dgvAppointments[0, e.RowIndex].Value.ToString() && appointment.Date == Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)
-                                         select appointment).FirstOrDefault();
-                            }
-
-                            if (query == null)
-                            {
-                                //adds the appointment
                                 result = appointmentController.Create(new Appointment()
                                 {
-                                    UserId = selectedUser.Id,
-                                    Name = "[Geen naam]",
+                                    UserId = currentUser.Id,
                                     Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)
                                 });
-
-                                if (result == 0)
-                                {
-                                    MessageBox.Show("Kon de afspraak niet toevoegen.");
-                                }
                             }
-                            else if (query != null && dgvGrades[0, e.RowIndex].Value == null)
+                            else
                             {
-                                //deletes the appointment
-                                result = appointmentController.Delete(query);
+                                query = (from appointment in appointments
+                                         where appointment.Id == Convert.ToUInt32(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)
+                                         select appointment).FirstOrDefault();
 
-                                if (result == 0)
-                                {
-                                    MessageBox.Show("Kon de afspraak niet verwijderen.");
-                                }
-                            }
-                            else if (query != null)
-                            {
-                                //edits the appointment
                                 query.Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value);
-                                result = appointmentController.Edit(query);
 
-                                if (result == 0)
+                                if (query != null)
                                 {
-                                    MessageBox.Show("Kon de afspraak niet wijzigen.");
+                                    result = appointmentController.Edit(query);
                                 }
+                            }
+                            break;
+                        case 2:
+                            id = (from row in rows
+                                  where Convert.ToBoolean(row.Cells[dgvAppointments.ColumnCount - 2].Value) == true
+                                  select Convert.ToUInt32(row.Cells[dgvAppointments.ColumnCount - 1].Value)).FirstOrDefault();
+
+                            query = (from appointment in appointments
+                                     where appointment.Id == id
+                                     select appointment).FirstOrDefault();
+
+                            if (query != null)
+                            {
+                                result = appointmentController.Delete(query);
                             }
                             break;
                         default:
@@ -763,10 +789,10 @@ namespace SamenSterk.Views
 
                     LoadToGrid(typeof(Appointment));
                 }
-            }
-            else
-            {
-                MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
+                else
+                {
+                    MessageBox.Show("Kan afspraken voor andere gebruikers niet toevoegen/wijzigen of verwijderen.");
+                }
             }
         }
         #endregion Appointment eventhandlers
@@ -847,7 +873,7 @@ namespace SamenSterk.Views
                 foreach (User element in users)
                 {
                     cbUsernames.Items.Add(element.Username);
-                }             
+                }
             }
         }
 

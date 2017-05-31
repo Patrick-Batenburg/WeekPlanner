@@ -18,6 +18,8 @@ namespace SamenSterk.Models
         /// </summary>
         public Task()
         {
+            this.title = "[Geen titel]";
+            this.duration = 1;
         }
 
         /// <summary>
