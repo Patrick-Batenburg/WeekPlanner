@@ -99,6 +99,7 @@
             this.dgvShedule.Name = "dgvShedule";
             this.dgvShedule.ReadOnly = true;
             this.dgvShedule.RowHeadersWidth = 70;
+            this.dgvShedule.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvShedule.Size = new System.Drawing.Size(776, 426);
             this.dgvShedule.TabIndex = 1;
             this.dgvShedule.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellDoubleClick);
@@ -160,6 +161,7 @@
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(781, 456);
             this.tabControl.TabIndex = 2;
+            this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
             // 
             // tabShedule
             // 
@@ -220,15 +222,19 @@
             // 
             // dgvGrades
             // 
+            this.dgvGrades.AllowUserToAddRows = false;
             this.dgvGrades.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvGrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGrades.ColumnHeadersVisible = false;
             this.dgvGrades.Location = new System.Drawing.Point(-4, 38);
             this.dgvGrades.Name = "dgvGrades";
+            this.dgvGrades.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.dgvGrades.Size = new System.Drawing.Size(786, 389);
             this.dgvGrades.TabIndex = 0;
             this.dgvGrades.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvGrades_RowHeaderMouseDoubleClick);
+            this.dgvGrades.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvGrades_MouseUp);
             // 
             // tabAppointments
             // 
@@ -252,9 +258,9 @@
             this.columnDate});
             this.dgvAppointments.Location = new System.Drawing.Point(0, 0);
             this.dgvAppointments.Name = "dgvAppointments";
+            this.dgvAppointments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvAppointments.Size = new System.Drawing.Size(782, 426);
             this.dgvAppointments.TabIndex = 0;
-            this.dgvAppointments.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellClick);
             // 
             // columnName2
             // 
@@ -269,6 +275,7 @@
             // 
             // cbUsernames
             // 
+            this.cbUsernames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbUsernames.FormattingEnabled = true;
             this.cbUsernames.Location = new System.Drawing.Point(8, 182);
             this.cbUsernames.Name = "cbUsernames";
@@ -343,6 +350,7 @@
             this.MinimumSize = new System.Drawing.Size(340, 240);
             this.Name = "Shedule";
             this.Text = "Samen Sterk";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Shedule_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.tabShedule.ResumeLayout(false);

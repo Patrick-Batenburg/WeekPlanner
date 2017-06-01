@@ -14,7 +14,7 @@ namespace SamenSterk.Views
         //color help:
         //#ffffff //white background
         //#5a5a5a //black / grey for text
-        //#bd7cbb //purple colors
+        //#bd7cbb (orchid) //purple colors
         public DateTime startDate;
         public User currentUser;
         public User selectedUser;
@@ -34,8 +34,6 @@ namespace SamenSterk.Views
         private SubjectController subjectController;
         private AppointmentController appointmentController;
         private byte selectedTabIndex;
-        private DateTimePicker datePicker;
-        private DateTimePicker timePicker;
 
         /// <summary>
         /// Initializes a new instance of the form Shedule class.
@@ -46,12 +44,9 @@ namespace SamenSterk.Views
             InitializeComponent();
             this.currentUser = model;
             this.selectedUser = currentUser;
-            this.FormClosing += Shedule_FormClosing;
             cellPos = new int[2];
             logout = false;
 
-            tasks = new List<Task>();
-            repeatingTasks = new List<RepeatingTask>();
             grades = new List<Grade>();
             subjects = new List<Subject>();
             appointments = new List<Appointment>();
@@ -63,17 +58,7 @@ namespace SamenSterk.Views
             subjectController = new SubjectController();
             appointmentController = new AppointmentController();
 
-            dgvShedule.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dgvGrades.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dgvGrades.MouseUp += dgvGrades_MouseUp;
-            dgvGrades.AllowUserToAddRows = false;
-            dgvGrades.ColumnHeadersVisible = false;
-            dgvAppointments.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            tasks = taskController.Details(model.Id);
-            repeatingTasks = repeatingTaskController.Details(model.Id);
-            tabControl.Selected += tabControl_Selected;
-
-            for (int i = 0; i < dgvShedule.Columns.Count; i++) 
+            for (int i = 0; i < dgvShedule.Columns.Count; i++)
             {
                 dgvShedule.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable; 
             }
@@ -94,10 +79,10 @@ namespace SamenSterk.Views
                 cbUsernames.Click += cbUsernames_Click;
                 lblViewUser.Visible = true;
                 cbUsernames.Visible = true;
-                cbUsernames.Items.Add("Ik");
-                cbUsernames.DropDownStyle = ComboBoxStyle.DropDownList;
+                cbUsernames.Items.Add(currentUser.Username + " (ik)");
                 cbUsernames.SelectedIndex = 0;
             }
+
             LoadToGrid(typeof(Task));
         }
 
@@ -114,8 +99,8 @@ namespace SamenSterk.Views
             {
                 case "SamenSterk.Models.Task":
                     dgvShedule.Rows.Clear();
-                    tasks = taskController.Details(currentUser.Id);
-                    repeatingTasks = repeatingTaskController.Details(currentUser.Id);
+                    tasks = taskController.Details(selectedUser.Id);
+                    repeatingTasks = repeatingTaskController.Details(selectedUser.Id);
 
                     for (int i = 0; i < 17; i++)
                     {
@@ -615,44 +600,6 @@ namespace SamenSterk.Views
 
         #region Appointment eventhandlers
 
-        //{
-        //    if (e.ColumnIndex == 1 && e.RowIndex > -1)
-        //    {
-        //        datePicker = new DateTimePicker();
-        //        timePicker = new DateTimePicker();
-        //        dgvAppointments.Controls.Add(datePicker);
-        //        dgvAppointments.Controls.Add(timePicker);
-        //        datePicker.Format = DateTimePickerFormat.Custom;
-        //        datePicker.CustomFormat = "dd-MM-yyyy";
-        //        timePicker.Format = DateTimePickerFormat.Custom;
-        //        timePicker.CustomFormat = "hh:mm";
-        //        timePicker.ShowUpDown = true;
-        //        Rectangle Rectangle = dgvAppointments.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-        //        datePicker.Size = new Size(Rectangle.Width / 2, Rectangle.Height);
-        //        datePicker.Location = new Point(Rectangle.X, Rectangle.Y);
-        //        timePicker.Size = new Size(Rectangle.Width / 2, Rectangle.Height);
-        //        timePicker.Location = new Point(Rectangle.X + Rectangle.Width / 2, Rectangle.Height);
-
-        //        datePicker.CloseUp += new EventHandler(dateTimePicker_CloseUp);
-        //        datePicker.TextChanged += new EventHandler(dateTimePicker_OnTextChange);
-
-
-        //        datePicker.Visible = true;
-        //    }
-        //}
-        //private void dateTimePicker_OnTextChange(object sender, EventArgs e)
-        //{
-        //    dgvAppointments.CurrentCell.Value = (datePicker.Value.Date + timePicker.Value.TimeOfDay).ToString("dd-MM-yyyy hh:mm");
-        //}
-        //void dateTimePicker_CloseUp(object sender, EventArgs e)
-        //{
-        //    datePicker.Visible = false;
-        //    timePicker.Visible = false;
-        //} 
-        private void dgvAppointments_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
         #endregion Appointment eventhandlers
 
         #region Global eventhandlers
@@ -693,18 +640,24 @@ namespace SamenSterk.Views
                 case "Rooster":
                     btnPrevious.Enabled = true;
                     btnNext.Enabled = true;
+                    btnPrevious.BackColor = Color.Orchid;
+                    btnNext.BackColor = Color.Orchid;
                     selectedTabIndex = 0;
                     LoadToGrid(typeof(Task));
                     break;
                 case "Cijfers":
                     btnPrevious.Enabled = false;
                     btnNext.Enabled = false;
+                    btnPrevious.BackColor = Color.Plum;
+                    btnNext.BackColor = Color.Plum;
                     selectedTabIndex = 1;
                     LoadToGrid(typeof(Grade));
                     break;
                 case "Belangrijke Afspraken":
                     btnPrevious.Enabled = false;
                     btnNext.Enabled = false;
+                    btnPrevious.BackColor = Color.Plum;
+                    btnNext.BackColor = Color.Plum;
                     selectedTabIndex = 2;
                     LoadToGrid(typeof(Appointment));
                     break;
@@ -720,17 +673,16 @@ namespace SamenSterk.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void cbUsernames_Click(object sender, EventArgs e)
         {
-            List<User> users = new List<User>();
-            users = userController.Details(currentUser);
+            List<User> users = userController.Details(currentUser);
             cbUsernames.Items.Clear();
-            cbUsernames.Items.Add("Ik");
+            cbUsernames.Items.Add(currentUser.Username + " (ik)");
             cbUsernames.SelectedIndex = 0;
 
             if (users != null)
             {
-                foreach (User element in users)
+                foreach (User user in users)
                 {
-                    cbUsernames.Items.Add(element.Username);
+                    cbUsernames.Items.Add(user.Username);
                 }             
             }
         }
@@ -791,8 +743,7 @@ namespace SamenSterk.Views
                 }
             }
         }
+
         #endregion Global eventhandlers
-
-
     }
 }

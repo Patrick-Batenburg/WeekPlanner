@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.Button button1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
@@ -36,6 +37,7 @@
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.pbLogo = new System.Windows.Forms.PictureBox();
+            button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,12 +119,30 @@
             this.pbLogo.TabIndex = 3;
             this.pbLogo.TabStop = false;
             // 
+            // button1
+            // 
+            button1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            button1.BackColor = System.Drawing.Color.Transparent;
+            button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            button1.CausesValidation = false;
+            button1.Enabled = false;
+            button1.Location = new System.Drawing.Point(0, 0);
+            button1.Margin = new System.Windows.Forms.Padding(0);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(0, 0);
+            button1.TabIndex = 0;
+            button1.TabStop = false;
+            button1.UseMnemonic = false;
+            button1.UseVisualStyleBackColor = false;
+            button1.Visible = false;
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(184, 261);
+            this.Controls.Add(button1);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUsername);
