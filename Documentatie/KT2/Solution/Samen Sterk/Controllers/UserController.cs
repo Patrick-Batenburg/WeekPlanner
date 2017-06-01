@@ -104,7 +104,7 @@ namespace SamenSterk.Controllers
         {
             int result = 0;
             bool isUsername;
-            isUsername = Regex.IsMatch(model.Username, @"^(?=.{3,20}$)(?![_-])[a-zA-Z0-9-_]+(?<![_-])$", RegexOptions.None);
+            isUsername = Regex.IsMatch(model.Username, @"^(?=.{3,32}$)(?![_-])[a-zA-Z0-9-_]+(?<![_-])$", RegexOptions.None);
 
             if (isUsername == true)
             {
