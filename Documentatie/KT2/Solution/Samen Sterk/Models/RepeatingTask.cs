@@ -19,6 +19,8 @@ namespace SamenSterk.Models
         /// </summary>
         public RepeatingTask()
         {
+            this.title = "[Geen titel]";
+            this.duration = 1;
         }
 
         /// <summary>

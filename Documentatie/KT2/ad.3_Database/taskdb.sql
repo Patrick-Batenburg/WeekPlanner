@@ -22,12 +22,12 @@ DROP TABLE IF EXISTS `appointments`;
 CREATE TABLE IF NOT EXISTS `appointments` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
-  `Description` varchar(64) NOT NULL,
-  `Date` date NOT NULL,
+  `Name` varchar(64) NOT NULL DEFAULT '[Geen naam]',
+  `Date` datetime NOT NULL DEFAULT '1980-01-01 00:00:00',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Id` (`Id`),
-  KEY `UserId` (`UserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `UserId` (`UserId`),
+  CONSTRAINT `FK_appointments_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=689 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.grades
@@ -35,12 +35,13 @@ DROP TABLE IF EXISTS `grades`;
 CREATE TABLE IF NOT EXISTS `grades` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
-  `RowIndex` int(10) NOT NULL,
-  `ColumnIndex` int(10) unsigned NOT NULL,
-  `Number` float unsigned NOT NULL DEFAULT '0',
+  `RowIndex` int(10) unsigned NOT NULL DEFAULT '0',
+  `ColumnIndex` int(10) unsigned NOT NULL DEFAULT '0',
+  `Number` float unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`Id`),
-  KEY `UserId` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  KEY `UserId` (`UserId`),
+  CONSTRAINT `FK_grades_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.repeatingtasks
@@ -48,28 +49,28 @@ DROP TABLE IF EXISTS `repeatingtasks`;
 CREATE TABLE IF NOT EXISTS `repeatingtasks` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
-  `Title` varchar(64) NOT NULL,
-  `Day` varchar(50) NOT NULL,
+  `Title` varchar(64) NOT NULL DEFAULT '[Geen titel]',
+  `Day` varchar(16) NOT NULL,
   `Time` time NOT NULL,
-  `Duration` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `Duration` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `Label` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Id` (`Id`),
-  KEY `UserFK` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1;
+  KEY `UserId` (`UserId`),
+  CONSTRAINT `FK_repeatingtasks_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.subjects
 DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE IF NOT EXISTS `subjects` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `RowIndex` int(10) unsigned NOT NULL,
   `UserId` int(10) unsigned NOT NULL,
-  `Name` varchar(64) NOT NULL,
+  `RowIndex` int(10) unsigned NOT NULL DEFAULT '0',
+  `Name` varchar(64) NOT NULL DEFAULT '[Geen naam]',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `RowIndex` (`RowIndex`,`Name`),
-  KEY `UserId` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+  KEY `UserId` (`UserId`),
+  CONSTRAINT `FK_subjects_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.tasks
@@ -77,15 +78,14 @@ DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned NOT NULL,
-  `Title` varchar(64) NOT NULL,
+  `Title` varchar(64) NOT NULL DEFAULT '[Geen titel]',
   `Date` datetime NOT NULL,
-  `Duration` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `Duration` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `Label` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Id` (`Id`),
-  UNIQUE KEY `Date` (`Date`),
-  KEY `UserFK` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=latin1;
+  KEY `UserId` (`UserId`),
+  CONSTRAINT `FK_tasks_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.users
@@ -94,10 +94,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Username` varchar(64) NOT NULL,
   `Password` varchar(64) NOT NULL,
-  `Role` varchar(64) NOT NULL DEFAULT 'Member',
+  `Role` varchar(8) NOT NULL DEFAULT 'Member',
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Username` (`Username`),
-  UNIQUE KEY `Id` (`Id`)
+  UNIQUE KEY `Username` (`Username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.

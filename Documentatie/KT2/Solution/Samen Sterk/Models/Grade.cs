@@ -16,6 +16,9 @@ namespace SamenSterk.Models
         /// </summary>
         public Grade()
         {
+            this.rowIndex = 0;
+            this.columnIndex = 0;
+            this.number = 1.0f;
         }
 
         /// <summary>

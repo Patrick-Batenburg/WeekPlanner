@@ -16,6 +16,8 @@ namespace SamenSterk.Models
         /// </summary>
         public Appointment()
         {
+            this.name = "[Geen naam]";
+            this.date = new DateTime(1980, 1, 1);
         }
 
         /// <summary>
