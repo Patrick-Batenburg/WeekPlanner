@@ -47,8 +47,6 @@
             this.dgvGrades = new System.Windows.Forms.DataGridView();
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.dgvAppointments = new System.Windows.Forms.DataGridView();
-            this.columnName2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbUsernames = new System.Windows.Forms.ComboBox();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
@@ -253,9 +251,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvAppointments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAppointments.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.columnName2,
-            this.columnDate});
             this.dgvAppointments.Location = new System.Drawing.Point(0, 0);
             this.dgvAppointments.Name = "dgvAppointments";
             this.dgvAppointments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
@@ -272,6 +267,9 @@
             this.columnDate.HeaderText = "Datum";
             this.columnDate.Name = "columnDate";
             this.columnDate.Width = 150;
+            this.dgvAppointments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellDoubleClick);
+            this.dgvAppointments.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAppointments_CellMouseUp);
+            this.dgvAppointments.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvAppointments_MouseUp);
             // 
             // cbUsernames
             // 
@@ -389,7 +387,5 @@
         private System.Windows.Forms.Label lblInsertName;
         private System.Windows.Forms.Label lblViewUser;
         private System.Windows.Forms.Label lblUsername;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnName2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn columnDate;
     }
 }

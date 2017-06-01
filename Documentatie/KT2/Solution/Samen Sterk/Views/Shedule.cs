@@ -2,6 +2,7 @@
 using SamenSterk.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace SamenSterk.Views
         //#5a5a5a //black / grey for text
         //#bd7cbb (orchid) //purple colors
         public DateTime startDate;
+        public DateTime appointmentDate;
         public User currentUser;
         public User selectedUser;
         private int[] cellPos;
@@ -60,7 +62,7 @@ namespace SamenSterk.Views
 
             for (int i = 0; i < dgvShedule.Columns.Count; i++)
             {
-                dgvShedule.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable; 
+                dgvShedule.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
             }
 
             for (int i = 0; i < 7; i++)
@@ -227,13 +229,13 @@ namespace SamenSterk.Views
                             if (dgvGrades.ColumnCount > 0)
                             {
                                 List<DataGridViewRow> rows = (from row in dgvGrades.Rows.Cast<DataGridViewRow>()
-                                                            select row).ToList();
+                                                              select row).ToList();
 
                                 if (rows.Count != 0)
                                 {
                                     index = (from row in rows
-                                            where row.Cells[dgvGrades.ColumnCount - 1].Value != null
-                                            select row.Index).FirstOrDefault();
+                                             where row.Cells[dgvGrades.ColumnCount - 1].Value != null
+                                             select row.Index).FirstOrDefault();
                                 }
                             }
                         }
@@ -247,10 +249,39 @@ namespace SamenSterk.Views
                     dgvGrades.CellValueChanged += dgvGrades_CellValueChanged;
                     break;
                 case "SamenSterk.Models.Appointment":
-                    /*if (appointments != null)
-                    { 
+                    dgvAppointments.CellValueChanged -= dgvAppointments_CellValueChanged;
+                    dgvAppointments.DataSource = null;
+                    dgvAppointments.Rows.Clear();
+                    appointments = appointmentController.Details(selectedUser.Id);
 
-                    }*/
+                    appointments = (from appointment in appointments
+                                    where appointment.Date > DateTime.Today || appointment.Date == new DateTime(1980, 1, 1)
+                                    select appointment).ToList();
+
+                    DataTable dataTable = new DataTable();  
+                    dataTable.Columns.Add("Naam", typeof(string));
+                    dataTable.Columns.Add("Datum", typeof(string));
+                    dataTable.Columns.Add("Verwijderen?", typeof(bool));
+                    dataTable.Columns.Add("Id", typeof(uint));
+
+                    if (appointments.Count != 0)
+                    {
+                        for (int i = 0; i < appointments.Count; i++)
+                        {
+                            if (appointments[i].Date.ToString("dd-MM-yyyy HH:mm") == new DateTime(1980, 1, 1).ToString("dd-MM-yyyy HH:mm"))
+                            {
+                                dataTable.Rows.Add(appointments[i].Name, "[Geen datum]", false, appointments[i].Id);  
+                            }
+                            else
+                            {
+                                dataTable.Rows.Add(appointments[i].Name, appointments[i].Date.ToString("dd-MM-yyyy HH:mm"), false, appointments[i].Id);  
+                            }
+                        }
+                    }
+                    dgvAppointments.DataSource = dataTable;
+                    dgvAppointments.Columns[1].ReadOnly = true;
+                    dgvAppointments.Columns[dgvAppointments.ColumnCount - 1].Visible = false;
+                    dgvAppointments.CellValueChanged += dgvAppointments_CellValueChanged;
                     break;
                 default:
                     break;
@@ -423,7 +454,7 @@ namespace SamenSterk.Views
             }
         }
         #endregion Task eventhandlers
-        
+
         #region Grade eventhandlers
         /// <summary>
         /// Occurs when the Button control is clicked.
@@ -473,7 +504,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
-        void dgvGrades_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvGrades_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (selectedUser.Id == currentUser.Id)
             {
@@ -496,7 +527,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
-        void dgvGrades_MouseUp(object sender, MouseEventArgs e)
+        private void dgvGrades_MouseUp(object sender, MouseEventArgs e)
         {
             //exits edit mode when editing grades
             if (e.Button == MouseButtons.Left)
@@ -524,7 +555,7 @@ namespace SamenSterk.Views
                                    where grade.RowIndex == Convert.ToUInt32(e.RowIndex) && grade.ColumnIndex == Convert.ToUInt32(e.ColumnIndex)
                                    select grade).FirstOrDefault();
 
-                    if (query == null && string.IsNullOrEmpty(dgvGrades[e.ColumnIndex, e.RowIndex].Value.ToString()) == false)
+                    if (query == null && dgvGrades[e.ColumnIndex, e.RowIndex].Value != null)
                     {
                         //adds a grade
                         float number;
@@ -535,7 +566,6 @@ namespace SamenSterk.Views
                         {
                             MessageBox.Show("Kon het cijfer niet toevoegen.\nWaarde moet tussen de 1,0 en 10 liggen.");
                             result = 2;
-                            number = 1.0f;
                         }
                         else
                         {
@@ -590,16 +620,178 @@ namespace SamenSterk.Views
 
                     LoadToGrid(typeof(Grade));
                 }
-            }
-            else
-            {
-                MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
+                else
+                {
+                    MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
+                }
             }
         }
         #endregion Grade eventhandlers
 
         #region Appointment eventhandlers
+        /// <summary>
+        /// Occurs when the user double-clicks anywhere in a cell.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvAppointments_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex > -1 && e.RowIndex > -1 && e.ColumnIndex == 1)
+            {
+                if (selectedUser.Id == currentUser.Id)
+                {
+                    if (dgvAppointments[1, e.RowIndex].Value != null)
+                    {
+                        if (dgvAppointments[1, e.RowIndex].Value.ToString() == "[Geen datum]" || string.IsNullOrEmpty(dgvAppointments[1, e.RowIndex].Value.ToString()) == true)
+                        {
+                            EditAppointment editAppointment = new EditAppointment(this, DateTime.Now);
+                            editAppointment.ShowDialog();
+                        }
+                        else
+                        {
+                            EditAppointment editAppointment = new EditAppointment(this, Convert.ToDateTime(dgvAppointments[1, e.RowIndex].Value));
 
+                            editAppointment.ShowDialog();
+                        }
+                    }
+
+                    dgvAppointments[e.ColumnIndex, e.RowIndex].Value = appointmentDate.ToString("dd-MM-yyyy HH:mm");
+                }
+                else
+                {
+                    MessageBox.Show("Kan afspraken voor andere gebruikers niet toevoegen/wijzigen.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the mouse pointer is over the control and a mouse button is released.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
+        private void dgvAppointments_MouseUp(object sender, MouseEventArgs e)
+        {
+            //exits edit mode when editing grades
+            if (e.Button == MouseButtons.Left)
+            {
+                if (dgvAppointments.HitTest(e.X, e.Y) == System.Windows.Forms.DataGridView.HitTestInfo.Nowhere)
+                {
+                    dgvAppointments.EndEdit();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the user releases a mouse button while over a cell.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
+        private void dgvAppointments_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.ColumnIndex == 2)
+            {
+                dgvAppointments.EndEdit();
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the value of a cell changes.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
+        private void dgvAppointments_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex > -1 && e.RowIndex > -1)
+            {
+                int result = 0;
+                Appointment query = null;
+                uint? id = null;
+                List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
+                                              select row).ToList();
+
+                switch (e.ColumnIndex)
+                {
+                    case 0:
+                        if (selectedUser.Id == currentUser.Id)
+                        {
+                            if (string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)) != true && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex + 1, e.RowIndex].Value)) == true)
+                            {
+                                result = appointmentController.Create(new Appointment()
+                                {
+                                    UserId = currentUser.Id,
+                                    Name = Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value),
+                                });
+                            }
+                            else
+                            {
+                                query = (from appointment in appointments
+                                         where appointment.Id == Convert.ToUInt32(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)
+                                         select appointment).FirstOrDefault();
+
+                                query.Name = Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value);
+
+                                if (query != null)
+                                {
+                                    result = appointmentController.Edit(query);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Kan afspraken voor andere gebruikers niet toevoegen/wijzigen.");
+                        }
+                        break;
+                    case 1:
+                        if (string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)) != true && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex - 1, e.RowIndex].Value)) == true)
+                        {
+                            result = appointmentController.Create(new Appointment()
+                            {
+                                UserId = currentUser.Id,
+                                Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)
+                            });
+                        }
+                        else
+                        {
+                            query = (from appointment in appointments
+                                        where appointment.Id == Convert.ToUInt32(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)
+                                        select appointment).FirstOrDefault();
+
+                            query.Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value);
+
+                            if (query != null)
+                            {
+                                result = appointmentController.Edit(query);
+                            }
+                        }
+                        break;
+                    case 2:
+                        if (selectedUser.Id == currentUser.Id)
+                        {
+                            id = (from row in rows
+                                    where Convert.ToBoolean(row.Cells[dgvAppointments.ColumnCount - 2].Value) == true
+                                    select Convert.ToUInt32(row.Cells[dgvAppointments.ColumnCount - 1].Value)).FirstOrDefault();
+
+                            query = (from appointment in appointments
+                                        where appointment.Id == id
+                                        select appointment).FirstOrDefault();
+
+                            if (query != null)
+                            {
+                                result = appointmentController.Delete(query);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Kan afspraken voor andere gebruikers niet verwijderen.");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                LoadToGrid(typeof(Appointment));              
+            }
+        }
         #endregion Appointment eventhandlers
 
         #region Global eventhandlers
@@ -608,7 +800,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
-        void Shedule_FormClosing(object sender, FormClosingEventArgs e)
+        private void Shedule_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (logout != true)
             {
@@ -633,7 +825,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="TabControlEventArgs"/> instance containing the event data.</param> 
-        void tabControl_Selected(object sender, TabControlEventArgs e)
+        private void tabControl_Selected(object sender, TabControlEventArgs e)
         {
             switch (e.TabPage.Text)
             {
@@ -673,18 +865,24 @@ namespace SamenSterk.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void cbUsernames_Click(object sender, EventArgs e)
         {
+            string textValue = cbUsernames.Text;
             List<User> users = userController.Details(currentUser);
-            cbUsernames.Items.Clear();
-            cbUsernames.Items.Add(currentUser.Username + " (ik)");
-            cbUsernames.SelectedIndex = 0;
+            ComboBox comboBox = (ComboBox)sender;
 
-            if (users != null)
+            users.Insert(0, new User()
             {
-                foreach (User user in users)
-                {
-                    cbUsernames.Items.Add(user.Username);
-                }             
-            }
+                Id = currentUser.Id,
+                Username = currentUser.Username + " (Ik)"
+            });
+
+            cbUsernames.SelectedIndexChanged -= cbUsernames_SelectedIndexChanged;
+            cbUsernames.DataSource = null;
+            cbUsernames.Items.Clear();
+            cbUsernames.DataSource = users;
+            cbUsernames.ValueMember = "Id";
+            cbUsernames.DisplayMember = "Username";
+            cbUsernames.SelectedIndexChanged += cbUsernames_SelectedIndexChanged;
+            cbUsernames.Text = textValue;
         }
 
         /// <summary>
@@ -694,15 +892,17 @@ namespace SamenSterk.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void cbUsernames_SelectedIndexChanged(object sender, EventArgs e)
         {
-            List<User> users = new List<User>();
             User selected = new User();
+            ComboBox comboBox = (ComboBox)sender;
 
             if (cbUsernames.SelectedIndex != 0)
             {
-                users = userController.Details(currentUser);
-                selected = (from user in users
-                            where user.Username == cbUsernames.SelectedItem.ToString()
-                            select user).FirstOrDefault();
+                if ((User)comboBox.SelectedItem != null)
+                {
+                    selected = (User)comboBox.SelectedItem;
+                    cbUsernames.Text = selected.Username;
+                }
+
                 this.selectedUser = selected;
 
                 if (selected != null)
@@ -743,7 +943,6 @@ namespace SamenSterk.Views
                 }
             }
         }
-
         #endregion Global eventhandlers
     }
 }
