@@ -545,6 +545,14 @@ namespace SamenSterk.Views
             }
         }
 
+        private void txtSubjectName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnAddSubject_Click(sender, e);
+            }
+        }
+
         /// <summary>
         /// Occurs when the value of a cell changes.
         /// </summary>
@@ -842,26 +850,14 @@ namespace SamenSterk.Views
             switch (e.TabPage.Text)
             {
                 case "Rooster":
-                    btnPrevious.Enabled = true;
-                    btnNext.Enabled = true;
-                    btnPrevious.BackColor = Color.Orchid;
-                    btnNext.BackColor = Color.Orchid;
                     selectedTabIndex = 0;
                     LoadToGrid(typeof(Task));
                     break;
                 case "Cijfers":
-                    btnPrevious.Enabled = false;
-                    btnNext.Enabled = false;
-                    btnPrevious.BackColor = Color.Plum;
-                    btnNext.BackColor = Color.Plum;
                     selectedTabIndex = 1;
                     LoadToGrid(typeof(Grade));
                     break;
                 case "Belangrijke Afspraken":
-                    btnPrevious.Enabled = false;
-                    btnNext.Enabled = false;
-                    btnPrevious.BackColor = Color.Plum;
-                    btnNext.BackColor = Color.Plum;
                     selectedTabIndex = 2;
                     LoadToGrid(typeof(Appointment));
                     break;
@@ -956,5 +952,25 @@ namespace SamenSterk.Views
             }
         }
         #endregion Global eventhandlers
+
+        private void dgvAppointments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            switch (e.ColumnIndex)
+            {
+                case 0: //naam
+                    break;
+                case 1: //datum
+                    //dgvAppointments.Sort(dgvAppointments.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
+
+                    //List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
+                    //                              where Convert.ToString(row.Cells[1].Value) != "[Geen datum]" && string.IsNullOrEmpty(Convert.ToString(row.Cells[1].Value)) == false
+                    //                               select row).ToList();
+                    (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = string.Format("Datum LIKE '*-20*'");
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 }

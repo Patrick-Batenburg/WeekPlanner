@@ -93,12 +93,12 @@
             this.columnDay5,
             this.columnDay6,
             this.columnDay7});
-            this.dgvShedule.Location = new System.Drawing.Point(0, 0);
+            this.dgvShedule.Location = new System.Drawing.Point(0, 37);
             this.dgvShedule.Name = "dgvShedule";
             this.dgvShedule.ReadOnly = true;
             this.dgvShedule.RowHeadersWidth = 70;
             this.dgvShedule.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dgvShedule.Size = new System.Drawing.Size(776, 426);
+            this.dgvShedule.Size = new System.Drawing.Size(776, 411);
             this.dgvShedule.TabIndex = 1;
             this.dgvShedule.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellDoubleClick);
             this.dgvShedule.ColumnHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvShedule_ColumnHeaderMouseDoubleClick);
@@ -157,17 +157,19 @@
             this.tabControl.Location = new System.Drawing.Point(102, 13);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(781, 456);
+            this.tabControl.Size = new System.Drawing.Size(781, 466);
             this.tabControl.TabIndex = 2;
             this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
             // 
             // tabShedule
             // 
             this.tabShedule.Controls.Add(this.dgvShedule);
+            this.tabShedule.Controls.Add(this.btnPrevious);
+            this.tabShedule.Controls.Add(this.btnNext);
             this.tabShedule.Location = new System.Drawing.Point(4, 23);
             this.tabShedule.Name = "tabShedule";
             this.tabShedule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabShedule.Size = new System.Drawing.Size(773, 429);
+            this.tabShedule.Size = new System.Drawing.Size(773, 439);
             this.tabShedule.TabIndex = 0;
             this.tabShedule.Text = "Rooster";
             this.tabShedule.UseVisualStyleBackColor = true;
@@ -181,7 +183,7 @@
             this.tabGrades.Location = new System.Drawing.Point(4, 23);
             this.tabGrades.Name = "tabGrades";
             this.tabGrades.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGrades.Size = new System.Drawing.Size(773, 429);
+            this.tabGrades.Size = new System.Drawing.Size(773, 439);
             this.tabGrades.TabIndex = 1;
             this.tabGrades.Text = "Cijfers";
             this.tabGrades.UseVisualStyleBackColor = true;
@@ -190,7 +192,7 @@
             // 
             this.lblInsertName.AutoSize = true;
             this.lblInsertName.ForeColor = System.Drawing.Color.Red;
-            this.lblInsertName.Location = new System.Drawing.Point(195, 13);
+            this.lblInsertName.Location = new System.Drawing.Point(194, 9);
             this.lblInsertName.Name = "lblInsertName";
             this.lblInsertName.Size = new System.Drawing.Size(91, 14);
             this.lblInsertName.TabIndex = 3;
@@ -203,6 +205,7 @@
             this.txtSubjectName.Name = "txtSubjectName";
             this.txtSubjectName.Size = new System.Drawing.Size(85, 20);
             this.txtSubjectName.TabIndex = 2;
+            this.txtSubjectName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSubjectName_KeyPress);
             // 
             // btnAddSubject
             // 
@@ -210,7 +213,7 @@
             this.btnAddSubject.FlatAppearance.BorderSize = 0;
             this.btnAddSubject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddSubject.ForeColor = System.Drawing.Color.White;
-            this.btnAddSubject.Location = new System.Drawing.Point(97, 5);
+            this.btnAddSubject.Location = new System.Drawing.Point(97, 4);
             this.btnAddSubject.Name = "btnAddSubject";
             this.btnAddSubject.Size = new System.Drawing.Size(91, 25);
             this.btnAddSubject.TabIndex = 1;
@@ -226,10 +229,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvGrades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvGrades.ColumnHeadersVisible = false;
-            this.dgvGrades.Location = new System.Drawing.Point(-4, 38);
+            this.dgvGrades.Location = new System.Drawing.Point(0, 37);
             this.dgvGrades.Name = "dgvGrades";
             this.dgvGrades.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dgvGrades.Size = new System.Drawing.Size(786, 389);
+            this.dgvGrades.Size = new System.Drawing.Size(786, 399);
             this.dgvGrades.TabIndex = 0;
             this.dgvGrades.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvGrades_RowHeaderMouseDoubleClick);
             this.dgvGrades.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvGrades_MouseUp);
@@ -240,7 +243,7 @@
             this.tabAppointments.Location = new System.Drawing.Point(4, 23);
             this.tabAppointments.Name = "tabAppointments";
             this.tabAppointments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAppointments.Size = new System.Drawing.Size(773, 429);
+            this.tabAppointments.Size = new System.Drawing.Size(773, 439);
             this.tabAppointments.TabIndex = 2;
             this.tabAppointments.Text = "Belangrijke Afspraken";
             this.tabAppointments.UseVisualStyleBackColor = true;
@@ -254,10 +257,11 @@
             this.dgvAppointments.Location = new System.Drawing.Point(0, 0);
             this.dgvAppointments.Name = "dgvAppointments";
             this.dgvAppointments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dgvAppointments.Size = new System.Drawing.Size(782, 426);
+            this.dgvAppointments.Size = new System.Drawing.Size(782, 448);
             this.dgvAppointments.TabIndex = 0;
             this.dgvAppointments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellDoubleClick);
             this.dgvAppointments.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAppointments_CellMouseUp);
+            this.dgvAppointments.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAppointments_ColumnHeaderMouseClick);
             this.dgvAppointments.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvAppointments_MouseUp);
             // 
             // cbUsernames
@@ -277,7 +281,7 @@
             this.btnPrevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPrevious.Font = new System.Drawing.Font("Arial", 8.25F);
             this.btnPrevious.ForeColor = System.Drawing.Color.White;
-            this.btnPrevious.Location = new System.Drawing.Point(12, 86);
+            this.btnPrevious.Location = new System.Drawing.Point(3, 5);
             this.btnPrevious.Name = "btnPrevious";
             this.btnPrevious.Size = new System.Drawing.Size(75, 25);
             this.btnPrevious.TabIndex = 2;
@@ -292,7 +296,7 @@
             this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNext.Font = new System.Drawing.Font("Arial", 8.25F);
             this.btnNext.ForeColor = System.Drawing.Color.White;
-            this.btnNext.Location = new System.Drawing.Point(12, 117);
+            this.btnNext.Location = new System.Drawing.Point(84, 5);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 25);
             this.btnNext.TabIndex = 4;
@@ -324,11 +328,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(891, 481);
+            this.ClientSize = new System.Drawing.Size(891, 491);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.lblViewUser);
-            this.Controls.Add(this.btnNext);
-            this.Controls.Add(this.btnPrevious);
             this.Controls.Add(this.cbUsernames);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.tabControl);
