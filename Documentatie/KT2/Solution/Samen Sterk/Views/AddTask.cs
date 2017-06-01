@@ -47,51 +47,62 @@ namespace SamenSterk.Views
                 nudDuration.Value = 1;
             }
 
-            if (cbRepeating.Checked == false)
+            if (txtTitle.Text.Length > 64)
             {
-                task = new Task()
-                {
-                    UserId = userId,
-                    Title = txtTitle.Text,
-                    Duration = Convert.ToByte(nudDuration.Value),
-                    Date = Convert.ToDateTime(dateTime),
-                    Label = txtLabel.Text,
-                };
-
-                result = taskController.Exceeds(task);
-
-                if (result != 0 && result != 2)
-                {
-                    result = taskController.Create(task);
-                }
+                MessageBox.Show("Titel is te lang.");
+            }
+            else if (txtLabel.Text.Length > 64)
+            {
+                MessageBox.Show("Label is te lang.");
             }
             else
             {
-                repeatingTask = new RepeatingTask()
+                if (cbRepeating.Checked == false)
                 {
-                    UserId = userId,
-                    Title = txtTitle.Text,
-                    Day = dateTime.ToString("dddd"),
-                    Time = dateTime.TimeOfDay,
-                    Duration = Convert.ToByte(nudDuration.Value),
-                    Label = txtLabel.Text
-                };
+                    task = new Task()
+                    {
+                        UserId = userId,
+                        Title = txtTitle.Text,
+                        Duration = Convert.ToByte(nudDuration.Value),
+                        Date = Convert.ToDateTime(dateTime),
+                        Label = txtLabel.Text,
+                    };
 
-                result = repeatingTaskController.Exceeds(repeatingTask);
+                    result = taskController.Exceeds(task);
 
-                if (result != 0 && result != 2)
-                {
-                    result = repeatingTaskController.Create(repeatingTask);
+                    if (result != 0 && result != 2)
+                    {
+                        result = taskController.Create(task);
+                    }
                 }
-            }
+                else
+                {
+                    repeatingTask = new RepeatingTask()
+                    {
+                        UserId = userId,
+                        Title = txtTitle.Text,
+                        Day = dateTime.ToString("dddd"),
+                        Time = dateTime.TimeOfDay,
+                        Duration = Convert.ToByte(nudDuration.Value),
+                        Label = txtLabel.Text
+                    };
 
-            if (result != 2)
-            {
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Kan de taak niet toevoegen. De tijd overlapt over een andere taak.");
+                    result = repeatingTaskController.Exceeds(repeatingTask);
+
+                    if (result != 0 && result != 2)
+                    {
+                        result = repeatingTaskController.Create(repeatingTask);
+                    }
+                }
+
+                if (result != 2)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Kan de taak niet toevoegen. De tijd overlapt over een andere taak.");
+                }
             }
         }
     }

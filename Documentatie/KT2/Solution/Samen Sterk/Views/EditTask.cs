@@ -87,82 +87,98 @@ namespace SamenSterk.Views
                 nudDuration.Value = 1;
             }
 
-            if (cbRepeating.Checked == false)
+            if (Convert.ToByte(nudDuration.Value) + dateTime.Hour > 24)
             {
-                if (taskModel != null)
-                {
-                    this.taskModel.Duration = Convert.ToByte(nudDuration.Value);
-                    this.taskModel.Title = txtTitle.Text;
-                    this.taskModel.Label = txtLabel.Text;
-                    result = taskController.Exceeds(taskModel);
+                nudDuration.Value = 24 - dateTime.Hour;
+            }
 
-                    if (result != 0 && result != 2)
+            if (txtTitle.Text.Length > 64)
+            {
+                MessageBox.Show("Titel is te lang.");
+            }
+            else if (txtLabel.Text.Length > 64)
+            {
+                MessageBox.Show("Label is te lang.");
+            }
+            else
+            {
+                if (cbRepeating.Checked == false)
+                {
+                    if (taskModel != null)
                     {
-                        result = taskController.Edit(taskModel);
+                        this.taskModel.Duration = Convert.ToByte(nudDuration.Value);
+                        this.taskModel.Title = txtTitle.Text;
+                        this.taskModel.Label = txtLabel.Text;
+                        result = taskController.Exceeds(taskModel);
+
+                        if (result != 0 && result != 2)
+                        {
+                            result = taskController.Edit(taskModel);
+                        }
+                    }
+                    else
+                    {
+                        Task task = new Task()
+                        {
+                            UserId = repeatingTaskModel.UserId,
+                            Title = txtTitle.Text,
+                            Date = dateTime,
+                            Duration = Convert.ToByte(nudDuration.Value),
+                            Label = txtLabel.Text
+                        };
+                        repeatingTaskController.Delete(repeatingTaskModel);
+                        result = taskController.Exceeds(task);
+
+                        if (result != 0 && result != 2)
+                        {
+                            result = taskController.Create(task);
+                        }
                     }
                 }
                 else
                 {
-                    Task task = new Task()
+                    if (repeatingTaskModel != null)
                     {
-                        UserId = repeatingTaskModel.UserId,
-                        Title = txtTitle.Text,
-                        Date = dateTime,
-                        Duration = Convert.ToByte(nudDuration.Value),
-                        Label = txtLabel.Text
-                    };
-                    repeatingTaskController.Delete(repeatingTaskModel);
-                    result = taskController.Exceeds(task);
+                        this.repeatingTaskModel.Duration = Convert.ToByte(nudDuration.Value);
+                        this.repeatingTaskModel.Title = txtTitle.Text;
+                        this.repeatingTaskModel.Label = txtLabel.Text;
+                        this.repeatingTaskModel.Time = dateTime.TimeOfDay;
+                        result = repeatingTaskController.Exceeds(repeatingTaskModel);
 
-                    if (result != 0 && result != 2)
+                        if (result != 0 && result != 2)
+                        {
+                            result = repeatingTaskController.Edit(repeatingTaskModel);
+                        }
+                    }
+                    else
                     {
-                        result = taskController.Create(task);
+                        RepeatingTask repeatingTask = new RepeatingTask()
+                        {
+                            UserId = taskModel.UserId,
+                            Title = txtTitle.Text,
+                            Day = dateTime.ToString("dddd"),
+                            Time = dateTime.TimeOfDay,
+                            Duration = Convert.ToByte(nudDuration.Value),
+                            Label = txtLabel.Text
+                        };
+                        taskController.Delete(taskModel);
+                        result = repeatingTaskController.Exceeds(repeatingTask);
+
+                        if (result != 0 && result != 2)
+                        {
+                            result = repeatingTaskController.Create(repeatingTask);
+                        }
                     }
                 }
-            }
-            else
-            {
-                if (repeatingTaskModel != null)
-                {
-                    this.repeatingTaskModel.Duration = Convert.ToByte(nudDuration.Value);
-                    this.repeatingTaskModel.Title = txtTitle.Text;
-                    this.repeatingTaskModel.Label = txtLabel.Text;
-                    this.repeatingTaskModel.Time = dateTime.TimeOfDay;
-                    result = repeatingTaskController.Exceeds(repeatingTaskModel);
 
-                    if (result != 0 && result != 2)
-                    {
-                        result = repeatingTaskController.Edit(repeatingTaskModel);
-                    }
+                if (result != 2)
+                {
+                    this.Close();
                 }
                 else
                 {
-                    RepeatingTask repeatingTask = new RepeatingTask()
-                    {
-                        UserId = taskModel.UserId,
-                        Title = txtTitle.Text,
-                        Day = dateTime.ToString("dddd"),
-                        Time = dateTime.TimeOfDay,
-                        Duration = Convert.ToByte(nudDuration.Value),
-                        Label = txtLabel.Text
-                    };
-                    taskController.Delete(taskModel);
-                    result = repeatingTaskController.Exceeds(repeatingTask);
-
-                    if (result != 0 && result != 2)
-                    {
-                        result = repeatingTaskController.Create(repeatingTask);
-                    }
+                    MessageBox.Show("Kan de taak niet toevoegen. De tijd overlapt over een andere taak.");
                 }
-            }
-
-            if (result != 2)
-            {
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Kan de taak niet toevoegen. De tijd overlapt over een andere taak.");
             }
         }
 

@@ -139,8 +139,11 @@ namespace SamenSterk.Views
 
                             for (byte i = 0; i <= element.Duration - 1; i++)
                             {
-                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.BackColor = ColorTranslator.FromHtml("#673AB7");
-                                dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.ForeColor = Color.White;
+                                if (rowIndex + i < dgvShedule.RowCount)
+                                {
+                                    dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.BackColor = ColorTranslator.FromHtml("#673AB7");
+                                    dgvShedule.Rows[rowIndex + i].Cells[columnIndex].Style.ForeColor = Color.White;
+                                }
                             }
 
                             rowIndex = 0;
@@ -386,7 +389,7 @@ namespace SamenSterk.Views
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
-        private void dgvShedule_ColumnHeaderMouseDoubleClick_1(object sender, DataGridViewCellMouseEventArgs e)
+        private void dgvShedule_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             EditDate editSchedule = new EditDate(this, Convert.ToDateTime(this.dgvShedule.Columns[0].HeaderText));
             editSchedule.ShowDialog();
@@ -410,14 +413,16 @@ namespace SamenSterk.Views
         {
             DateTime firstDate = Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-1);
             DateTime dateTime;
+
             if (Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-7) > DateTime.Today)
             {
                 dateTime = firstDate;
             }
             else
             {
-                dateTime = DateTime.Today;
+                dateTime = DateTime.Today.AddDays(6);
             }
+
             for (int i = 0; i < 7; i++)
             {
                 dgvShedule.Columns[6 - i].HeaderText = dateTime.AddDays(-i).ToString("dd-MM-yyyy");
@@ -771,17 +776,20 @@ namespace SamenSterk.Views
                     case 2:
                         if (selectedUser.Id == currentUser.Id)
                         {
-                            id = (from row in rows
-                                    where Convert.ToBoolean(row.Cells[dgvAppointments.ColumnCount - 2].Value) == true
-                                    select Convert.ToUInt32(row.Cells[dgvAppointments.ColumnCount - 1].Value)).FirstOrDefault();
-
-                            query = (from appointment in appointments
-                                        where appointment.Id == id
-                                        select appointment).FirstOrDefault();
-
-                            if (query != null)
+                            if (e.RowIndex < dgvAppointments.RowCount - 2)
                             {
-                                result = appointmentController.Delete(query);
+                                id = (from row in rows
+                                      where Convert.ToBoolean(row.Cells[dgvAppointments.ColumnCount - 2].Value) == true
+                                      select Convert.ToUInt32(row.Cells[dgvAppointments.ColumnCount - 1].Value)).FirstOrDefault();
+
+                                query = (from appointment in appointments
+                                         where appointment.Id == id
+                                         select appointment).FirstOrDefault();
+
+                                if (query != null)
+                                {
+                                    result = appointmentController.Delete(query);
+                                }
                             }
                         }
                         else

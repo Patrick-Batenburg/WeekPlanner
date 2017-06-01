@@ -101,7 +101,7 @@
             this.dgvShedule.Size = new System.Drawing.Size(776, 426);
             this.dgvShedule.TabIndex = 1;
             this.dgvShedule.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellDoubleClick);
-            this.dgvShedule.ColumnHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvShedule_ColumnHeaderMouseDoubleClick_1);
+            this.dgvShedule.ColumnHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvShedule_ColumnHeaderMouseDoubleClick);
             // 
             // columnDay1
             // 
