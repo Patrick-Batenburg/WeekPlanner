@@ -68,8 +68,8 @@ namespace SamenSterk.Views
             {
                 timePicker.Value = DateTime.Now;
             }
-
             shedule.appointmentDate = datePicker.Value.Date + timePicker.Value.TimeOfDay;
+            shedule.EditAppointment();
             this.Close();
         }
 
@@ -80,7 +80,6 @@ namespace SamenSterk.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            shedule.appointmentDate = date;
             this.Close();
         }
     }

@@ -21,6 +21,7 @@ namespace SamenSterk.Views
         public User currentUser;
         public User selectedUser;
         private int[] cellPos;
+        private int AppointdateRowIndex;
         private bool logout;
 
         private List<Task> tasks;
@@ -642,6 +643,7 @@ namespace SamenSterk.Views
                 {
                     if (dgvAppointments[1, e.RowIndex].Value != null)
                     {
+                        AppointdateRowIndex = e.RowIndex;
                         if (dgvAppointments[1, e.RowIndex].Value.ToString() == "[Geen datum]" || string.IsNullOrEmpty(dgvAppointments[1, e.RowIndex].Value.ToString()) == true)
                         {
                             EditAppointment editAppointment = new EditAppointment(this, DateTime.Now);
@@ -650,18 +652,20 @@ namespace SamenSterk.Views
                         else
                         {
                             EditAppointment editAppointment = new EditAppointment(this, Convert.ToDateTime(dgvAppointments[1, e.RowIndex].Value));
-
                             editAppointment.ShowDialog();
                         }
                     }
-
-                    dgvAppointments[e.ColumnIndex, e.RowIndex].Value = appointmentDate.ToString("dd-MM-yyyy HH:mm");
                 }
                 else
                 {
                     MessageBox.Show("Kan afspraken voor andere gebruikers niet toevoegen/wijzigen.");
                 }
             }
+        }
+
+        public void EditAppointment()
+        {
+            dgvAppointments[1, AppointdateRowIndex].Value = appointmentDate.ToString("dd-MM-yyyy HH:mm");
         }
 
         /// <summary>

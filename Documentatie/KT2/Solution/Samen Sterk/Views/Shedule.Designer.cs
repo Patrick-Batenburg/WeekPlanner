@@ -256,17 +256,6 @@
             this.dgvAppointments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvAppointments.Size = new System.Drawing.Size(782, 426);
             this.dgvAppointments.TabIndex = 0;
-            // 
-            // columnName2
-            // 
-            this.columnName2.HeaderText = "Naam";
-            this.columnName2.Name = "columnName2";
-            // 
-            // columnDate
-            // 
-            this.columnDate.HeaderText = "Datum";
-            this.columnDate.Name = "columnDate";
-            this.columnDate.Width = 150;
             this.dgvAppointments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellDoubleClick);
             this.dgvAppointments.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAppointments_CellMouseUp);
             this.dgvAppointments.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvAppointments_MouseUp);
