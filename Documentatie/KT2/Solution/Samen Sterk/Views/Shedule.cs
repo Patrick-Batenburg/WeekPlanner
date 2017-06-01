@@ -12,11 +12,16 @@ namespace SamenSterk.Views
 {
     public partial class Shedule : Form
     {
+        //color help:
+        //#ffffff //white background
+        //#5a5a5a //black / grey for text
+        //#bd7cbb (orchid) //purple colors
         public DateTime startDate;
         public DateTime appointmentDate;
         public User currentUser;
         public User selectedUser;
         private int[] cellPos;
+        private int AppointdateRowIndex;
         private bool logout;
 
         private List<Task> tasks;
@@ -42,12 +47,9 @@ namespace SamenSterk.Views
             InitializeComponent();
             this.currentUser = model;
             this.selectedUser = currentUser;
-            this.FormClosing += Shedule_FormClosing;
             cellPos = new int[2];
             logout = false;
 
-            tasks = new List<Task>();
-            repeatingTasks = new List<RepeatingTask>();
             grades = new List<Grade>();
             subjects = new List<Subject>();
             appointments = new List<Appointment>();
@@ -58,18 +60,6 @@ namespace SamenSterk.Views
             gradeController = new GradeController();
             subjectController = new SubjectController();
             appointmentController = new AppointmentController();
-
-            dgvShedule.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dgvGrades.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            dgvGrades.MouseUp += dgvGrades_MouseUp;
-            dgvGrades.AllowUserToAddRows = false;
-            dgvGrades.ColumnHeadersVisible = false;
-            dgvAppointments.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dgvAppointments.AllowUserToAddRows = true;
-
-            tasks = taskController.Details(model.Id);
-            repeatingTasks = repeatingTaskController.Details(model.Id);
-            tabControl.Selected += tabControl_Selected;
 
             for (int i = 0; i < dgvShedule.Columns.Count; i++)
             {
@@ -92,8 +82,7 @@ namespace SamenSterk.Views
                 cbUsernames.Click += cbUsernames_Click;
                 lblViewUser.Visible = true;
                 cbUsernames.Visible = true;
-                cbUsernames.Items.Add(currentUser.Username + " (Ik)");
-                cbUsernames.DropDownStyle = ComboBoxStyle.DropDownList;
+                cbUsernames.Items.Add(currentUser.Username + " (ik)");
                 cbUsernames.SelectedIndex = 0;
             }
 
@@ -659,6 +648,7 @@ namespace SamenSterk.Views
                 {
                     if (dgvAppointments[1, e.RowIndex].Value != null)
                     {
+                        AppointdateRowIndex = e.RowIndex;
                         if (dgvAppointments[1, e.RowIndex].Value.ToString() == "[Geen datum]" || string.IsNullOrEmpty(dgvAppointments[1, e.RowIndex].Value.ToString()) == true)
                         {
                             EditAppointment editAppointment = new EditAppointment(this, DateTime.Now);
@@ -667,18 +657,20 @@ namespace SamenSterk.Views
                         else
                         {
                             EditAppointment editAppointment = new EditAppointment(this, Convert.ToDateTime(dgvAppointments[1, e.RowIndex].Value));
-
                             editAppointment.ShowDialog();
                         }
                     }
-
-                    dgvAppointments[e.ColumnIndex, e.RowIndex].Value = appointmentDate.ToString("dd-MM-yyyy HH:mm");
                 }
                 else
                 {
                     MessageBox.Show("Kan afspraken voor andere gebruikers niet toevoegen/wijzigen.");
                 }
             }
+        }
+
+        public void EditAppointment()
+        {
+            dgvAppointments[1, AppointdateRowIndex].Value = appointmentDate.ToString("dd-MM-yyyy HH:mm");
         }
 
         /// <summary>
@@ -852,18 +844,24 @@ namespace SamenSterk.Views
                 case "Rooster":
                     btnPrevious.Enabled = true;
                     btnNext.Enabled = true;
+                    btnPrevious.BackColor = Color.Orchid;
+                    btnNext.BackColor = Color.Orchid;
                     selectedTabIndex = 0;
                     LoadToGrid(typeof(Task));
                     break;
                 case "Cijfers":
                     btnPrevious.Enabled = false;
                     btnNext.Enabled = false;
+                    btnPrevious.BackColor = Color.Plum;
+                    btnNext.BackColor = Color.Plum;
                     selectedTabIndex = 1;
                     LoadToGrid(typeof(Grade));
                     break;
                 case "Belangrijke Afspraken":
                     btnPrevious.Enabled = false;
                     btnNext.Enabled = false;
+                    btnPrevious.BackColor = Color.Plum;
+                    btnNext.BackColor = Color.Plum;
                     selectedTabIndex = 2;
                     LoadToGrid(typeof(Appointment));
                     break;

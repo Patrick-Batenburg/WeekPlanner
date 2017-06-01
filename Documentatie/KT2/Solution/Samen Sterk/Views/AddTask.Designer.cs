@@ -42,15 +42,15 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(12, 9);
+            this.lblTitle.Location = new System.Drawing.Point(12, 10);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(27, 13);
+            this.lblTitle.Size = new System.Drawing.Size(26, 14);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Titel";
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(15, 25);
+            this.txtTitle.Location = new System.Drawing.Point(15, 27);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(157, 20);
             this.txtTitle.TabIndex = 1;
@@ -58,24 +58,24 @@
             // lblDuration
             // 
             this.lblDuration.AutoSize = true;
-            this.lblDuration.Location = new System.Drawing.Point(12, 48);
+            this.lblDuration.Location = new System.Drawing.Point(12, 52);
             this.lblDuration.Name = "lblDuration";
-            this.lblDuration.Size = new System.Drawing.Size(65, 13);
+            this.lblDuration.Size = new System.Drawing.Size(66, 14);
             this.lblDuration.TabIndex = 2;
             this.lblDuration.Text = "Duur in uren";
             // 
             // lblLabel
             // 
             this.lblLabel.AutoSize = true;
-            this.lblLabel.Location = new System.Drawing.Point(12, 87);
+            this.lblLabel.Location = new System.Drawing.Point(12, 94);
             this.lblLabel.Name = "lblLabel";
-            this.lblLabel.Size = new System.Drawing.Size(33, 13);
+            this.lblLabel.Size = new System.Drawing.Size(33, 14);
             this.lblLabel.TabIndex = 3;
             this.lblLabel.Text = "Label";
             // 
             // txtLabel
             // 
-            this.txtLabel.Location = new System.Drawing.Point(15, 106);
+            this.txtLabel.Location = new System.Drawing.Point(15, 114);
             this.txtLabel.Name = "txtLabel";
             this.txtLabel.Size = new System.Drawing.Size(157, 20);
             this.txtLabel.TabIndex = 5;
@@ -83,26 +83,30 @@
             // cbRepeating
             // 
             this.cbRepeating.AutoSize = true;
-            this.cbRepeating.Location = new System.Drawing.Point(15, 133);
+            this.cbRepeating.Location = new System.Drawing.Point(15, 143);
             this.cbRepeating.Name = "cbRepeating";
-            this.cbRepeating.Size = new System.Drawing.Size(75, 17);
+            this.cbRepeating.Size = new System.Drawing.Size(75, 18);
             this.cbRepeating.TabIndex = 6;
             this.cbRepeating.Text = "Herhalend";
             this.cbRepeating.UseVisualStyleBackColor = true;
             // 
             // btnAddTask
             // 
-            this.btnAddTask.Location = new System.Drawing.Point(45, 156);
+            this.btnAddTask.BackColor = System.Drawing.Color.Orchid;
+            this.btnAddTask.FlatAppearance.BorderSize = 0;
+            this.btnAddTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddTask.ForeColor = System.Drawing.Color.White;
+            this.btnAddTask.Location = new System.Drawing.Point(45, 168);
             this.btnAddTask.Name = "btnAddTask";
-            this.btnAddTask.Size = new System.Drawing.Size(107, 23);
+            this.btnAddTask.Size = new System.Drawing.Size(107, 25);
             this.btnAddTask.TabIndex = 7;
             this.btnAddTask.Text = "Taak toevoegen";
-            this.btnAddTask.UseVisualStyleBackColor = true;
+            this.btnAddTask.UseVisualStyleBackColor = false;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
             // 
             // nudDuration
             // 
-            this.nudDuration.Location = new System.Drawing.Point(16, 64);
+            this.nudDuration.Location = new System.Drawing.Point(16, 69);
             this.nudDuration.Maximum = new decimal(new int[] {
             16,
             0,
@@ -124,9 +128,10 @@
             // 
             // AddTask
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(184, 187);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(184, 201);
             this.Controls.Add(this.nudDuration);
             this.Controls.Add(this.btnAddTask);
             this.Controls.Add(this.cbRepeating);
@@ -135,6 +140,7 @@
             this.Controls.Add(this.lblDuration);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.lblTitle);
+            this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

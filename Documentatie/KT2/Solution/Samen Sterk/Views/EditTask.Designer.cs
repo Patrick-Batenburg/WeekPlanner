@@ -42,27 +42,31 @@
             // 
             // btnEditTask
             // 
-            this.btnEditTask.Location = new System.Drawing.Point(96, 156);
+            this.btnEditTask.BackColor = System.Drawing.Color.Orchid;
+            this.btnEditTask.FlatAppearance.BorderSize = 0;
+            this.btnEditTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditTask.ForeColor = System.Drawing.Color.White;
+            this.btnEditTask.Location = new System.Drawing.Point(96, 168);
             this.btnEditTask.Name = "btnEditTask";
-            this.btnEditTask.Size = new System.Drawing.Size(78, 23);
+            this.btnEditTask.Size = new System.Drawing.Size(78, 25);
             this.btnEditTask.TabIndex = 15;
             this.btnEditTask.Text = "Wijzigen";
-            this.btnEditTask.UseVisualStyleBackColor = true;
+            this.btnEditTask.UseVisualStyleBackColor = false;
             this.btnEditTask.Click += new System.EventHandler(this.btnEditTask_Click);
             // 
             // cbRepeating
             // 
             this.cbRepeating.AutoSize = true;
-            this.cbRepeating.Location = new System.Drawing.Point(15, 133);
+            this.cbRepeating.Location = new System.Drawing.Point(15, 143);
             this.cbRepeating.Name = "cbRepeating";
-            this.cbRepeating.Size = new System.Drawing.Size(75, 17);
+            this.cbRepeating.Size = new System.Drawing.Size(75, 18);
             this.cbRepeating.TabIndex = 14;
             this.cbRepeating.Text = "Herhalend";
             this.cbRepeating.UseVisualStyleBackColor = true;
             // 
             // txtLabel
             // 
-            this.txtLabel.Location = new System.Drawing.Point(15, 106);
+            this.txtLabel.Location = new System.Drawing.Point(15, 114);
             this.txtLabel.Name = "txtLabel";
             this.txtLabel.Size = new System.Drawing.Size(157, 20);
             this.txtLabel.TabIndex = 13;
@@ -70,24 +74,24 @@
             // lblLabel
             // 
             this.lblLabel.AutoSize = true;
-            this.lblLabel.Location = new System.Drawing.Point(12, 87);
+            this.lblLabel.Location = new System.Drawing.Point(12, 94);
             this.lblLabel.Name = "lblLabel";
-            this.lblLabel.Size = new System.Drawing.Size(33, 13);
+            this.lblLabel.Size = new System.Drawing.Size(33, 14);
             this.lblLabel.TabIndex = 11;
             this.lblLabel.Text = "Label";
             // 
             // lblDuration
             // 
             this.lblDuration.AutoSize = true;
-            this.lblDuration.Location = new System.Drawing.Point(12, 48);
+            this.lblDuration.Location = new System.Drawing.Point(12, 52);
             this.lblDuration.Name = "lblDuration";
-            this.lblDuration.Size = new System.Drawing.Size(65, 13);
+            this.lblDuration.Size = new System.Drawing.Size(66, 14);
             this.lblDuration.TabIndex = 10;
             this.lblDuration.Text = "Duur in uren";
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(15, 25);
+            this.txtTitle.Location = new System.Drawing.Point(15, 27);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(157, 20);
             this.txtTitle.TabIndex = 9;
@@ -95,25 +99,29 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(12, 9);
+            this.lblTitle.Location = new System.Drawing.Point(12, 10);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(27, 13);
+            this.lblTitle.Size = new System.Drawing.Size(26, 14);
             this.lblTitle.TabIndex = 8;
             this.lblTitle.Text = "Titel";
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(12, 156);
+            this.btnDelete.BackColor = System.Drawing.Color.Orchid;
+            this.btnDelete.FlatAppearance.BorderSize = 0;
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDelete.ForeColor = System.Drawing.Color.White;
+            this.btnDelete.Location = new System.Drawing.Point(12, 168);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(78, 23);
+            this.btnDelete.Size = new System.Drawing.Size(78, 25);
             this.btnDelete.TabIndex = 16;
             this.btnDelete.Text = "Verwijderen";
-            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // nudDuration
             // 
-            this.nudDuration.Location = new System.Drawing.Point(15, 64);
+            this.nudDuration.Location = new System.Drawing.Point(15, 69);
             this.nudDuration.Maximum = new decimal(new int[] {
             16,
             0,
@@ -135,9 +143,10 @@
             // 
             // EditTask
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(184, 187);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(184, 201);
             this.Controls.Add(this.nudDuration);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEditTask);
@@ -147,6 +156,7 @@
             this.Controls.Add(this.lblDuration);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.lblTitle);
+            this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

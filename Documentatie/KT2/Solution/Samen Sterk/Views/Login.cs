@@ -1,6 +1,7 @@
 ﻿using SamenSterk.Controllers;
 using SamenSterk.Models;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SamenSterk.Views
@@ -81,6 +82,16 @@ namespace SamenSterk.Views
             {
                 btnLogin_Click(sender, e);
             }
+        }
+
+        private void lblRegister_MouseLeave(object sender, EventArgs e)
+        {
+            lblRegister.ForeColor = Color.Blue;
+        }
+
+        private void lblRegister_MouseEnter(object sender, EventArgs e)
+        {
+            lblRegister.ForeColor = Color.Orchid;
         }
     }
 }
