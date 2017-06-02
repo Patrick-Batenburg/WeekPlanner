@@ -294,7 +294,7 @@ namespace SamenSterk.Views
 
         #region Task eventhandlers
         /// <summary>
-        /// Occurs when the user double-clicks anywhere in a cell.
+        /// Occurs when the user double-clicks anywhere in a cell. Gets the clicked cell position and chooses depending on the value of the cell to display the AddTask form or EditTask form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
@@ -385,7 +385,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when a column header is double-clicked.
+        /// Occurs when a column header is double-clicked. Displays the EditDate form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -393,9 +393,12 @@ namespace SamenSterk.Views
         {
             EditDate editSchedule = new EditDate(this, Convert.ToDateTime(this.dgvShedule.Columns[0].HeaderText));
             editSchedule.ShowDialog();
-
             LoadToGrid(typeof(Task));
         }
+
+        /// <summary>
+        /// Sets the header date of the selected date.
+        /// </summary>
         public void SetHeaderDate()
         {
             for (int i = 0; i < 7; i++)
@@ -405,14 +408,14 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Goes back to 7 days of the current date in the DataGridView if it doesn't exceed the date of today.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnPrevious_Click(object sender, EventArgs e)
         {
-            DateTime firstDate = Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-1);
             DateTime dateTime;
+            DateTime firstDate = Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-1);
 
             if (Convert.ToDateTime(dgvShedule.Columns[0].HeaderText).AddDays(-7) > DateTime.Today)
             {
@@ -431,7 +434,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Goes forward for 7 days of the current date in the DataGridView if it doesn't exceed the max DateTime value.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -463,7 +466,7 @@ namespace SamenSterk.Views
 
         #region Grade eventhandlers
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Adds a new Subject.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -475,21 +478,28 @@ namespace SamenSterk.Views
             {
                 if (!string.IsNullOrWhiteSpace(txtSubjectName.Text))
                 {
-                    result = subjectController.Create(new Subject()
+                    if (txtSubjectName.Text.Length > 64)
                     {
-                        RowIndex = Convert.ToUInt32(dgvGrades.RowCount),
-                        UserId = selectedUser.Id,
-                        Name = txtSubjectName.Text
-                    });
-
-                    if (result != 2)
-                    {
-                        LoadToGrid(typeof(Grade));
-                        lblInsertName.Visible = false;
+                        MessageBox.Show("Naam van het vak is te lang.");
                     }
                     else
                     {
-                        MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
+                        result = subjectController.Create(new Subject()
+                        {
+                            RowIndex = Convert.ToUInt32(dgvGrades.RowCount),
+                            UserId = selectedUser.Id,
+                            Name = txtSubjectName.Text
+                        });
+
+                        if (result != 2)
+                        {
+                            LoadToGrid(typeof(Grade));
+                            lblInsertName.Visible = false;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
+                        }
                     }
                 }
                 else
@@ -506,7 +516,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when a row header is double-clicked.
+        /// Occurs when a row header is double-clicked. Displays the EditSubject form, which edits an existing Subject.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
@@ -529,7 +539,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the mouse pointer is over the control and a mouse button is released.
+        /// Occurs when the mouse pointer is over the control and a mouse button is released. Exits edit mode when not clicked on a cell.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
@@ -545,6 +555,11 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when a character. space or backspace key is pressed while the control has focus. Raises the btnAddSubject_Click event.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param> 
         private void txtSubjectName_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -554,7 +569,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the value of a cell changes.
+        /// Occurs when the value of a cell changes. Adds a new Grade if there wasn't no value. Edit an existing Grade if the value changed. Deletes an existing Grade if the value is empty.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
@@ -644,7 +659,7 @@ namespace SamenSterk.Views
 
         #region Appointment eventhandlers
         /// <summary>
-        /// Occurs when the user double-clicks anywhere in a cell.
+        /// Occurs when the user double-clicks anywhere in a cell. displays the EditAppointment form, which edits the date of the Appointment.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -676,13 +691,16 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Edits the date of the Appointment.
+        /// </summary>
         public void EditAppointment()
         {
             dgvAppointments[1, AppointdateRowIndex].Value = appointmentDate.ToString("dd-MM-yyyy HH:mm");
         }
 
         /// <summary>
-        /// Occurs when the mouse pointer is over the control and a mouse button is released.
+        /// Occurs when the mouse pointer is over the control and a mouse button is released. Exits edit mode when not clicked on a cell.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
@@ -699,7 +717,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the user releases a mouse button while over a cell.
+        /// Occurs when the user releases a mouse button while over a cell. Exits edit mode of the cell.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
@@ -712,7 +730,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the value of a cell changes.
+        /// Occurs when the value of a cell changes. Adds a new Appointment if there wasn't no value. Edit an existing Appointment if the value changed. Deletes an existing Appointment if the value is empty.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
@@ -733,11 +751,18 @@ namespace SamenSterk.Views
                         {
                             if (string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)) != true && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex + 1, e.RowIndex].Value)) == true)
                             {
-                                result = appointmentController.Create(new Appointment()
+                                if (Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value).Length > 64)
                                 {
-                                    UserId = currentUser.Id,
-                                    Name = Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value),
-                                });
+                                    MessageBox.Show("De naam van de afspraak is te lang.");
+                                }
+                                else
+                                {
+                                    result = appointmentController.Create(new Appointment()
+                                    {
+                                        UserId = currentUser.Id,
+                                        Name = Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value),
+                                    });
+                                }
                             }
                             else
                             {
@@ -747,9 +772,16 @@ namespace SamenSterk.Views
 
                                 query.Name = Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value);
 
-                                if (query != null)
+                                if (query.Name.Length > 64)
                                 {
-                                    result = appointmentController.Edit(query);
+                                    MessageBox.Show("De naam van de afspraak is te lang.");
+                                }
+                                else
+                                {
+                                    if (query != null)
+                                    {
+                                        result = appointmentController.Edit(query);
+                                    }
                                 }
                             }
                         }
@@ -812,11 +844,35 @@ namespace SamenSterk.Views
                 LoadToGrid(typeof(Appointment));              
             }
         }
+
+        /// <summary>
+        /// Occurs when the user clicks a column header. Sorts the values in the clciked column.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
+        private void dgvAppointments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            switch (e.ColumnIndex)
+            {
+                case 0: //naam
+                    break;
+                case 1: //datum
+                    //dgvAppointments.Sort(dgvAppointments.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
+
+                    //List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
+                    //                              where Convert.ToString(row.Cells[1].Value) != "[Geen datum]" && string.IsNullOrEmpty(Convert.ToString(row.Cells[1].Value)) == false
+                    //                               select row).ToList();
+                    (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = string.Format("Datum LIKE '*-20*'");
+                    break;
+                default:
+                    break;
+            }
+        }
         #endregion Appointment eventhandlers
 
         #region Global eventhandlers
         /// <summary>
-        /// Occurs before the form is closed.
+        /// Occurs before the form is closed. Exits the application if the user didn't want to logout.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
@@ -829,7 +885,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Close the current form and shows the login form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -841,7 +897,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when a tab is selected.
+        /// Occurs when a tab is selected. Gets the tab index and loads the data in the DataGridView.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="TabControlEventArgs"/> instance containing the event data.</param> 
@@ -867,7 +923,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the ComboBox control is clicked.
+        /// Occurs when the ComboBox control is clicked. Repopulates the ComboBox control's DataSource, incase a new user registered.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -894,7 +950,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the SelectedIndex property has changed.
+        /// Occurs when the SelectedIndex property has changed. Shows the data of the selected user for the specified selected tab.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -952,25 +1008,5 @@ namespace SamenSterk.Views
             }
         }
         #endregion Global eventhandlers
-
-        private void dgvAppointments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            switch (e.ColumnIndex)
-            {
-                case 0: //naam
-                    break;
-                case 1: //datum
-                    //dgvAppointments.Sort(dgvAppointments.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-
-                    //List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
-                    //                              where Convert.ToString(row.Cells[1].Value) != "[Geen datum]" && string.IsNullOrEmpty(Convert.ToString(row.Cells[1].Value)) == false
-                    //                               select row).ToList();
-                    (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = string.Format("Datum LIKE '*-20*'");
-                    break;
-                default:
-                    break;
-            }
-        }
-
     }
 }

@@ -21,7 +21,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Sign the user in.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
@@ -45,7 +45,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Label control is clicked.
+        /// Occurs when the Label control is clicked. Displays the Register form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
@@ -59,7 +59,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs before the form is closed.
+        /// Occurs before the form is closed. Exits the application.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param> 
@@ -68,6 +68,11 @@ namespace SamenSterk.Views
             Application.Exit();
         }
 
+        /// <summary>
+        /// Occurs when a character. space or backspace key is pressed while the control has focus. Activates the next control when the enter key is pressed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtUsername_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -76,6 +81,11 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when a character. space or backspace key is pressed while the control has focus. Activates the next control when the enter key is pressed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -84,11 +94,21 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when the mouse pointer leaves the control. Sets the foreground color of the Label control. 
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void lblRegister_MouseLeave(object sender, EventArgs e)
         {
             lblRegister.ForeColor = Color.Blue;
         }
 
+        /// <summary>
+        /// Occurs when the mouse pointer enters the control. Sets the foreground color of the Label control. 
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void lblRegister_MouseEnter(object sender, EventArgs e)
         {
             lblRegister.ForeColor = Color.Orchid;

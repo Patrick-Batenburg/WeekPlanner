@@ -21,7 +21,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Closes the form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -31,7 +31,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Registers a new user.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -64,7 +64,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs before the form is closed.
+        /// Occurs before the form is closed. Displays the Login form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
@@ -73,6 +73,11 @@ namespace SamenSterk.Views
             login.Show();
         }
 
+        /// <summary>
+        /// Occurs when a character. space or backspace key is pressed while the control has focus. Activates the next control when the enter key is pressed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtUsername_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -81,6 +86,11 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when a character. space or backspace key is pressed while the control has focus. Activates the next control when the enter key is pressed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -89,6 +99,11 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when a character. space or backspace key is pressed while the control has focus. Activates the next control when the enter key is pressed.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtPasswordRepeat_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)

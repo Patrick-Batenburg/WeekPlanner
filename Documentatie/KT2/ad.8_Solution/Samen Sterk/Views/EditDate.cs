@@ -22,7 +22,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Value property changes.
+        /// Occurs when the Value property changes. Changes the value of the selected date to the date of today if it's less than the date of today.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -35,7 +35,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Saves the selected date. Closes the form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -47,7 +47,7 @@ namespace SamenSterk.Views
 
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Saves the selected date and edit the DataGridView headers from the selected date. Closes the form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -57,6 +57,7 @@ namespace SamenSterk.Views
             {
                 startDateTimePicker.Value = DateTime.Today;
             }
+
             shedule.startDate = startDateTimePicker.Value;
 
             shedule.SetHeaderDate();

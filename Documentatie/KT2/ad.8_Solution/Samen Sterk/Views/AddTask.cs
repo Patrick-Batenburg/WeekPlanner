@@ -31,7 +31,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Adds a new Task or RepeatingTask.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 

@@ -32,7 +32,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Value property changes.
+        /// Occurs when the Value property changes. Changes the value of the selected date to the date of today if it's less than the date of today.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -45,7 +45,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Value property changes.
+        /// Occurs when the Value property changes. Changes the value of the selected time to the time of now if it's less than the time of now.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -57,6 +57,11 @@ namespace SamenSterk.Views
             }
         }
 
+        /// <summary>
+        /// Occurs when the Button control is clicked. Edit the date of the Appointment. Closes the form.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (datePicker.Value < DateTime.Today)
@@ -68,13 +73,14 @@ namespace SamenSterk.Views
             {
                 timePicker.Value = DateTime.Now;
             }
+
             shedule.appointmentDate = datePicker.Value.Date + timePicker.Value.TimeOfDay;
             shedule.EditAppointment();
             this.Close();
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Closes the form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 

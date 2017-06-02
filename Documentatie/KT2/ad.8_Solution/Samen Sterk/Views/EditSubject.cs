@@ -36,7 +36,7 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Deletes an extisting Subject.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
@@ -82,14 +82,23 @@ namespace SamenSterk.Views
         }
 
         /// <summary>
-        /// Occurs when the Button control is clicked.
+        /// Occurs when the Button control is clicked. Edit an extisting Subject.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnEditSubject_Click(object sender, EventArgs e)
         {
+            int result = 0;
             this.model.Name = txtName.Text;
-            int result = subjectController.Edit(model);
+
+            if (model.Name.Length > 64)
+            {
+                MessageBox.Show("Naam van het vak is te lang.");
+            }
+            else
+            {
+                result = subjectController.Edit(model);
+            }
 
             if (result == 2)
             {
