@@ -652,6 +652,7 @@ namespace SamenSterk.Views
                 else
                 {
                     MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
+                    LoadToGrid(typeof(Grade));
                 }
             }
         }
