@@ -40,6 +40,8 @@
             this.columnDay7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabShedule = new System.Windows.Forms.TabPage();
+            this.btnPrevious = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
             this.tabGrades = new System.Windows.Forms.TabPage();
             this.lblInsertName = new System.Windows.Forms.Label();
             this.txtSubjectName = new System.Windows.Forms.TextBox();
@@ -48,8 +50,6 @@
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.dgvAppointments = new System.Windows.Forms.DataGridView();
             this.cbUsernames = new System.Windows.Forms.ComboBox();
-            this.btnPrevious = new System.Windows.Forms.Button();
-            this.btnNext = new System.Windows.Forms.Button();
             this.lblViewUser = new System.Windows.Forms.Label();
             this.lblUsername = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).BeginInit();
@@ -174,6 +174,36 @@
             this.tabShedule.Text = "Rooster";
             this.tabShedule.UseVisualStyleBackColor = true;
             // 
+            // btnPrevious
+            // 
+            this.btnPrevious.BackColor = System.Drawing.Color.Orchid;
+            this.btnPrevious.FlatAppearance.BorderSize = 0;
+            this.btnPrevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPrevious.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.btnPrevious.ForeColor = System.Drawing.Color.White;
+            this.btnPrevious.Location = new System.Drawing.Point(3, 5);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(75, 25);
+            this.btnPrevious.TabIndex = 2;
+            this.btnPrevious.Text = "Vorige";
+            this.btnPrevious.UseVisualStyleBackColor = false;
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
+            // 
+            // btnNext
+            // 
+            this.btnNext.BackColor = System.Drawing.Color.Orchid;
+            this.btnNext.FlatAppearance.BorderSize = 0;
+            this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNext.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.btnNext.ForeColor = System.Drawing.Color.White;
+            this.btnNext.Location = new System.Drawing.Point(84, 5);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 25);
+            this.btnNext.TabIndex = 4;
+            this.btnNext.Text = "Volgende";
+            this.btnNext.UseVisualStyleBackColor = false;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
             // tabGrades
             // 
             this.tabGrades.Controls.Add(this.lblInsertName);
@@ -268,47 +298,17 @@
             // 
             this.cbUsernames.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbUsernames.FormattingEnabled = true;
-            this.cbUsernames.Location = new System.Drawing.Point(8, 182);
+            this.cbUsernames.Location = new System.Drawing.Point(11, 90);
             this.cbUsernames.Name = "cbUsernames";
             this.cbUsernames.Size = new System.Drawing.Size(88, 22);
             this.cbUsernames.TabIndex = 3;
             this.cbUsernames.SelectedIndexChanged += new System.EventHandler(this.cbUsernames_SelectedIndexChanged);
             // 
-            // btnPrevious
-            // 
-            this.btnPrevious.BackColor = System.Drawing.Color.Orchid;
-            this.btnPrevious.FlatAppearance.BorderSize = 0;
-            this.btnPrevious.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPrevious.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.btnPrevious.ForeColor = System.Drawing.Color.White;
-            this.btnPrevious.Location = new System.Drawing.Point(3, 5);
-            this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(75, 25);
-            this.btnPrevious.TabIndex = 2;
-            this.btnPrevious.Text = "Vorige";
-            this.btnPrevious.UseVisualStyleBackColor = false;
-            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
-            // 
-            // btnNext
-            // 
-            this.btnNext.BackColor = System.Drawing.Color.Orchid;
-            this.btnNext.FlatAppearance.BorderSize = 0;
-            this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNext.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.btnNext.ForeColor = System.Drawing.Color.White;
-            this.btnNext.Location = new System.Drawing.Point(84, 5);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(75, 25);
-            this.btnNext.TabIndex = 4;
-            this.btnNext.Text = "Volgende";
-            this.btnNext.UseVisualStyleBackColor = false;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-            // 
             // lblViewUser
             // 
             this.lblViewUser.AutoSize = true;
             this.lblViewUser.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.lblViewUser.Location = new System.Drawing.Point(5, 165);
+            this.lblViewUser.Location = new System.Drawing.Point(11, 73);
             this.lblViewUser.Name = "lblViewUser";
             this.lblViewUser.Size = new System.Drawing.Size(85, 14);
             this.lblViewUser.TabIndex = 5;
