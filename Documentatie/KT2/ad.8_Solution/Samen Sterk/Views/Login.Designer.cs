@@ -41,6 +41,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.SuspendLayout();
             // 
+            // button1
+            // 
+            button1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            button1.BackColor = System.Drawing.Color.Transparent;
+            button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            button1.CausesValidation = false;
+            button1.Enabled = false;
+            button1.Location = new System.Drawing.Point(0, 0);
+            button1.Margin = new System.Windows.Forms.Padding(0);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(0, 0);
+            button1.TabIndex = 0;
+            button1.TabStop = false;
+            button1.UseMnemonic = false;
+            button1.UseVisualStyleBackColor = false;
+            button1.Visible = false;
+            // 
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
@@ -119,23 +136,6 @@
             this.pbLogo.TabIndex = 3;
             this.pbLogo.TabStop = false;
             // 
-            // button1
-            // 
-            button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            button1.BackColor = System.Drawing.Color.Transparent;
-            button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            button1.CausesValidation = false;
-            button1.Enabled = false;
-            button1.Location = new System.Drawing.Point(0, 0);
-            button1.Margin = new System.Windows.Forms.Padding(0);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(0, 0);
-            button1.TabIndex = 0;
-            button1.TabStop = false;
-            button1.UseMnemonic = false;
-            button1.UseVisualStyleBackColor = false;
-            button1.Visible = false;
-            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -156,7 +156,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Login";
-            this.Text = "Login";
+            this.Text = "Inloggen";
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

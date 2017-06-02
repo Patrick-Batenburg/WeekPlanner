@@ -96,7 +96,7 @@
             this.Name = "EditDate";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Wijzig datum";
+            this.Text = "Datum wijzigen";
             this.ResumeLayout(false);
             this.PerformLayout();
 

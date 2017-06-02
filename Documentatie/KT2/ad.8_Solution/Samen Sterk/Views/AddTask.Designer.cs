@@ -147,7 +147,7 @@
             this.Name = "AddTask";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Taak Toevoegen";
+            this.Text = "Taak toevoegen";
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

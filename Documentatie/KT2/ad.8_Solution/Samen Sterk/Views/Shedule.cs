@@ -652,7 +652,6 @@ namespace SamenSterk.Views
                 else
                 {
                     MessageBox.Show("Kan cijfers voor andere gebruikers niet toevoegen/wijzigen.");
-                    LoadToGrid(typeof(Grade));
                 }
             }
         }
@@ -817,10 +816,10 @@ namespace SamenSterk.Views
                     case 2:
                         if (selectedUser.Id == currentUser.Id)
                         {
-                            if (e.RowIndex < dgvAppointments.RowCount - 2)
+                            if (e.RowIndex < dgvAppointments.RowCount && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)) == false)
                             {
                                 id = (from row in rows
-                                      where Convert.ToBoolean(row.Cells[dgvAppointments.ColumnCount - 2].Value) == true
+                                      where Convert.ToBoolean(row.Cells["verwijderen?"].Value) == true
                                       select Convert.ToUInt32(row.Cells[dgvAppointments.ColumnCount - 1].Value)).FirstOrDefault();
 
                                 query = (from appointment in appointments

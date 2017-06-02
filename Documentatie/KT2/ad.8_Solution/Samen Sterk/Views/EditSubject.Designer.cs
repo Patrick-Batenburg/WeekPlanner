@@ -89,12 +89,13 @@
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.lblSubjectName);
             this.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditSubject";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Wijzig vak";
+            this.Text = "Vak wijzigen";
             this.ResumeLayout(false);
             this.PerformLayout();
 

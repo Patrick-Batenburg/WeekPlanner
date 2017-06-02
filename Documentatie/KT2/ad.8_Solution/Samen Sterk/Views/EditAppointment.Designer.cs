@@ -108,7 +108,7 @@
             this.MinimizeBox = false;
             this.Name = "EditAppointment";
             this.ShowIcon = false;
-            this.Text = "Wijzig datum";
+            this.Text = "Datum wijzigen";
             this.ResumeLayout(false);
             this.PerformLayout();
 
