@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SamenSterkOffline.Controllers.AppointmentController">
+    <Position X="10.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAABAAAAAAAEAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\AppointmentController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Controllers.ControllerBase">
+    <Position X="16.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAQAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Controllers\ControllerBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Controllers.GradeController">
+    <Position X="17.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAEAAEACAQAAAAAAAAA=</HashCode>
+      <FileName>Controllers\GradeControlller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Controllers.RepeatingTaskController">
+    <Position X="22" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAEAAEACAEAAAAAEAAA=</HashCode>
+      <FileName>Controllers\RepeatingTaskController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Controllers.SubjectController">
+    <Position X="13" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAACAAAEAAEACAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\SubjectController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Controllers.TaskController">
+    <Position X="15.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAEAAEACAEAAAABAAAA=</HashCode>
+      <FileName>Controllers\TaskController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Controllers.UserController">
+    <Position X="19.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAEBAAACAAAQAAQAAQA=</HashCode>
+      <FileName>Controllers\UserController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Database.DataConnection">
+    <Position X="24.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAIAAAAAAQAAAAAAAAEQAAAEAAAA=</HashCode>
+      <FileName>Database\DataConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Models.Appointment">
+    <Position X="10.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAgAAAAKAAAAAgAAAAAAAABAAAAAQAAAgA=</HashCode>
+      <FileName>Models\Appointment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Models.Grade">
+    <Position X="15.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAEAAAQAAAiEAAAAgAEAAAAAAAgAAAAAAAAgA=</HashCode>
+      <FileName>Models\Grade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Models.ModelBase">
+    <Position X="16.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ModelBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SamenSterkOffline.Models.RepeatingTask">
+    <Position X="22" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAjAAIAcAACAFAACAAAAAgAAAAAAAAAAAAAAAAAAwA=</HashCode>
+      <FileName>Models\RepeatingTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Models.Subject">
+    <Position X="13" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAiAAAAAwAAAAEAAAAgAAAAAAAAgA=</HashCode>
+      <FileName>Models\Subject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Models.Task">
+    <Position X="17.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAIAUAACAFAACAAAAAgAAAAAAAABAAAAAQAAAgA=</HashCode>
+      <FileName>Models\Task.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Models.User">
+    <Position X="19.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAEQAAABEAAAAAAAACAAAAAgAAAgA=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamenSterkOffline.Providers.EncryptionProvider">
+    <Position X="26.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Providers\EncryptionProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
