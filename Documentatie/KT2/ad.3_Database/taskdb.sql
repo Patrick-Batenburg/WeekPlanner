@@ -11,7 +11,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
 -- Dumping database structure for TaskDatabase
 DROP DATABASE IF EXISTS `TaskDatabase`;
 CREATE DATABASE IF NOT EXISTS `taskdatabase` /*!40100 DEFAULT CHARACTER SET latin1 */;
@@ -27,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `appointments` (
   PRIMARY KEY (`Id`),
   KEY `UserId` (`UserId`),
   CONSTRAINT `FK_appointments_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=689 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.grades
@@ -41,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `grades` (
   PRIMARY KEY (`Id`),
   KEY `UserId` (`UserId`),
   CONSTRAINT `FK_grades_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.repeatingtasks
@@ -57,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `repeatingtasks` (
   PRIMARY KEY (`Id`),
   KEY `UserId` (`UserId`),
   CONSTRAINT `FK_repeatingtasks_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.subjects
@@ -70,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `subjects` (
   PRIMARY KEY (`Id`),
   KEY `UserId` (`UserId`),
   CONSTRAINT `FK_subjects_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.tasks
@@ -85,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   PRIMARY KEY (`Id`),
   KEY `UserId` (`UserId`),
   CONSTRAINT `FK_tasks_users` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 -- Dumping structure for table TaskDatabase.users
@@ -97,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Role` varchar(8) NOT NULL DEFAULT 'Member',
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
