@@ -31,15 +31,5 @@ namespace SamenSterkOnline.Properties {
                 return ((string)(this["Salt"]));
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Server=localhost;Database=taskdb;Port=3306;Uid=root;Pwd=admin;charset=utf8;sqlser" +
-            "vermode=True;")]
-        public string ConnectionString {
-            get {
-                return ((string)(this["ConnectionString"]));
-            }
-        }
     }
 }

@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Samen Sterk")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Een week planner")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Samen Sterk")]
+[assembly: AssemblyCompany("Samen Sterk")]
+[assembly: AssemblyProduct("Week Planner")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
