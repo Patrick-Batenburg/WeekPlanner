@@ -68,7 +68,7 @@
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogout.Font = new System.Drawing.Font("Arial", 8.25F);
             this.btnLogout.ForeColor = System.Drawing.Color.White;
-            this.btnLogout.Location = new System.Drawing.Point(13, 37);
+            this.btnLogout.Location = new System.Drawing.Point(11, 41);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(74, 25);
             this.btnLogout.TabIndex = 0;
@@ -317,7 +317,7 @@
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(13, 14);
+            this.lblUsername.Location = new System.Drawing.Point(8, 13);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(86, 14);
             this.lblUsername.TabIndex = 6;
