@@ -799,5 +799,6 @@ namespace SamenSterkOffline.Views
             }
         }
         #endregion Global eventhandlers
+
     }
 }
