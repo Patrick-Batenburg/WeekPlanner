@@ -852,20 +852,9 @@ namespace SamenSterkOnline.Views
         /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
         private void dgvAppointments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            switch (e.ColumnIndex)
+            if (e.ColumnIndex == 1)
             {
-                case 0: //naam
-                    break;
-                case 1: //datum
-                    //dgvAppointments.Sort(dgvAppointments.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-
-                    //List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
-                    //                              where Convert.ToString(row.Cells[1].Value) != "[Geen datum]" && string.IsNullOrEmpty(Convert.ToString(row.Cells[1].Value)) == false
-                    //                               select row).ToList();
-                    (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = string.Format("Datum LIKE '*-20*'");
-                    break;
-                default:
-                    break;
+                (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = "Datum LIKE '*-2*'";
             }
         }
         #endregion Appointment eventhandlers

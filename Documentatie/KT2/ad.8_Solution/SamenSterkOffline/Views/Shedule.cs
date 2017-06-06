@@ -32,12 +32,10 @@ namespace SamenSterkOffline.Views
         private GradeController gradeController;
         private SubjectController subjectController;
         private AppointmentController appointmentController;
-        private byte selectedTabIndex;
 
         /// <summary>
         /// Initializes a new instance of the form Shedule class.
         /// </summary>
-        /// <param name="model">User details to extract.</param>
         public Shedule()
         {
             InitializeComponent();
@@ -770,27 +768,16 @@ namespace SamenSterkOffline.Views
         /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
         private void dgvAppointments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            switch (e.ColumnIndex)
+            if (e.ColumnIndex == 1)
             {
-                case 0: //naam
-                    break;
-                case 1: //datum
-                    //dgvAppointments.Sort(dgvAppointments.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-
-                    //List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
-                    //                              where Convert.ToString(row.Cells[1].Value) != "[Geen datum]" && string.IsNullOrEmpty(Convert.ToString(row.Cells[1].Value)) == false
-                    //                               select row).ToList();
-                    (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = string.Format("Datum LIKE '*-20*'");
-                    break;
-                default:
-                    break;
+                (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = "Datum LIKE '*-2*'";
             }
         }
         #endregion Appointment eventhandlers
 
         #region Global eventhandlers
         /// <summary>
-        /// Occurs before the form is closed. Exits the application if the user didn't want to logout.
+        /// Occurs before the form is closed. Exits the application.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
@@ -809,15 +796,12 @@ namespace SamenSterkOffline.Views
             switch (e.TabPage.Text)
             {
                 case "Rooster":
-                    selectedTabIndex = 0;
                     LoadToGrid(typeof(Task));
                     break;
                 case "Cijfers":
-                    selectedTabIndex = 1;
                     LoadToGrid(typeof(Grade));
                     break;
                 case "Belangrijke Afspraken":
-                    selectedTabIndex = 2;
                     LoadToGrid(typeof(Appointment));
                     break;
                 default:
