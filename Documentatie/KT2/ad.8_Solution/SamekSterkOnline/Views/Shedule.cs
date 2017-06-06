@@ -284,6 +284,8 @@ namespace SamenSterkOnline.Views
                     }
                     dgvAppointments.DataSource = dataTable;
                     dgvAppointments.Columns[1].ReadOnly = true;
+                    dgvAppointments.Columns[1].Resizable = DataGridViewTriState.False;
+                    dgvAppointments.Columns[2].Resizable = DataGridViewTriState.False;
                     dgvAppointments.Columns[dgvAppointments.ColumnCount - 1].Visible = false;
                     dgvAppointments.CellValueChanged += dgvAppointments_CellValueChanged;
                     break;

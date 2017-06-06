@@ -134,7 +134,7 @@
             0});
             this.nudDuration.Name = "nudDuration";
             this.nudDuration.Size = new System.Drawing.Size(157, 20);
-            this.nudDuration.TabIndex = 17;
+            this.nudDuration.TabIndex = 10;
             this.nudDuration.Value = new decimal(new int[] {
             1,
             0,
