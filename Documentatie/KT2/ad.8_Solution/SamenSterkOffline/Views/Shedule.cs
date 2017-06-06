@@ -20,7 +20,6 @@ namespace SamenSterkOffline.Views
         public DateTime appointmentDate;
         private int[] cellPos;
         private int AppointdateRowIndex;
-        private bool logout;
 
         private List<Task> tasks;
         private List<RepeatingTask> repeatingTasks;
@@ -43,7 +42,6 @@ namespace SamenSterkOffline.Views
         {
             InitializeComponent();
             cellPos = new int[2];
-            logout = false;
 
             grades = new List<Grade>();
             subjects = new List<Subject>();
@@ -798,21 +796,7 @@ namespace SamenSterkOffline.Views
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
         private void Shedule_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (logout != true)
-            {
-                Application.Exit();
-            }
-        }
-
-        /// <summary>
-        /// Occurs when the Button control is clicked. Close the current form and shows the login form.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
-        private void btnLogout_Click(object sender, EventArgs e)
-        {
-            logout = true;
-            this.Close();
+            Application.Exit();
         }
 
         /// <summary>

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Shedule));
-            this.btnLogout = new System.Windows.Forms.Button();
             this.dgvShedule = new System.Windows.Forms.DataGridView();
             this.columnDay1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnDay2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,7 +48,6 @@
             this.dgvGrades = new System.Windows.Forms.DataGridView();
             this.tabAppointments = new System.Windows.Forms.TabPage();
             this.dgvAppointments = new System.Windows.Forms.DataGridView();
-            this.lblWelcome = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabShedule.SuspendLayout();
@@ -58,21 +56,6 @@
             this.tabAppointments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppointments)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btnLogout
-            // 
-            this.btnLogout.BackColor = System.Drawing.Color.Orchid;
-            this.btnLogout.FlatAppearance.BorderSize = 0;
-            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLogout.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.btnLogout.ForeColor = System.Drawing.Color.White;
-            this.btnLogout.Location = new System.Drawing.Point(11, 41);
-            this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(74, 25);
-            this.btnLogout.TabIndex = 0;
-            this.btnLogout.Text = "Uitloggen";
-            this.btnLogout.UseVisualStyleBackColor = false;
-            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // dgvShedule
             // 
@@ -96,7 +79,7 @@
             this.dgvShedule.ReadOnly = true;
             this.dgvShedule.RowHeadersWidth = 70;
             this.dgvShedule.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dgvShedule.Size = new System.Drawing.Size(776, 411);
+            this.dgvShedule.Size = new System.Drawing.Size(775, 411);
             this.dgvShedule.TabIndex = 1;
             this.dgvShedule.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShedule_CellDoubleClick);
             this.dgvShedule.ColumnHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvShedule_ColumnHeaderMouseDoubleClick);
@@ -152,10 +135,10 @@
             this.tabControl.Controls.Add(this.tabGrades);
             this.tabControl.Controls.Add(this.tabAppointments);
             this.tabControl.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.tabControl.Location = new System.Drawing.Point(102, 13);
+            this.tabControl.Location = new System.Drawing.Point(12, 13);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(781, 466);
+            this.tabControl.Size = new System.Drawing.Size(780, 466);
             this.tabControl.TabIndex = 2;
             this.tabControl.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl_Selected);
             // 
@@ -167,7 +150,7 @@
             this.tabShedule.Location = new System.Drawing.Point(4, 23);
             this.tabShedule.Name = "tabShedule";
             this.tabShedule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabShedule.Size = new System.Drawing.Size(773, 439);
+            this.tabShedule.Size = new System.Drawing.Size(772, 439);
             this.tabShedule.TabIndex = 0;
             this.tabShedule.Text = "Rooster";
             this.tabShedule.UseVisualStyleBackColor = true;
@@ -211,7 +194,7 @@
             this.tabGrades.Location = new System.Drawing.Point(4, 23);
             this.tabGrades.Name = "tabGrades";
             this.tabGrades.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGrades.Size = new System.Drawing.Size(773, 439);
+            this.tabGrades.Size = new System.Drawing.Size(772, 439);
             this.tabGrades.TabIndex = 1;
             this.tabGrades.Text = "Cijfers";
             this.tabGrades.UseVisualStyleBackColor = true;
@@ -260,7 +243,7 @@
             this.dgvGrades.Location = new System.Drawing.Point(0, 37);
             this.dgvGrades.Name = "dgvGrades";
             this.dgvGrades.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.dgvGrades.Size = new System.Drawing.Size(786, 399);
+            this.dgvGrades.Size = new System.Drawing.Size(877, 399);
             this.dgvGrades.TabIndex = 0;
             this.dgvGrades.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvGrades_RowHeaderMouseDoubleClick);
             this.dgvGrades.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvGrades_MouseUp);
@@ -271,7 +254,7 @@
             this.tabAppointments.Location = new System.Drawing.Point(4, 23);
             this.tabAppointments.Name = "tabAppointments";
             this.tabAppointments.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAppointments.Size = new System.Drawing.Size(773, 439);
+            this.tabAppointments.Size = new System.Drawing.Size(772, 439);
             this.tabAppointments.TabIndex = 2;
             this.tabAppointments.Text = "Belangrijke Afspraken";
             this.tabAppointments.UseVisualStyleBackColor = true;
@@ -285,30 +268,19 @@
             this.dgvAppointments.Location = new System.Drawing.Point(0, 0);
             this.dgvAppointments.Name = "dgvAppointments";
             this.dgvAppointments.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dgvAppointments.Size = new System.Drawing.Size(782, 448);
+            this.dgvAppointments.Size = new System.Drawing.Size(873, 448);
             this.dgvAppointments.TabIndex = 0;
             this.dgvAppointments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellDoubleClick);
             this.dgvAppointments.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAppointments_CellMouseUp);
             this.dgvAppointments.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAppointments_ColumnHeaderMouseClick);
             this.dgvAppointments.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvAppointments_MouseUp);
             // 
-            // lblWelcome
-            // 
-            this.lblWelcome.AutoSize = true;
-            this.lblWelcome.Location = new System.Drawing.Point(8, 13);
-            this.lblWelcome.Name = "lblWelcome";
-            this.lblWelcome.Size = new System.Drawing.Size(44, 14);
-            this.lblWelcome.TabIndex = 6;
-            this.lblWelcome.Text = "Welkom";
-            // 
             // Shedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(891, 491);
-            this.Controls.Add(this.lblWelcome);
-            this.Controls.Add(this.btnLogout);
+            this.ClientSize = new System.Drawing.Size(800, 491);
             this.Controls.Add(this.tabControl);
             this.Font = new System.Drawing.Font("Arial", 8.25F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -325,13 +297,11 @@
             this.tabAppointments.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppointments)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.DataGridView dgvShedule;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabGrades;
@@ -351,6 +321,5 @@
         private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label lblInsertName;
-        private System.Windows.Forms.Label lblWelcome;
     }
 }
