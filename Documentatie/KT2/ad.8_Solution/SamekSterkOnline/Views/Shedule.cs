@@ -844,30 +844,6 @@ namespace SamenSterkOnline.Views
                 LoadToGrid(typeof(Appointment));              
             }
         }
-
-        /// <summary>
-        /// Occurs when the user clicks a column header. Sorts the values in the clciked column.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
-        private void dgvAppointments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            switch (e.ColumnIndex)
-            {
-                case 0: //naam
-                    break;
-                case 1: //datum
-                    //dgvAppointments.Sort(dgvAppointments.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-
-                    //List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
-                    //                              where Convert.ToString(row.Cells[1].Value) != "[Geen datum]" && string.IsNullOrEmpty(Convert.ToString(row.Cells[1].Value)) == false
-                    //                               select row).ToList();
-                    (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = string.Format("Datum LIKE '*-20*'");
-                    break;
-                default:
-                    break;
-            }
-        }
         #endregion Appointment eventhandlers
 
         #region Global eventhandlers

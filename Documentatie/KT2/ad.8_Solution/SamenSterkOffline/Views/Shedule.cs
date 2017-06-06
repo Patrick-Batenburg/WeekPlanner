@@ -20,6 +20,7 @@ namespace SamenSterkOffline.Views
         public DateTime appointmentDate;
         private int[] cellPos;
         private int AppointdateRowIndex;
+        private bool logout;
 
         private List<Task> tasks;
         private List<RepeatingTask> repeatingTasks;
@@ -32,7 +33,6 @@ namespace SamenSterkOffline.Views
         private GradeController gradeController;
         private SubjectController subjectController;
         private AppointmentController appointmentController;
-        private byte selectedTabIndex;
 
         /// <summary>
         /// Initializes a new instance of the form Shedule class.
@@ -42,6 +42,7 @@ namespace SamenSterkOffline.Views
         {
             InitializeComponent();
             cellPos = new int[2];
+            logout = false;
 
             grades = new List<Grade>();
             subjects = new List<Subject>();
@@ -762,30 +763,6 @@ namespace SamenSterkOffline.Views
                 LoadToGrid(typeof(Appointment));              
             }
         }
-
-        /// <summary>
-        /// Occurs when the user clicks a column header. Sorts the values in the clciked column.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
-        private void dgvAppointments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            switch (e.ColumnIndex)
-            {
-                case 0: //naam
-                    break;
-                case 1: //datum
-                    //dgvAppointments.Sort(dgvAppointments.Columns[1], System.ComponentModel.ListSortDirection.Ascending);
-
-                    //List<DataGridViewRow> rows = (from row in dgvAppointments.Rows.Cast<DataGridViewRow>()
-                    //                              where Convert.ToString(row.Cells[1].Value) != "[Geen datum]" && string.IsNullOrEmpty(Convert.ToString(row.Cells[1].Value)) == false
-                    //                               select row).ToList();
-                    (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = string.Format("Datum LIKE '*-20*'");
-                    break;
-                default:
-                    break;
-            }
-        }
         #endregion Appointment eventhandlers
 
         #region Global eventhandlers
@@ -796,7 +773,21 @@ namespace SamenSterkOffline.Views
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
         private void Shedule_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            if (logout != true)
+            {
+                Application.Exit();
+            }
+        }
+
+        /// <summary>
+        /// Occurs when the Button control is clicked. Close the current form and shows the login form.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            logout = true;
+            this.Close();
         }
 
         /// <summary>
@@ -809,15 +800,12 @@ namespace SamenSterkOffline.Views
             switch (e.TabPage.Text)
             {
                 case "Rooster":
-                    selectedTabIndex = 0;
                     LoadToGrid(typeof(Task));
                     break;
                 case "Cijfers":
-                    selectedTabIndex = 1;
                     LoadToGrid(typeof(Grade));
                     break;
                 case "Belangrijke Afspraken":
-                    selectedTabIndex = 2;
                     LoadToGrid(typeof(Appointment));
                     break;
                 default:
