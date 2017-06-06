@@ -72,7 +72,6 @@
             this.btnLogout.TabIndex = 0;
             this.btnLogout.Text = "Uitloggen";
             this.btnLogout.UseVisualStyleBackColor = false;
-            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
             // dgvShedule
             // 
