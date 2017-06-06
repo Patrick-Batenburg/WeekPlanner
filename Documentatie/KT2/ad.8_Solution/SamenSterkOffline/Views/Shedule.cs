@@ -760,30 +760,17 @@ namespace SamenSterkOffline.Views
                 LoadToGrid(typeof(Appointment));              
             }
         }
-
-        /// <summary>
-        /// Occurs when the user clicks a column header. Sorts the values in the clciked column.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
-        private void dgvAppointments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.ColumnIndex == 1)
-            {
-                (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = "Datum LIKE '*-2*'";
-            }
-        }
         #endregion Appointment eventhandlers
 
         #region Global eventhandlers
         /// <summary>
-        /// Occurs before the form is closed. Exits the application.
+        /// Occurs before the form is closed. Exits the application if the user didn't want to logout.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
         private void Shedule_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+        	Application.Exit();
         }
 
         /// <summary>

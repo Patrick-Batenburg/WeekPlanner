@@ -844,6 +844,7 @@ namespace SamenSterkOnline.Views
                 LoadToGrid(typeof(Appointment));              
             }
         }
+<<<<<<< HEAD
 
         /// <summary>
         /// Occurs when the user clicks a column header. Sorts the values in the clciked column.
@@ -857,6 +858,8 @@ namespace SamenSterkOnline.Views
                 (dgvAppointments.DataSource as DataTable).DefaultView.RowFilter = "Datum LIKE '*-2*'";
             }
         }
+=======
+>>>>>>> 8aac8e881126e19719489e084b2bfbd7645b5dc0
         #endregion Appointment eventhandlers
 
         #region Global eventhandlers

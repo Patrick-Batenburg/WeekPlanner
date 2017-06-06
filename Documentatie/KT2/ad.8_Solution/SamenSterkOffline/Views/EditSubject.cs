@@ -42,42 +42,45 @@ namespace SamenSterkOffline.Views
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            int result = 0;
-
-            List<Grade> gradeQuery = (from grade in grades
-                                      where grade.RowIndex == model.RowIndex 
-                                      select grade).ToList();
-
-            List<Subject> subjectQuery = (from subject in subjects
-                                          where subject.RowIndex > model.RowIndex
-                                          select subject).ToList();
-
-            if (gradeQuery.Count != 0)
+            DialogResult dialogResult = MessageBox.Show("Weet je het zeker?", "Vak Verwijderen", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                for (int i = 0; i < gradeQuery.Count; i++)
+                int result = 0;
+                List<Grade> gradeQuery = (from grade in grades
+                                          where grade.RowIndex == model.RowIndex
+                                          select grade).ToList();
+
+                List<Subject> subjectQuery = (from subject in subjects
+                                              where subject.RowIndex > model.RowIndex
+                                              select subject).ToList();
+
+                if (gradeQuery.Count != 0)
                 {
-                    gradeController.Delete(grades[i]);
+                    for (int i = 0; i < gradeQuery.Count; i++)
+                    {
+                        gradeController.Delete(grades[i]);
+                    }
                 }
-            }
 
-            if (subjectQuery.Count != 0)
-            {
-                for (int i = 0; i < subjectQuery.Count; i++)
+                if (subjectQuery.Count != 0)
                 {
-                    subjectQuery[i].RowIndex -= 1;
-                    subjectController.Edit(subjectQuery[i]);
+                    for (int i = 0; i < subjectQuery.Count; i++)
+                    {
+                        subjectQuery[i].RowIndex -= 1;
+                        subjectController.Edit(subjectQuery[i]);
+                    }
                 }
-            }
 
-            result = subjectController.Delete(model);
+                result = subjectController.Delete(model);
 
-            if (result != 0)
-            {
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Onbekend probleem bij het verwijderen van het vak.");
+                if (result != 0)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Onbekend probleem bij het verwijderen van het vak.");
+                }
             }
         }
 
@@ -106,6 +109,14 @@ namespace SamenSterkOffline.Views
             }
 
             this.Close();
+        }
+
+        private void txtName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnEditSubject_Click(sender, e);
+            }
         }
     }
 }

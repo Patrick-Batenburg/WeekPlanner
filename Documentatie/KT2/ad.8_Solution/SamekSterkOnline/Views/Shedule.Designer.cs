@@ -291,7 +291,6 @@
             this.dgvAppointments.TabIndex = 0;
             this.dgvAppointments.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppointments_CellDoubleClick);
             this.dgvAppointments.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAppointments_CellMouseUp);
-            this.dgvAppointments.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvAppointments_ColumnHeaderMouseClick);
             this.dgvAppointments.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgvAppointments_MouseUp);
             // 
             // cbUsernames
