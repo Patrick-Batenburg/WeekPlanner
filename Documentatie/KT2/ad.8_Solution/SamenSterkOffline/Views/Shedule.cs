@@ -770,7 +770,7 @@ namespace SamenSterkOffline.Views
         /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
         private void Shedule_FormClosing(object sender, FormClosingEventArgs e)
         {
-        	Application.Exit();
+            Application.Exit();
         }
 
         /// <summary>
