@@ -818,7 +818,7 @@ namespace SamenSterkOnline.Views
                     case 2:
                         if (selectedUser.Id == currentUser.Id)
                         {
-                            if (e.RowIndex < dgvAppointments.RowCount && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)) == false)
+                            if (e.RowIndex < dgvAppointments.RowCount - 1 && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex - 1, e.RowIndex].Value)) == false && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex - 2, e.RowIndex].Value)) == false)
                             {
                                 id = (from row in rows
                                       where Convert.ToBoolean(row.Cells["verwijderen?"].Value) == true

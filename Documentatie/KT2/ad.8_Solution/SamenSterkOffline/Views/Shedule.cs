@@ -739,21 +739,22 @@ namespace SamenSterkOffline.Views
                         }
                         break;
                     case 2:
-                        if (e.RowIndex < dgvAppointments.RowCount - 2)
+                        if (e.RowIndex < dgvAppointments.RowCount - 1 && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex - 1, e.RowIndex].Value)) == false && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex - 2, e.RowIndex].Value)) == false)
                         {
                             id = (from row in rows
-                                  where Convert.ToBoolean(row.Cells[dgvAppointments.ColumnCount - 2].Value) == true
-                                  select Convert.ToUInt32(row.Cells[dgvAppointments.ColumnCount - 1].Value)).FirstOrDefault();
+                                    where Convert.ToBoolean(row.Cells[dgvAppointments.ColumnCount - 2].Value) == true
+                                    select Convert.ToUInt32(row.Cells[dgvAppointments.ColumnCount - 1].Value)).FirstOrDefault();
 
                             query = (from appointment in appointments
-                                     where appointment.Id == id
-                                     select appointment).FirstOrDefault();
+                                        where appointment.Id == id
+                                        select appointment).FirstOrDefault();
 
                             if (query != null)
                             {
                                 result = appointmentController.Delete(query);
                             }
                         }
+                        
                         break;
                     default:
                         break;
