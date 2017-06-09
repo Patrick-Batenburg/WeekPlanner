@@ -52,6 +52,8 @@
             this.cbUsernames = new System.Windows.Forms.ComboBox();
             this.lblViewUser = new System.Windows.Forms.Label();
             this.lblUsername = new System.Windows.Forms.Label();
+            this.btnDeleteUser = new System.Windows.Forms.Button();
+            this.lblViewDeleteUsers = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvShedule)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabShedule.SuspendLayout();
@@ -307,7 +309,7 @@
             // 
             this.lblViewUser.AutoSize = true;
             this.lblViewUser.Font = new System.Drawing.Font("Arial", 8.25F);
-            this.lblViewUser.Location = new System.Drawing.Point(11, 73);
+            this.lblViewUser.Location = new System.Drawing.Point(8, 73);
             this.lblViewUser.Name = "lblViewUser";
             this.lblViewUser.Size = new System.Drawing.Size(85, 14);
             this.lblViewUser.TabIndex = 5;
@@ -322,12 +324,39 @@
             this.lblUsername.TabIndex = 6;
             this.lblUsername.Text = "Gebruikersnaam";
             // 
+            // btnDeleteUser
+            // 
+            this.btnDeleteUser.BackColor = System.Drawing.Color.Orchid;
+            this.btnDeleteUser.FlatAppearance.BorderSize = 0;
+            this.btnDeleteUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeleteUser.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.btnDeleteUser.ForeColor = System.Drawing.Color.White;
+            this.btnDeleteUser.Location = new System.Drawing.Point(11, 198);
+            this.btnDeleteUser.Name = "btnDeleteUser";
+            this.btnDeleteUser.Size = new System.Drawing.Size(74, 25);
+            this.btnDeleteUser.TabIndex = 7;
+            this.btnDeleteUser.Text = "Gebruikers";
+            this.btnDeleteUser.UseVisualStyleBackColor = false;
+            this.btnDeleteUser.Click += new System.EventHandler(this.btnDeleteUser_Click);
+            // 
+            // lblViewDeleteUsers
+            // 
+            this.lblViewDeleteUsers.AutoSize = true;
+            this.lblViewDeleteUsers.Font = new System.Drawing.Font("Arial", 8.25F);
+            this.lblViewDeleteUsers.Location = new System.Drawing.Point(8, 181);
+            this.lblViewDeleteUsers.Name = "lblViewDeleteUsers";
+            this.lblViewDeleteUsers.Size = new System.Drawing.Size(75, 14);
+            this.lblViewDeleteUsers.TabIndex = 8;
+            this.lblViewDeleteUsers.Text = "Gebruikerslijst";
+            // 
             // Shedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(891, 491);
+            this.Controls.Add(this.lblViewDeleteUsers);
+            this.Controls.Add(this.btnDeleteUser);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.lblViewUser);
             this.Controls.Add(this.cbUsernames);
@@ -377,5 +406,7 @@
         private System.Windows.Forms.Label lblInsertName;
         private System.Windows.Forms.Label lblViewUser;
         private System.Windows.Forms.Label lblUsername;
+        private System.Windows.Forms.Button btnDeleteUser;
+        private System.Windows.Forms.Label lblViewDeleteUsers;
     }
 }

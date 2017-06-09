@@ -61,7 +61,35 @@ namespace SamenSterkOffline.Views
                 dgvShedule.Columns[i].HeaderText = DateTime.Today.AddDays(i).ToString("dd-MM-yyyy");
             }
 
+            CleanupExpiredRecords();
             LoadToGrid(typeof(Task));
+        }
+
+        /// <summary>
+        /// Deletes expired records in the database.
+        /// </summary>
+        private void CleanupExpiredRecords()
+        {
+            tasks = taskController.Details();
+            appointments = appointmentController.Details();
+
+            List<Task> taskQuery = (from task in tasks
+                                    where task.Date < DateTime.Today
+                                    select task).ToList();
+
+            List<Appointment> appointmentQuery = (from appointment in appointments
+                                                  where appointment.Date < DateTime.Today && appointment.Date != new DateTime(1980, 1, 1)
+                                                  select appointment).ToList();
+
+            for (int i = 0; i < taskQuery.Count; i++)
+            {
+                taskController.Delete(taskQuery[i]);
+            }
+
+            for (int i = 0; i < appointmentQuery.Count; i++)
+            {
+                appointmentController.Delete(appointmentQuery[i]);
+            }
         }
 
         /// <summary>
@@ -799,6 +827,5 @@ namespace SamenSterkOffline.Views
             }
         }
         #endregion Global eventhandlers
-
     }
 }

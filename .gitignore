@@ -250,3 +250,6 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# Custom ingore
+*/Documentatie/KT2/ad.8_Solution/SamekSterkOnline/App.config

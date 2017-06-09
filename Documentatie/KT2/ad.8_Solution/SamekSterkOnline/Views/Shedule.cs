@@ -76,17 +76,49 @@ namespace SamenSterkOnline.Views
             {
                 lblViewUser.Visible = false;
                 cbUsernames.Visible = false;
+                lblViewDeleteUsers.Visible = false;
+                btnDeleteUser.Visible = false;
             }
             else
             {
                 cbUsernames.Click += cbUsernames_Click;
                 lblViewUser.Visible = true;
                 cbUsernames.Visible = true;
+                lblViewDeleteUsers.Visible = true;
+                btnDeleteUser.Visible = true;
                 cbUsernames.Items.Add(currentUser.Username + " (ik)");
                 cbUsernames.SelectedIndex = 0;
             }
 
+            CleanupExpiredRecords();
             LoadToGrid(typeof(Task));
+        }
+
+        /// <summary>
+        /// Deletes expired records in the database.
+        /// </summary>
+        private void CleanupExpiredRecords()
+        {
+            tasks = taskController.Details(selectedUser.Id);
+            appointments = appointmentController.Details(selectedUser.Id);
+
+            List<Task> taskQuery = (from task in tasks
+                                    where task.Date < DateTime.Today
+                                    select task).ToList();
+
+            List<Appointment> appointmentQuery = (from appointment in appointments
+                                                  where appointment.Date < DateTime.Today && appointment.Date != new DateTime(1980, 1, 1)
+                                                  select appointment).ToList();
+
+            for (int i = 0; i < taskQuery.Count; i++)
+            {
+                taskController.Delete(taskQuery[i]);
+            }
+
+            for (int i = 0; i < appointmentQuery.Count; i++)
+            {
+                appointmentController.Delete(appointmentQuery[i]);
+            }
         }
 
         /// <summary>
@@ -253,6 +285,7 @@ namespace SamenSterkOnline.Views
                     dgvGrades.CellValueChanged += dgvGrades_CellValueChanged;
                     break;
                 case "SamenSterkOnline.Models.Appointment":
+                    DataTable dataTable = new DataTable();  
                     dgvAppointments.CellValueChanged -= dgvAppointments_CellValueChanged;
                     dgvAppointments.DataSource = null;
                     dgvAppointments.Rows.Clear();
@@ -262,7 +295,6 @@ namespace SamenSterkOnline.Views
                                     where appointment.Date > DateTime.Today || appointment.Date == new DateTime(1980, 1, 1)
                                     select appointment).ToList();
 
-                    DataTable dataTable = new DataTable();  
                     dataTable.Columns.Add("Naam", typeof(string));
                     dataTable.Columns.Add("Datum", typeof(string));
                     dataTable.Columns.Add("Verwijderen?", typeof(bool));
@@ -984,6 +1016,34 @@ namespace SamenSterkOnline.Views
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Occurs when the Button control is clicked. Close the current form and shows the login form.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        private void btnDeleteUser_Click(object sender, EventArgs e)
+        {
+            DeleteUsers deleteUsers = new DeleteUsers(currentUser);
+            deleteUsers.ShowDialog();
+
+            switch (selectedTabIndex)
+            {
+                case 0:
+                    LoadToGrid(typeof(Task));
+                    break;
+                case 1:
+                    LoadToGrid(typeof(Grade));
+                    break;
+                case 2:
+                    LoadToGrid(typeof(Appointment));
+                    break;
+                default:
+                    break;
+            }
+
+            cbUsernames.SelectedIndex = 0;
         }
         #endregion Global eventhandlers
     }
