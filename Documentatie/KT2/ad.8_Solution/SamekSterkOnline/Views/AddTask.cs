@@ -34,7 +34,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Button control is clicked. Adds a new Task or RepeatingTask.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnAddTask_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtTitle.Text))

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SamenSterkOnline.Views
@@ -35,7 +28,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Value property changes. Changes the value of the selected date to the date of today if it's less than the date of today.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void datePicker_ValueChanged(object sender, EventArgs e)
         {
             if (datePicker.Value < DateTime.Today)
@@ -48,7 +41,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Value property changes. Changes the value of the selected time to the time of now if it's less than the time of now.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void timePicker_ValueChanged(object sender, EventArgs e)
         {
             if (timePicker.Value < DateTime.Now)
@@ -61,7 +54,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Button control is clicked. Edit the date of the Appointment. Closes the form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (datePicker.Value < DateTime.Today)
@@ -83,7 +76,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Button control is clicked. Closes the form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();

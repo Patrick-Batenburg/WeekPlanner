@@ -65,7 +65,7 @@ namespace SamenSterkOffline.Controllers
             TaskController taskController = new TaskController();
             List<RepeatingTask> repeatingTasks = Details();
             List<Task> tasks = taskController.Details();
-            
+
             using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
             {
                 result = db.Insert(model);
@@ -74,7 +74,7 @@ namespace SamenSterkOffline.Controllers
             return result;
         }
 
-        /// <summary>   
+        /// <summary>
         /// Edit an existing repeating task.
         /// </summary>
         /// <param name="model">Repeating task details to edit.</param>
@@ -157,7 +157,6 @@ namespace SamenSterkOffline.Controllers
 
             return result;
         }
-
 
         /// <summary>
         /// Deletes an existing repeating task.

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 
 namespace SamenSterkOnline.Controllers
 {
@@ -176,7 +175,7 @@ namespace SamenSterkOnline.Controllers
             int result = 0;
             ConstructorInfo constructor = view.GetConstructor(Type.EmptyTypes);
             object classObject = constructor.Invoke(new object[] { });
-            MethodInfo method = view.GetMethod("Show", new Type[] { } );
+            MethodInfo method = view.GetMethod("Show", new Type[] { });
             method.Invoke(classObject, null);
 
             if (method != null)

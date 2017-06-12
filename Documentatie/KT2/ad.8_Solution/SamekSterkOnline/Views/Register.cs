@@ -24,7 +24,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Button control is clicked. Closes the form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -34,7 +34,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Button control is clicked. Registers a new user.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnRegister_Click(object sender, EventArgs e)
         {
             if (txtPassword.Text == txtPasswordRepeat.Text)
@@ -47,12 +47,15 @@ namespace SamenSterkOnline.Views
                         MessageBox.Show("Succesvol geregistreerd");
                         this.Close();
                         break;
+
                     case 2:
                         MessageBox.Show("Gebruikersnaam is ongeldig.");
                         break;
+
                     case 3:
                         MessageBox.Show("Gebruikersnaam is al in gebruik.");
                         break;
+
                     default:
                         break;
                 }

@@ -22,7 +22,6 @@ namespace SamenSterkOnline.Controllers
         {
             task = new Task(() =>
             {
-
             });
 
             if (task.IsCanceled)

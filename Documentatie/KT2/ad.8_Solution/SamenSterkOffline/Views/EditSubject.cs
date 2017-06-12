@@ -2,12 +2,7 @@
 using SamenSterkOffline.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SamenSterkOffline.Views
@@ -32,14 +27,14 @@ namespace SamenSterkOffline.Views
             gradeController = new GradeController();
             grades = gradeController.Details();
             subjects = subjectController.Details();
-            txtName.Text = model.Name; 
+            txtName.Text = model.Name;
         }
 
         /// <summary>
         /// Occurs when the Button control is clicked. Deletes an extisting Subject.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Weet je het zeker?", "Vak Verwijderen", MessageBoxButtons.YesNo);
@@ -88,7 +83,7 @@ namespace SamenSterkOffline.Views
         /// Occurs when the Button control is clicked. Edit an extisting Subject.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnEditSubject_Click(object sender, EventArgs e)
         {
             int result = 0;

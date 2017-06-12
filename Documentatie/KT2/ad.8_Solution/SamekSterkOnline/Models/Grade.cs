@@ -45,7 +45,7 @@ namespace SamenSterkOnline.Models
             get { return id; }
             set
             {
-                id = value; 
+                id = value;
                 OnPropertyChanged("RowIndex");
             }
         }

@@ -1,6 +1,0 @@
-Op volgorde van prioriteit:
-
-Database online werkend maken, (koppelen aan website)
-Janneke: "Iedereen mag er gebruik van maken, maar ik wil alleen de gegevens zien van mijn clienten.".
-Gebruiksgemak verbeteren. (voorbeeld: Drukken van enter bij sommige tekstboxen een nut geven)
-Optimalisatie

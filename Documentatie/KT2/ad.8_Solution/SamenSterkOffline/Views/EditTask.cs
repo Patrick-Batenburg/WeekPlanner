@@ -72,7 +72,7 @@ namespace SamenSterkOffline.Views
         /// Occurs when the Button control is clicked.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnEditTask_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtTitle.Text))
@@ -182,7 +182,7 @@ namespace SamenSterkOffline.Views
         /// Occurs when the Button control is clicked.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Weet je het zeker?", "Taak verwijderen", MessageBoxButtons.YesNo);

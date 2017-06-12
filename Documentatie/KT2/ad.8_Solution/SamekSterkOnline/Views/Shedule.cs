@@ -17,6 +17,7 @@ namespace SamenSterkOnline.Views
         //#5a5a5a //black / grey for text
         //#bd7cbb (orchid) //purple colors
         public DateTime startDate;
+
         public DateTime appointmentDate;
         public User currentUser;
         public User selectedUser;
@@ -227,6 +228,7 @@ namespace SamenSterkOnline.Views
                         }
                     }
                     break;
+
                 case "SamenSterkOnline.Models.Grade":
                     int index = -1;
                     dgvGrades.CellValueChanged -= dgvGrades_CellValueChanged;
@@ -284,8 +286,9 @@ namespace SamenSterkOnline.Views
 
                     dgvGrades.CellValueChanged += dgvGrades_CellValueChanged;
                     break;
+
                 case "SamenSterkOnline.Models.Appointment":
-                    DataTable dataTable = new DataTable();  
+                    DataTable dataTable = new DataTable();
                     dgvAppointments.CellValueChanged -= dgvAppointments_CellValueChanged;
                     dgvAppointments.DataSource = null;
                     dgvAppointments.Rows.Clear();
@@ -306,11 +309,11 @@ namespace SamenSterkOnline.Views
                         {
                             if (appointments[i].Date.ToString("dd-MM-yyyy HH:mm") == new DateTime(1980, 1, 1).ToString("dd-MM-yyyy HH:mm"))
                             {
-                                dataTable.Rows.Add(appointments[i].Name, "[Geen datum]", false, appointments[i].Id);  
+                                dataTable.Rows.Add(appointments[i].Name, "[Geen datum]", false, appointments[i].Id);
                             }
                             else
                             {
-                                dataTable.Rows.Add(appointments[i].Name, appointments[i].Date.ToString("dd-MM-yyyy HH:mm"), false, appointments[i].Id);  
+                                dataTable.Rows.Add(appointments[i].Name, appointments[i].Date.ToString("dd-MM-yyyy HH:mm"), false, appointments[i].Id);
                             }
                         }
                     }
@@ -321,17 +324,19 @@ namespace SamenSterkOnline.Views
                     dgvAppointments.Columns[dgvAppointments.ColumnCount - 1].Visible = false;
                     dgvAppointments.CellValueChanged += dgvAppointments_CellValueChanged;
                     break;
+
                 default:
                     break;
             }
         }
 
         #region Task eventhandlers
+
         /// <summary>
         /// Occurs when the user double-clicks anywhere in a cell. Gets the clicked cell position and chooses depending on the value of the cell to display the AddTask form or EditTask form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvShedule_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //checks if it didn't touched the headers
@@ -422,7 +427,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when a column header is double-clicked. Displays the EditDate form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void dgvShedule_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             EditDate editSchedule = new EditDate(this, Convert.ToDateTime(this.dgvShedule.Columns[0].HeaderText));
@@ -445,7 +450,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Button control is clicked. Goes back to 7 days of the current date in the DataGridView if it doesn't exceed the date of today.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnPrevious_Click(object sender, EventArgs e)
         {
             DateTime dateTime;
@@ -471,7 +476,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Button control is clicked. Goes forward for 7 days of the current date in the DataGridView if it doesn't exceed the max DateTime value.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnNext_Click(object sender, EventArgs e)
         {
             DateTime lastDate = Convert.ToDateTime(dgvShedule.Columns[6].HeaderText);
@@ -496,14 +501,16 @@ namespace SamenSterkOnline.Views
                 }
             }
         }
+
         #endregion Task eventhandlers
 
         #region Grade eventhandlers
+
         /// <summary>
         /// Occurs when the Button control is clicked. Adds a new Subject.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnAddSubject_Click(object sender, EventArgs e)
         {
             //adds a subject to the grades datagrid
@@ -553,7 +560,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when a row header is double-clicked. Displays the EditSubject form, which edits an existing Subject.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param>
         private void dgvGrades_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (selectedUser.Id == currentUser.Id)
@@ -576,7 +583,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the mouse pointer is over the control and a mouse button is released. Exits edit mode when not clicked on a cell.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void dgvGrades_MouseUp(object sender, MouseEventArgs e)
         {
             //exits edit mode when editing grades
@@ -593,7 +600,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when a character. space or backspace key is pressed while the control has focus. Raises the btnAddSubject_Click event.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void txtSubjectName_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -606,7 +613,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the value of a cell changes. Adds a new Grade if there wasn't no value. Edit an existing Grade if the value changed. Deletes an existing Grade if the value is empty.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvGrades_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex > -1 && subjects.Count == dgvGrades.RowCount)
@@ -689,9 +696,11 @@ namespace SamenSterkOnline.Views
                 }
             }
         }
+
         #endregion Grade eventhandlers
 
         #region Appointment eventhandlers
+
         /// <summary>
         /// Occurs when the user double-clicks anywhere in a cell. displays the EditAppointment form, which edits the date of the Appointment.
         /// </summary>
@@ -737,7 +746,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the mouse pointer is over the control and a mouse button is released. Exits edit mode when not clicked on a cell.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="MouseEventArgs"/> instance containing the event data.</param>
         private void dgvAppointments_MouseUp(object sender, MouseEventArgs e)
         {
             //exits edit mode when editing grades
@@ -754,7 +763,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the user releases a mouse button while over a cell. Exits edit mode of the cell.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="DataGridViewCellMouseEventArgs"/> instance containing the event data.</param>
         private void dgvAppointments_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.ColumnIndex == 2)
@@ -767,7 +776,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the value of a cell changes. Adds a new Appointment if there wasn't no value. Edit an existing Appointment if the value changed. Deletes an existing Appointment if the value is empty.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvAppointments_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex > -1 && e.RowIndex > -1)
@@ -824,6 +833,7 @@ namespace SamenSterkOnline.Views
                             MessageBox.Show("Kan afspraken voor andere gebruikers niet toevoegen/wijzigen.");
                         }
                         break;
+
                     case 1:
                         if (string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex, e.RowIndex].Value)) != true && string.IsNullOrEmpty(Convert.ToString(dgvAppointments[e.ColumnIndex - 1, e.RowIndex].Value)) == true)
                         {
@@ -836,8 +846,8 @@ namespace SamenSterkOnline.Views
                         else
                         {
                             query = (from appointment in appointments
-                                        where appointment.Id == Convert.ToUInt32(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)
-                                        select appointment).FirstOrDefault();
+                                     where appointment.Id == Convert.ToUInt32(dgvAppointments[dgvAppointments.ColumnCount - 1, e.RowIndex].Value)
+                                     select appointment).FirstOrDefault();
 
                             query.Date = Convert.ToDateTime(dgvAppointments[e.ColumnIndex, e.RowIndex].Value);
 
@@ -847,6 +857,7 @@ namespace SamenSterkOnline.Views
                             }
                         }
                         break;
+
                     case 2:
                         if (selectedUser.Id == currentUser.Id)
                         {
@@ -871,16 +882,19 @@ namespace SamenSterkOnline.Views
                             MessageBox.Show("Kan afspraken voor andere gebruikers niet verwijderen.");
                         }
                         break;
+
                     default:
                         break;
                 }
 
-                LoadToGrid(typeof(Appointment));              
+                LoadToGrid(typeof(Appointment));
             }
         }
+
         #endregion Appointment eventhandlers
 
         #region Global eventhandlers
+
         /// <summary>
         /// Occurs before the form is closed. Exits the application if the user didn't want to logout.
         /// </summary>
@@ -898,7 +912,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Button control is clicked. Close the current form and shows the login form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnLogout_Click(object sender, EventArgs e)
         {
             userController.LogOff(typeof(Login));
@@ -910,7 +924,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when a tab is selected. Gets the tab index and loads the data in the DataGridView.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="TabControlEventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="TabControlEventArgs"/> instance containing the event data.</param>
         private void tabControl_Selected(object sender, TabControlEventArgs e)
         {
             switch (e.TabPage.Text)
@@ -919,14 +933,17 @@ namespace SamenSterkOnline.Views
                     selectedTabIndex = 0;
                     LoadToGrid(typeof(Task));
                     break;
+
                 case "Cijfers":
                     selectedTabIndex = 1;
                     LoadToGrid(typeof(Grade));
                     break;
+
                 case "Belangrijke Afspraken":
                     selectedTabIndex = 2;
                     LoadToGrid(typeof(Appointment));
                     break;
+
                 default:
                     break;
             }
@@ -936,7 +953,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the ComboBox control is clicked. Repopulates the ComboBox control's DataSource, incase a new user registered.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cbUsernames_Click(object sender, EventArgs e)
         {
             string textValue = cbUsernames.Text;
@@ -963,7 +980,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the SelectedIndex property has changed. Shows the data of the selected user for the specified selected tab.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void cbUsernames_SelectedIndexChanged(object sender, EventArgs e)
         {
             User selected = new User();
@@ -986,12 +1003,15 @@ namespace SamenSterkOnline.Views
                         case 0:
                             LoadToGrid(typeof(Task));
                             break;
+
                         case 1:
                             LoadToGrid(typeof(Grade));
                             break;
+
                         case 2:
                             LoadToGrid(typeof(Appointment));
                             break;
+
                         default:
                             break;
                     }
@@ -1006,12 +1026,15 @@ namespace SamenSterkOnline.Views
                     case 0:
                         LoadToGrid(typeof(Task));
                         break;
+
                     case 1:
                         LoadToGrid(typeof(Grade));
                         break;
+
                     case 2:
                         LoadToGrid(typeof(Appointment));
                         break;
+
                     default:
                         break;
                 }
@@ -1022,7 +1045,7 @@ namespace SamenSterkOnline.Views
         /// Occurs when the Button control is clicked. Close the current form and shows the login form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnDeleteUser_Click(object sender, EventArgs e)
         {
             DeleteUsers deleteUsers = new DeleteUsers(currentUser);
@@ -1033,18 +1056,22 @@ namespace SamenSterkOnline.Views
                 case 0:
                     LoadToGrid(typeof(Task));
                     break;
+
                 case 1:
                     LoadToGrid(typeof(Grade));
                     break;
+
                 case 2:
                     LoadToGrid(typeof(Appointment));
                     break;
+
                 default:
                     break;
             }
 
             cbUsernames.SelectedIndex = 0;
         }
+
         #endregion Global eventhandlers
     }
 }

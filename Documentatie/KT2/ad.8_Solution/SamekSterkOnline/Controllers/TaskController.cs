@@ -130,7 +130,6 @@ namespace SamenSterkOnline.Controllers
 
                 totalrecords[1] = repeatingTaskDate.Count;
 
-
                 if (repeatingTaskQuery.Count != totalrecords[0] + totalrecords[1])
                 {
                     result = 2;
@@ -140,7 +139,6 @@ namespace SamenSterkOnline.Controllers
                     List<Task> taskQuery = (from task in tasks
                                             where task.Date.DayOfWeek == model.Date.DayOfWeek && task.Id != model.Id
                                             select task).ToList();
-
 
                     List<Task> taskDate = (from task in taskQuery
                                            where task.Date.AddHours(task.Duration - 1) < model.Date
@@ -154,7 +152,6 @@ namespace SamenSterkOnline.Controllers
 
                     totalrecords[3] = taskDate.Count;
 
-
                     if (taskQuery.Count != totalrecords[2] + totalrecords[3])
                     {
                         result = 2;
@@ -167,7 +164,6 @@ namespace SamenSterkOnline.Controllers
             }
 
             return result;
-
         }
 
         /// <summary>

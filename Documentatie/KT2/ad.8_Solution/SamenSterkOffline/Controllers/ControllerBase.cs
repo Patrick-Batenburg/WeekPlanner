@@ -22,7 +22,6 @@ namespace SamenSterkOffline.Controllers
         {
             task = new Task(() =>
             {
-
             });
 
             if (task.IsCanceled)

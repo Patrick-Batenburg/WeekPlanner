@@ -62,8 +62,8 @@ namespace SamenSterkOnline.Views
         /// Occurs before the form is closed. Exits the application.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param> 
-        void Login_FormClosing(object sender, FormClosingEventArgs e)
+        /// <param name="e">The <see cref="FormClosingEventArgs"/> instance containing the event data.</param>
+        private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
         }
@@ -95,7 +95,7 @@ namespace SamenSterkOnline.Views
         }
 
         /// <summary>
-        /// Occurs when the mouse pointer leaves the control. Sets the foreground color of the Label control. 
+        /// Occurs when the mouse pointer leaves the control. Sets the foreground color of the Label control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
@@ -105,7 +105,7 @@ namespace SamenSterkOnline.Views
         }
 
         /// <summary>
-        /// Occurs when the mouse pointer enters the control. Sets the foreground color of the Label control. 
+        /// Occurs when the mouse pointer enters the control. Sets the foreground color of the Label control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>

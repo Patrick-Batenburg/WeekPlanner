@@ -25,7 +25,7 @@ namespace SamenSterkOffline.Views
         /// Occurs when the Value property changes. Changes the value of the selected date to the date of today if it's less than the date of today.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void startDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
             if (startDateTimePicker.Value < DateTime.Today)
@@ -38,19 +38,18 @@ namespace SamenSterkOffline.Views
         /// Occurs when the Button control is clicked. Saves the selected date. Closes the form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnCancel_Click(object sender, EventArgs e)
         {
             shedule.startDate = date;
             this.Close();
         }
 
-
         /// <summary>
         /// Occurs when the Button control is clicked. Saves the selected date and edit the DataGridView headers from the selected date. Closes the form.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param> 
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnEditSchedule_Click(object sender, EventArgs e)
         {
             if (startDateTimePicker.Value < DateTime.Today)

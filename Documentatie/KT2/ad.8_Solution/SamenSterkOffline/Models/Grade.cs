@@ -43,7 +43,7 @@ namespace SamenSterkOffline.Models
             get { return id; }
             set
             {
-                id = value; 
+                id = value;
                 OnPropertyChanged("RowIndex");
             }
         }

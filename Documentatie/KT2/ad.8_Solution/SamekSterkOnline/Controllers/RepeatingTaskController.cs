@@ -71,7 +71,7 @@ namespace SamenSterkOnline.Controllers
         public int Create(RepeatingTask model)
         {
             int result = 0;
-            int[] totalrecords = new int[4]; 
+            int[] totalrecords = new int[4];
             TaskController taskController = new TaskController();
             List<RepeatingTask> repeatingTasks = new List<RepeatingTask>();
             List<Task> tasks = new List<Task>();
@@ -87,7 +87,7 @@ namespace SamenSterkOnline.Controllers
             return result;
         }
 
-        /// <summary>   
+        /// <summary>
         /// Edit an existing repeating task.
         /// </summary>
         /// <param name="model">Repeating task details to edit.</param>
@@ -173,7 +173,6 @@ namespace SamenSterkOnline.Controllers
 
             return result;
         }
-
 
         /// <summary>
         /// Deletes an existing repeating task.

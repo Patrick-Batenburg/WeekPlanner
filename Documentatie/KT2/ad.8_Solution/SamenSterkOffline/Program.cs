@@ -1,10 +1,9 @@
 ﻿using SamenSterkOffline.Models;
 using SamenSterkOffline.Views;
-using System.Data.SQLite;
+using SQLite;
 using System;
 using System.IO;
 using System.Windows.Forms;
-using SQLite;
 
 namespace SamenSterkOffline
 {
