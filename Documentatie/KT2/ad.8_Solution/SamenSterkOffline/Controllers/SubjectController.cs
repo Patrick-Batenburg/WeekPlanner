@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SamenSterkOffline.Controllers
 {
-    public class SubjectController : ControllerBase
+    public class SubjectController
     {
         private Subject subject;
 

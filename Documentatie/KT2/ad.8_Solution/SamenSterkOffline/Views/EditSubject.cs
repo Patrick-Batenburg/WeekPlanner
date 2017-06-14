@@ -41,19 +41,29 @@ namespace SamenSterkOffline.Views
             if (dialogResult == DialogResult.Yes)
             {
                 int result = 0;
+                List<Grade> subjectGradesQuery = (from grade in grades
+                                                  where grade.RowIndex == model.RowIndex
+                                                  select grade).ToList();
+
                 List<Grade> gradeQuery = (from grade in grades
-                                          where grade.RowIndex == model.RowIndex
+                                          where grade.RowIndex > model.RowIndex
                                           select grade).ToList();
 
                 List<Subject> subjectQuery = (from subject in subjects
                                               where subject.RowIndex > model.RowIndex
                                               select subject).ToList();
 
-                if (gradeQuery.Count != 0)
+                if (subjectGradesQuery.Count != 0)
                 {
-                    for (int i = 0; i < gradeQuery.Count; i++)
+                    for (int i = 0; i < subjectGradesQuery.Count; i++)
                     {
                         gradeController.Delete(grades[i]);
+                    }
+
+                    for (int i = 0; i < subjectQuery.Count; i++)
+                    {
+                        gradeQuery[i].RowIndex -= 1;
+                        gradeController.Edit(gradeQuery[i]);
                     }
                 }
 

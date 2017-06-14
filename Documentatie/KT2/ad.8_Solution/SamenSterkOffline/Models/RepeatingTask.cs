@@ -18,8 +18,12 @@ namespace SamenSterkOffline.Models
         /// </summary>
         public RepeatingTask()
         {
+			this.id = 0;
             this.title = "[Geen titel]";
+			this.day = "Monday";
+			this.time = TimeSpan.MinValue;
             this.duration = 1;
+			this.label = "[Geen label]";
         }
 
         /// <summary>

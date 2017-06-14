@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SamenSterkOnline.Controllers
 {
-    public class AppointmentController : ControllerBase
+    public class AppointmentController
     {
         private Appointment appointment = null;
 
@@ -32,7 +32,7 @@ namespace SamenSterkOnline.Controllers
             }
             else
             {
-                using (var db = new DataConnection())
+                using (DataConnection db = new DataConnection())
                 {
                     List<Appointment> query = (from appointment in db.Appointment
                                                where appointment.UserId == userId
@@ -59,18 +59,18 @@ namespace SamenSterkOnline.Controllers
             return appointments;
         }
 
-        /// <summary>
-        /// Creates a new appointment.
-        /// </summary>
-        /// <param name="model">Appointment details to create.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Create(Appointment model)
+		/// <summary>
+		/// Creates a new appointment.
+		/// </summary>
+		/// <param name="model">Appointment details to create.</param>
+		/// <returns>0 on failure, 1 on success.</returns>
+		public int Create(Appointment model)
         {
             int result = 0;
 
-            using (var db = new DataConnection())
-            {
-                result = db.Insert(model);
+			using (DataConnection db = new DataConnection())
+			{
+				result = db.Insert(model);
             }
 
             return result;
@@ -85,7 +85,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Update(model);
             }
@@ -102,7 +102,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Delete(model);
             }

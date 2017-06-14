@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SamenSterkOnline.Controllers
 {
-    public class GradeController : ControllerBase
+    public class GradeController
     {
         private Grade grade = null;
 
@@ -32,7 +32,7 @@ namespace SamenSterkOnline.Controllers
             }
             else
             {
-                using (var db = new DataConnection())
+                using (DataConnection db = new DataConnection())
                 {
                     List<Grade> query = (from grade in db.Grade
                                          where grade.UserId == userId
@@ -69,7 +69,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Insert(model);
             }
@@ -86,7 +86,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Update(model);
             }
@@ -103,7 +103,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Delete(model);
             }

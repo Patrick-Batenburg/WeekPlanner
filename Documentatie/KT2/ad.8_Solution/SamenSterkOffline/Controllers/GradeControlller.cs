@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SamenSterkOffline.Controllers
 {
-    public class GradeController : ControllerBase
+    public class GradeController
     {
         private Grade grade;
 

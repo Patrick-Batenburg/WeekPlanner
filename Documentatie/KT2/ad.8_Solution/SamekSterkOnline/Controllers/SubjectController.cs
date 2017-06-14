@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SamenSterkOnline.Controllers
 {
-    public class SubjectController : ControllerBase
+    public class SubjectController
     {
         private Subject subject;
 
@@ -32,7 +32,7 @@ namespace SamenSterkOnline.Controllers
             }
             else
             {
-                using (var db = new DataConnection())
+                using (DataConnection db = new DataConnection())
                 {
                     List<Subject> query = (from subject in db.Subject
                                            where subject.UserId == userId
@@ -70,7 +70,7 @@ namespace SamenSterkOnline.Controllers
             List<Subject> subjects = new List<Subject>();
             subjects = Details(model.UserId);
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 Subject query = (from subject in subjects
                                  where subject.Name == model.Name
@@ -100,7 +100,7 @@ namespace SamenSterkOnline.Controllers
             List<Subject> subjects = new List<Subject>();
             subjects = Details(model.UserId);
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 Subject query = (from subject in subjects
                                  where subject.Name == model.Name && subject.Id != model.Id
@@ -128,7 +128,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Delete(model);
             }

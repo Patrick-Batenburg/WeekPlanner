@@ -14,6 +14,7 @@ namespace SamenSterkOffline.Models
         /// </summary>
         public Subject()
         {
+			this.id = 0;
             this.rowIndex = 0;
             this.name = "[Geen naam]";
         }

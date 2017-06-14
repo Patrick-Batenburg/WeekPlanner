@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SamenSterkOnline.Controllers
 {
-    public class RepeatingTaskController : ControllerBase
+    public class RepeatingTaskController
     {
         private RepeatingTask repeatingTask = null;
 
@@ -33,7 +33,7 @@ namespace SamenSterkOnline.Controllers
             }
             else
             {
-                using (var db = new DataConnection())
+                using (DataConnection db = new DataConnection())
                 {
                     List<RepeatingTask> query = (from repeatingTask in db.RepeatingTask
                                                  where repeatingTask.UserId == userId
@@ -79,7 +79,7 @@ namespace SamenSterkOnline.Controllers
             repeatingTasks = Details(model.UserId);
             tasks = taskController.Details(model.UserId);
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Insert(model);
             }
@@ -96,7 +96,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Update(model);
             }
@@ -120,7 +120,7 @@ namespace SamenSterkOnline.Controllers
             repeatingTasks = Details(model.UserId);
             tasks = taskController.Details(model.UserId);
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 List<RepeatingTask> repeatingTaskQuery = (from repeatingTask in repeatingTasks
                                                           where repeatingTask.Day == model.Day && repeatingTask.Id != model.Id
@@ -183,7 +183,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Delete(model);
             }

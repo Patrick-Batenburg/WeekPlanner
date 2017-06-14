@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SamenSterkOffline.Controllers
 {
-    public class TaskController : ControllerBase
+    public class TaskController
     {
         private Task task = null;
 

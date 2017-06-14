@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace SamenSterkOnline.Controllers
 {
-    public class UserController : ControllerBase
+    public class UserController
     {
         private User user = null;
 
@@ -36,7 +36,7 @@ namespace SamenSterkOnline.Controllers
             }
             else
             {
-                using (var db = new DataConnection())
+                using (DataConnection db = new DataConnection())
                 {
                     List<User> query = (from user in db.User
                                         where user.Role != "Admin" && user.Id != model.Id
@@ -67,12 +67,12 @@ namespace SamenSterkOnline.Controllers
         /// Sign an existing account in.
         /// </summary>
         /// <param name="model">User details to validate login.</param>
-        /// <returns>Null on failure, user object on success.</returns>
+        /// <returns>Null on failure, User object on success.</returns>
         public User Login(User model)
         {
             User result = null;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 User query = (from user in db.User
                               where user.Username == model.Username && user.Password == EncryptionProvider.Encrypt(model.Password)
@@ -107,7 +107,7 @@ namespace SamenSterkOnline.Controllers
 
             if (isUsername == true)
             {
-                using (var db = new DataConnection())
+                using (DataConnection db = new DataConnection())
                 {
                     User query = (from user in db.User
                                   where user.Username == model.Username
@@ -140,7 +140,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 db.Update(model);
             }
@@ -157,7 +157,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Delete(model);
             }
@@ -173,15 +173,19 @@ namespace SamenSterkOnline.Controllers
         public int LogOff(Type view)
         {
             int result = 0;
-            ConstructorInfo constructor = view.GetConstructor(Type.EmptyTypes);
-            object classObject = constructor.Invoke(new object[] { });
-            MethodInfo method = view.GetMethod("Show", new Type[] { });
-            method.Invoke(classObject, null);
 
-            if (method != null)
-            {
-                result = 1;
-            }
+			if (view != (Type)null)
+			{
+				ConstructorInfo constructor = view.GetConstructor(Type.EmptyTypes);
+				object classObject = constructor.Invoke(new object[] { });
+				MethodInfo method = view.GetMethod("Show", new Type[] { });
+				method.Invoke(classObject, null);
+
+				if (method != null)
+				{
+					result = 1;
+				}
+			}
 
             return result;
         }

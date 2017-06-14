@@ -19,9 +19,14 @@ namespace SamenSterkOnline.Models
         /// </summary>
         public RepeatingTask()
         {
-            this.title = "[Geen titel]";
-            this.duration = 1;
-        }
+			this.id = 0;
+			this.userId = 0;
+			this.title = "[Geen titel]";
+			this.day = "Monday";
+			this.time = TimeSpan.MinValue;
+			this.duration = 1;
+			this.label = "[Geen label]";
+		}
 
         /// <summary>
         /// Creates a new RepeatingTask.

@@ -15,10 +15,11 @@ namespace SamenSterkOffline.Models
         /// </summary>
         public Grade()
         {
-            this.rowIndex = 0;
-            this.columnIndex = 0;
-            this.number = 1.0f;
-        }
+			this.id = 0;
+			this.rowIndex = 0;
+			this.columnIndex = 0;
+			this.number = 1.0f;
+		}
 
         /// <summary>
         /// Creates a new Grade.

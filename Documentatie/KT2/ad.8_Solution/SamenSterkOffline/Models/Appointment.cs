@@ -15,6 +15,7 @@ namespace SamenSterkOffline.Models
         /// </summary>
         public Appointment()
         {
+			this.id = 0;
             this.name = "[Geen naam]";
             this.date = new DateTime(1980, 1, 1);
         }

@@ -550,7 +550,7 @@ namespace SamenSterkOnline.Views
             }
             else
             {
-                MessageBox.Show("Kan vaken voor andere gebruikers niet toevoegen.");
+                MessageBox.Show("Kan vakken voor andere gebruikers niet toevoegen.");
             }
 
             txtSubjectName.Text = "";

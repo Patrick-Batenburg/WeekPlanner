@@ -32,8 +32,11 @@ namespace SamenSterkOnline.Views
         public DeleteUsers(User user)
         {
             InitializeComponent();
-            this.user = user;
-            userController = new UserController();
+			if (user != null)
+			{
+				this.user = user;
+			}
+			userController = new UserController();
             taskController = new TaskController();
             repeatingTaskController = new RepeatingTaskController();
             gradeController = new GradeController();
@@ -68,10 +71,10 @@ namespace SamenSterkOnline.Views
             }
 
             dgvUsers.DataSource = dataTable;
-            dgvUsers.Columns[1].ReadOnly = true;
             dgvUsers.Columns[1].Resizable = DataGridViewTriState.False;
             dgvUsers.Columns[2].Resizable = DataGridViewTriState.False;
             dgvUsers.Columns[dgvUsers.ColumnCount - 1].Visible = false;
+            dgvUsers.Columns[0].ReadOnly = true; 
             dgvUsers.CellValueChanged += dgvUsers_CellValueChanged;
         }
 
@@ -84,7 +87,6 @@ namespace SamenSterkOnline.Views
         {
             if (e.ColumnIndex == 1)
             {
-                dgvUsers[e.ColumnIndex, e.RowIndex].Value = true;
                 dgvUsers.EndEdit();
             }
         }
@@ -96,6 +98,10 @@ namespace SamenSterkOnline.Views
         /// <param name="e">The <see cref="DataGridViewCellEventArgs"/> instance containing the event data.</param>
         private void dgvUsers_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            dgvUsers.CellValueChanged -= dgvUsers_CellValueChanged;
+            dgvUsers[e.ColumnIndex, e.RowIndex].Value = false;
+            dgvUsers.CellValueChanged += dgvUsers_CellValueChanged;
+
             if (e.ColumnIndex == 1)
             {
                 DialogResult dialogResult = MessageBox.Show("U staat op het punt om deze gebruiker te verwijderen.\nAlle taken, vakken, cijfers en afspraken zullen van deze gebruiker verwijderd worden.", "Gebruiker verwijderen", MessageBoxButtons.YesNo);

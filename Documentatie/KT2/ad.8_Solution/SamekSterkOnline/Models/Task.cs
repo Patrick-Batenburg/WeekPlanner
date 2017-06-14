@@ -18,8 +18,12 @@ namespace SamenSterkOnline.Models
         /// </summary>
         public Task()
         {
+			this.id = 0;
+			this.userId = 0;
             this.title = "[Geen titel]";
+			this.date = DateTime.MinValue;
             this.duration = 1;
+			this.label = "[Geen label]";
         }
 
         /// <summary>

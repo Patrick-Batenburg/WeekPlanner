@@ -15,9 +15,11 @@ namespace SamenSterkOnline.Models
         /// </summary>
         public Subject()
         {
-            this.rowIndex = 0;
-            this.name = "[Geen naam]";
-        }
+			this.id = 0;
+			this.userId = 0;
+			this.rowIndex = 0;
+			this.name = "[Geen naam]";
+		}
 
         /// <summary>
         /// Creates a new Subject.

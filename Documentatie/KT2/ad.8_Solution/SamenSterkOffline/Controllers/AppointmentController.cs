@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SamenSterkOffline.Controllers
 {
-    public class AppointmentController : ControllerBase
+    public class AppointmentController
     {
         private Appointment appointment;
 
@@ -60,8 +60,14 @@ namespace SamenSterkOffline.Controllers
             int result = 0;
 
             using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                result = db.Insert(model);
+			{
+				db.CreateTable<Task>();
+				db.CreateTable<RepeatingTask>();
+				db.CreateTable<Subject>();
+				db.CreateTable<Grade>();
+				db.CreateTable<Appointment>();
+				result = db.Insert(model);
+				db.Close();
             }
 
             return result;

@@ -17,9 +17,12 @@ namespace SamenSterkOffline.Models
         /// </summary>
         public Task()
         {
-            this.title = "[Geen titel]";
-            this.duration = 1;
-        }
+			this.id = 0;
+			this.title = "[Geen titel]";
+			this.date = DateTime.MinValue;
+			this.duration = 1;
+			this.label = "[Geen label]";
+		}
 
         /// <summary>
         /// Creates a new Task.

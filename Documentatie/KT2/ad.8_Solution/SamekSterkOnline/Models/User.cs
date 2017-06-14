@@ -15,6 +15,9 @@ namespace SamenSterkOnline.Models
         /// </summary>
         public User()
         {
+			this.id = 0;
+			this.username = string.Empty;
+			this.password = string.Empty;
             this.role = "Member";
         }
 

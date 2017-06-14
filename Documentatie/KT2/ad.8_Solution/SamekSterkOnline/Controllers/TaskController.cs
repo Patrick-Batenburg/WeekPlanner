@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SamenSterkOnline.Controllers
 {
-    public class TaskController : ControllerBase
+    public class TaskController
     {
         private Task task = null;
 
@@ -33,7 +33,7 @@ namespace SamenSterkOnline.Controllers
             }
             else
             {
-                using (var db = new DataConnection())
+                using (DataConnection db = new DataConnection())
                 {
                     List<Task> query = (from task in db.Task
                                         where task.UserId == userId
@@ -71,7 +71,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Insert(model);
             }
@@ -88,7 +88,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Update(model);
             }
@@ -112,7 +112,7 @@ namespace SamenSterkOnline.Controllers
             repeatingTasks = taskController.Details(model.UserId);
             tasks = Details(model.UserId);
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 List<RepeatingTask> repeatingTaskQuery = (from repeatingTask in repeatingTasks
                                                           where repeatingTask.Day == model.Date.ToString("dddd")
@@ -175,7 +175,7 @@ namespace SamenSterkOnline.Controllers
         {
             int result = 0;
 
-            using (var db = new DataConnection())
+            using (DataConnection db = new DataConnection())
             {
                 result = db.Delete(model);
             }

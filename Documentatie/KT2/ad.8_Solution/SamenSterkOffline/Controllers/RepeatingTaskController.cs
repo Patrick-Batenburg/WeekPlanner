@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SamenSterkOffline.Controllers
 {
-    public class RepeatingTaskController : ControllerBase
+    public class RepeatingTaskController
     {
         private RepeatingTask repeatingTask;
 

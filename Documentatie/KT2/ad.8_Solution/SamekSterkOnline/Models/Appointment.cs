@@ -16,9 +16,11 @@ namespace SamenSterkOnline.Models
         /// </summary>
         public Appointment()
         {
-            this.name = "[Geen naam]";
-            this.date = new DateTime(1980, 1, 1);
-        }
+			this.id = 0;
+			this.userId = 0;
+			this.name = "[Geen naam]";
+			this.date = new DateTime(1980, 1, 1);
+		}
 
         /// <summary>
         /// Creates a new Appointment.
