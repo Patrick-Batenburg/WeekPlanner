@@ -59,13 +59,16 @@ namespace SamenSterkOnline.Views
             dataTable.Columns.Add("Verwijderen?", typeof(bool));
             dataTable.Columns.Add("Id", typeof(uint));
 
-            if (users.Count != 0)
-            {
-                for (int i = 0; i < users.Count; i++)
-                {
-                    dataTable.Rows.Add(users[i].Username, false, users[i].Id);
-                }
-            }
+			if (users != null)
+			{
+				if (users.Count != 0)
+				{
+					for (int i = 0; i < users.Count; i++)
+					{
+						dataTable.Rows.Add(users[i].Username, false, users[i].Id);
+					}
+				}
+			}
 
             dgvUsers.DataSource = dataTable;
             dgvUsers.Columns[1].Resizable = DataGridViewTriState.False;

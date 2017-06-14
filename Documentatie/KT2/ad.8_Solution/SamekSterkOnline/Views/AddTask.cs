@@ -70,7 +70,7 @@ namespace SamenSterkOnline.Views
 
                     result = taskController.Exceeds(task);
 
-                    if (result != 0 && result != 2)
+                    if (result == 0)
                     {
                         result = taskController.Create(task);
                     }
@@ -89,13 +89,13 @@ namespace SamenSterkOnline.Views
 
                     result = repeatingTaskController.Exceeds(repeatingTask);
 
-                    if (result != 0 && result != 2)
+                    if (result == 0)
                     {
                         result = repeatingTaskController.Create(repeatingTask);
                     }
                 }
 
-                if (result != 2)
+                if (result == 0)
                 {
                     this.Close();
                 }

@@ -1,5 +1,6 @@
 ﻿using SamenSterkOffline.Models;
 using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,80 +27,108 @@ namespace SamenSterkOffline.Controllers
         {
             List<Grade> grades = new List<Grade>();
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                List<Grade> query = (from grade in db.Table<Grade>()
-                                     select grade).ToList();
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					List<Grade> query = (from grade in db.Table<Grade>()
+										 select grade).ToList();
 
-                if (query != null)
-                {
-                    foreach (Grade _grade in query)
-                    {
-                        grade = new Grade()
-                        {
-                            Id = _grade.Id,
-                            RowIndex = _grade.RowIndex,
-                            ColumnIndex = _grade.ColumnIndex,
-                            Number = _grade.Number
-                        };
+					if (query != null)
+					{
+						foreach (Grade _grade in query)
+						{
+							grade = new Grade()
+							{
+								Id = _grade.Id,
+								RowIndex = _grade.RowIndex,
+								ColumnIndex = _grade.ColumnIndex,
+								Number = _grade.Number
+							};
 
-                        grades.Add(grade);
-                    }
-                }
-            }
+							grades.Add(grade);
+						}
+					}
+				}
+			}
+			catch (Exception)
+			{
+				grades = null;
+			}
 
-            return grades;
+			return grades;
         }
 
-        /// <summary>
-        /// Creates a new grade.
-        /// </summary>
-        /// <param name="model">Grade details to create.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Create(Grade model)
-        {
-            int result = 0;
+		/// <summary>
+		/// Creates a new grade.
+		/// </summary>
+		/// <param name="model">Grade details to create.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Create(Grade model)
+		{
+			int result = 0;
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                result = db.Insert(model);
-            }
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					result = db.Insert(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-            return result;
-        }
+			return result;
+		}
 
-        /// <summary>
-        /// Edit an existing grade.
-        /// </summary>
-        /// <param name="model">Grade details to edit.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Edit(Grade model)
-        {
-            int result = 0;
+		/// <summary>
+		/// Edit an existing grade.
+		/// </summary>
+		/// <param name="model">Grade details to edit.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Edit(Grade model)
+		{
+			int result = 0;
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                result = db.Update(model);
-            }
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					result = db.Update(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-            return result;
-        }
+			return result;
+		}
 
-        /// <summary>
-        /// Deletes an existing grade.
-        /// </summary>
-        /// <param name="model">Grade details to delete.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Delete(Grade model)
-        {
-            int result = 0;
+		/// <summary>
+		/// Deletes an existing grade.
+		/// </summary>
+		/// <param name="model">Grade details to delete.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Delete(Grade model)
+		{
+			int result = 0;
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                result = db.Delete(model);
-            }
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					result = db.Delete(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 }

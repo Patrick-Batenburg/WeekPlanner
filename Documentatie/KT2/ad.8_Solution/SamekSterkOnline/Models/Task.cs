@@ -35,7 +35,7 @@ namespace SamenSterkOnline.Models
         /// <param name="duration">Duration of the the Task object.</param>
         /// <param name="repeats">Repeating of the the Task object, 0 is false and 1 or above is true. Default value is 0.</param>
         /// <param name="label">Label of the the Task object.</param>
-        public Task(uint userId, string title, DateTime date, byte duration, string label = "")
+        public Task(uint userId, string title, DateTime date, byte duration, string label = "[Geen label]")
         {
             this.userId = userId;
             this.title = title;

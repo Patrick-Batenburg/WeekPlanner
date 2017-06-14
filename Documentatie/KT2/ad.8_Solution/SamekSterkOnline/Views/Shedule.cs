@@ -47,8 +47,8 @@ namespace SamenSterkOnline.Views
         {
             InitializeComponent();
             this.currentUser = model;
-            this.selectedUser = currentUser;
-            cellPos = new int[2];
+			this.selectedUser = model;
+			cellPos = new int[2];
             logout = false;
 
             grades = new List<Grade>();
@@ -532,7 +532,7 @@ namespace SamenSterkOnline.Views
                             Name = txtSubjectName.Text
                         });
 
-                        if (result != 2)
+                        if (result != 0)
                         {
                             LoadToGrid(typeof(Grade));
                             lblInsertName.Visible = false;

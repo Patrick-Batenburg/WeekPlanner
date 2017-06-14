@@ -1,5 +1,6 @@
 ﻿using SamenSterkOffline.Models;
 using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,105 +26,133 @@ namespace SamenSterkOffline.Controllers
         {
             List<Subject> subjects = new List<Subject>();
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                List<Subject> query = (from subject in db.Table<Subject>()
-                                       select subject).ToList();
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					List<Subject> query = (from subject in db.Table<Subject>()
+										   select subject).ToList();
 
-                if (query != null)
-                {
-                    foreach (Subject _subject in query)
-                    {
-                        subject = new Subject()
-                        {
-                            Id = _subject.Id,
-                            RowIndex = _subject.RowIndex,
-                            Name = _subject.Name
-                        };
+					if (query != null)
+					{
+						foreach (Subject _subject in query)
+						{
+							subject = new Subject()
+							{
+								Id = _subject.Id,
+								RowIndex = _subject.RowIndex,
+								Name = _subject.Name
+							};
 
-                        subjects.Add(subject);
-                    }
-                }
-            }
+							subjects.Add(subject);
+						}
+					}
+				}
+			}
+			catch (System.Exception)
+			{
+				subjects = null;
+			}
 
-            return subjects;
+			return subjects;
         }
 
-        /// <summary>
-        /// Creates a new subject.
-        /// </summary>
-        /// <param name="model">Subject details to create.</param>
-        /// <returns>0 on failure, 1 on success, 2 on subject already exists.</returns>
-        public int Create(Subject model)
-        {
-            int result = 0;
-            List<Subject> subjects = new List<Subject>();
-            subjects = Details();
+		/// <summary>
+		/// Creates a new subject.
+		/// </summary>
+		/// <param name="model">Subject details to create.</param>
+		/// <returns>0 on subject already exists, 1 on success, 2 on unexpected database error.</returns>
+		public int Create(Subject model)
+		{
+			int result = 0;
+			List<Subject> subjects = new List<Subject>();
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                Subject query = (from subject in subjects
-                                 where subject.Name == model.Name
-                                 select subject).FirstOrDefault();
+			if (model != null)
+			{
+				subjects = Details();
+			}
 
-                if (query == null)
-                {
-                    result = db.Insert(model);
-                }
-                else
-                {
-                    result = 2;
-                }
-            }
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					Subject query = (from subject in subjects
+									 where subject.Name == model.Name
+									 select subject).FirstOrDefault();
 
-            return result;
-        }
+					if (query == null)
+					{
+						result = db.Insert(model);
+					}
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-        /// <summary>
-        /// Edit an existing subject.
-        /// </summary>
-        /// <param name="model">Subject details to edit.</param>
-        /// <returns>0 on failure, 1 on success, 2 on subject already exists.</returns>
-        public int Edit(Subject model)
-        {
-            int result = 0;
-            List<Subject> subjects = new List<Subject>();
-            subjects = Details();
+			return result;
+		}
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                Subject query = (from subject in subjects
-                                 where subject.Name == model.Name && subject.Id != model.Id
-                                 select subject).FirstOrDefault();
+		/// <summary>
+		/// Edit an existing subject.
+		/// </summary>
+		/// <param name="model">Subject details to edit.</param>
+		/// <returns>0 on failure, 1 on success, 2 on subject already exists.</returns>
+		public int Edit(Subject model)
+		{
+			int result = 0;
+			List<Subject> subjects = new List<Subject>();
 
-                if (query == null)
-                {
-                    result = db.Update(model);
-                }
-                else
-                {
-                    result = 2;
-                }
-            }
+			if (model != null)
+			{
+				subjects = Details();
+			}
 
-            return result;
-        }
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					Subject query = (from subject in subjects
+									 where subject.Name == model.Name && subject.Id != model.Id
+									 select subject).FirstOrDefault();
 
-        /// <summary>
-        /// Deletes an existing subject.
-        /// </summary>
-        /// <param name="model">Subject details to delete.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Delete(Subject model)
-        {
-            int result = 0;
+					if (query == null)
+					{
+						result = db.Update(model);
+					}
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                result = db.Delete(model);
-            }
+			return result;
+		}
 
-            return result;
-        }
-    }
+		/// <summary>
+		/// Deletes an existing subject.
+		/// </summary>
+		/// <param name="model">Subject details to delete.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Delete(Subject model)
+		{
+			int result = 0;
+
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					result = db.Delete(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
+
+			return result;
+		}
+	}
 }

@@ -108,7 +108,7 @@ namespace SamenSterkOnline.Views
                 result = subjectController.Edit(model);
             }
 
-            if (result == 2)
+            if (result == 0)
             {
                 MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
             }

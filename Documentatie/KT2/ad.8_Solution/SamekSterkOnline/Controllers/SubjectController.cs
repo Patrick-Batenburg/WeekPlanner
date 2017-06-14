@@ -1,6 +1,7 @@
 ﻿using LinqToDB;
 using SamenSterkOnline.Database;
 using SamenSterkOnline.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,112 +27,140 @@ namespace SamenSterkOnline.Controllers
         {
             List<Subject> subjects = new List<Subject>();
 
-            if (userId == null)
-            {
-                subjects = null;
-            }
-            else
-            {
-                using (DataConnection db = new DataConnection())
-                {
-                    List<Subject> query = (from subject in db.Subject
-                                           where subject.UserId == userId
-                                           select subject).ToList();
+			if (userId == null)
+			{
+				subjects = null;
+			}
+			else
+			{
+				try
+				{
+					using (DataConnection db = new DataConnection())
+					{
+						List<Subject> query = (from subject in db.Subject
+											   where subject.UserId == userId
+											   select subject).ToList();
 
-                    if (query != null)
-                    {
-                        foreach (Subject _subject in query)
-                        {
-                            subject = new Subject()
-                            {
-                                Id = _subject.Id,
-                                UserId = _subject.UserId,
-                                RowIndex = _subject.RowIndex,
-                                Name = _subject.Name
-                            };
+						if (query != null)
+						{
+							foreach (Subject _subject in query)
+							{
+								subject = new Subject()
+								{
+									Id = _subject.Id,
+									UserId = _subject.UserId,
+									RowIndex = _subject.RowIndex,
+									Name = _subject.Name
+								};
 
-                            subjects.Add(subject);
-                        }
-                    }
+								subjects.Add(subject);
+							}
+						}
+					}
+				}
+				catch (Exception)
+				{
+					subjects = null;
                 }
-            }
+			}
 
             return subjects;
         }
 
-        /// <summary>
-        /// Creates a new subject.
-        /// </summary>
-        /// <param name="model">Subject details to create.</param>
-        /// <returns>0 on failure, 1 on success, 2 on subject already exists.</returns>
-        public int Create(Subject model)
+		/// <summary>
+		/// Creates a new subject.
+		/// </summary>
+		/// <param name="model">Subject details to create.</param>
+		/// <returns>0 on subject already exists, 1 on success, 2 on unexpected database error.</returns>
+		public int Create(Subject model)
         {
             int result = 0;
             List<Subject> subjects = new List<Subject>();
-            subjects = Details(model.UserId);
 
-            using (DataConnection db = new DataConnection())
-            {
-                Subject query = (from subject in subjects
-                                 where subject.Name == model.Name
-                                 select subject).FirstOrDefault();
+			if (model != null)
+			{
+				subjects = Details(model.UserId);
+			}
 
-                if (query == null)
-                {
-                    result = db.Insert(model);
-                }
-                else
-                {
-                    result = 2;
-                }
-            }
+			try
+			{
+				using (DataConnection db = new DataConnection())
+				{
+					Subject query = (from subject in subjects
+									 where subject.Name == model.Name
+									 select subject).FirstOrDefault();
+
+					if (query == null)
+					{
+						result = db.Insert(model);
+					}
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
             return result;
         }
 
-        /// <summary>
-        /// Edit an existing subject.
-        /// </summary>
-        /// <param name="model">Subject details to edit.</param>
-        /// <returns>0 on failure, 1 on success, 2 on subject already exists.</returns>
-        public int Edit(Subject model)
+		/// <summary>
+		/// Edit an existing subject.
+		/// </summary>
+		/// <param name="model">Subject details to edit.</param>
+		/// <returns>0 on subject already exists, 1 on success, 2 on unexpected database error.</returns>
+		public int Edit(Subject model)
         {
             int result = 0;
             List<Subject> subjects = new List<Subject>();
-            subjects = Details(model.UserId);
 
-            using (DataConnection db = new DataConnection())
-            {
-                Subject query = (from subject in subjects
-                                 where subject.Name == model.Name && subject.Id != model.Id
-                                 select subject).FirstOrDefault();
+			if (model != null)
+			{
+				subjects = Details(model.UserId);
+			}
 
-                if (query == null)
-                {
-                    result = db.Update(model);
-                }
-                else
-                {
-                    result = 2;
-                }
-            }
+			try
+			{
+				using (DataConnection db = new DataConnection())
+				{
+					Subject query = (from subject in subjects
+									 where subject.Name == model.Name && subject.Id != model.Id
+									 select subject).FirstOrDefault();
 
-            return result;
+					if (query == null)
+					{
+						result = db.Update(model);
+					}
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
+
+			return result;
         }
 
-        /// <summary>
-        /// Deletes an existing subject.
-        /// </summary>
-        /// <param name="model">Subject details to delete.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Delete(Subject model)
+		/// <summary>
+		/// Deletes an existing subject.
+		/// </summary>
+		/// <param name="model">Subject details to delete.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Delete(Subject model)
         {
             int result = 0;
 
-            using (DataConnection db = new DataConnection())
-            {
-                result = db.Delete(model);
-            }
+			try
+			{
+				using (DataConnection db = new DataConnection())
+				{
+					result = db.Delete(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
             return result;
         }

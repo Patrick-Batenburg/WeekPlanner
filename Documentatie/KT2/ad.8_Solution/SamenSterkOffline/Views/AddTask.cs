@@ -67,11 +67,11 @@ namespace SamenSterkOffline.Views
 
                     result = taskController.Exceeds(task);
 
-                    if (result != 0 && result != 2)
-                    {
-                        result = taskController.Create(task);
-                    }
-                }
+					if (result == 0)
+					{
+						result = taskController.Create(task);
+					}
+				}
                 else
                 {
                     repeatingTask = new RepeatingTask()
@@ -85,13 +85,13 @@ namespace SamenSterkOffline.Views
 
                     result = repeatingTaskController.Exceeds(repeatingTask);
 
-                    if (result != 0 && result != 2)
-                    {
-                        result = repeatingTaskController.Create(repeatingTask);
+					if (result == 0)
+					{
+						result = repeatingTaskController.Create(repeatingTask);
                     }
                 }
 
-                if (result != 2)
+                if (result == 0)
                 {
                     this.Close();
                 }

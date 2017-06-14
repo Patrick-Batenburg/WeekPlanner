@@ -36,4 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: InternalsVisibleTo("SamenSterkOnline.Tests")]
 [assembly: InternalsVisibleTo("Samen Sterk Online.Explorables")]
+[assembly: InternalsVisibleTo("SamenSterkOnline.Tests1")]
 

@@ -30,37 +30,47 @@ namespace SamenSterkOnline.Controllers
         {
             List<User> users = new List<User>();
 
-            if (model.Role == "Member")
-            {
-                users = null;
-            }
-            else
-            {
-                using (DataConnection db = new DataConnection())
-                {
-                    List<User> query = (from user in db.User
-                                        where user.Role != "Admin" && user.Id != model.Id
-                                        select user).ToList();
+			if (model != null)
+			{
+				if (model.Role == "Member")
+				{
+					users = null;
+				}
+				else
+				{
+					try
+					{
+						using (DataConnection db = new DataConnection())
+						{
+							List<User> query = (from user in db.User
+												where user.Role != "Admin" && user.Id != model.Id
+												select user).ToList();
 
-                    if (query != null)
-                    {
-                        foreach (User _user in query)
-                        {
-                            user = new User()
-                            {
-                                Id = _user.Id,
-                                Username = _user.Username,
-                                Password = _user.Password,
-                                Role = _user.Role
-                            };
+							if (query != null)
+							{
+								foreach (User _user in query)
+								{
+									user = new User()
+									{
+										Id = _user.Id,
+										Username = _user.Username,
+										Password = _user.Password,
+										Role = _user.Role
+									};
 
-                            users.Add(user);
-                        }
-                    }
-                }
-            }
+									users.Add(user);
+								}
+							}
+						}
+					}
+					catch (Exception)
+					{
+						users = null;
+					}
+				}
+			}
 
-            return users;
+			return users;
         }
 
         /// <summary>
@@ -72,95 +82,123 @@ namespace SamenSterkOnline.Controllers
         {
             User result = null;
 
-            using (DataConnection db = new DataConnection())
-            {
-                User query = (from user in db.User
-                              where user.Username == model.Username && user.Password == EncryptionProvider.Encrypt(model.Password)
-                              select user).SingleOrDefault();
+			try
+			{
+				using (DataConnection db = new DataConnection())
+				{
+					User query = (from user in db.User
+								  where user.Username == model.Username && user.Password == EncryptionProvider.Encrypt(model.Password)
+								  select user).SingleOrDefault();
 
-                if (query != null)
-                {
-                    model.Id = query.Id;
-                    result = new User()
-                    {
-                        Id = query.Id,
-                        Username = query.Username,
-                        Password = query.Password,
-                        Role = query.Role
-                    };
+					if (query != null)
+					{
+						model.Id = query.Id;
+						result = new User()
+						{
+							Id = query.Id,
+							Username = query.Username,
+							Password = query.Password,
+							Role = query.Role
+						};
+					}
+				}
+			}
+			catch (Exception)
+			{
+				result = null;
+			}
+
+            return result;
+        }
+
+		/// <summary>
+		/// Register an unique account.
+		/// </summary>
+		/// <param name="model">User details to register.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Register(User model)
+        {
+            int result = 0;
+            bool isUsername = false;
+
+			if (model != null)
+			{
+				if (!string.IsNullOrEmpty(model.Username))
+				{
+					isUsername = Regex.IsMatch(model.Username, @"^(?=.{3,32}$)(?![_-])[a-zA-Z0-9-_ ]+(?<![_-])$", RegexOptions.None);
+				}
+			}
+
+			if (isUsername == true)
+            {
+				try
+				{
+					using (DataConnection db = new DataConnection())
+					{
+						User query = (from user in db.User
+									  where user.Username == model.Username
+									  select user).SingleOrDefault();
+
+						if (query == null)
+						{
+							model.Password = EncryptionProvider.Encrypt(model.Password);
+							result = db.Insert(model);
+						}
+					}
+				}
+				catch (Exception)
+				{
+					result = 2;
                 }
             }
 
             return result;
         }
 
-        /// <summary>
-        /// Register an unique account.
-        /// </summary>
-        /// <param name="model">User details to register.</param>
-        /// <returns>0 on failure, 1 on success, 2 on username is invalid. 3 on Username already exist</returns>
-        public int Register(User model)
+		/// <summary>
+		/// Edit existing account details.
+		/// </summary>
+		/// <param name="id">Id of the user to update.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Edit(User model)
         {
             int result = 0;
-            bool isUsername;
-            isUsername = Regex.IsMatch(model.Username, @"^(?=.{3,32}$)(?![_-])[a-zA-Z0-9-_ ]+(?<![_-])$", RegexOptions.None);
 
-            if (isUsername == true)
-            {
-                using (DataConnection db = new DataConnection())
-                {
-                    User query = (from user in db.User
-                                  where user.Username == model.Username
-                                  select user).SingleOrDefault();
+			try
+			{
+				using (DataConnection db = new DataConnection())
+				{
+					db.Update(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-                    if (query == null)
-                    {
-                        model.Password = EncryptionProvider.Encrypt(model.Password);
-                        result = db.Insert(model);
-                    }
-                    else
-                    {
-                        result = 3;
-                    }
-                }
-            }
-            else
-            {
-                result = 2;
-            }
-            return result;
+			return result;
         }
 
-        /// <summary>
-        /// Edit existing account details.
-        /// </summary>
-        /// <param name="id">Id of the user to update.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Edit(User model)
+		/// <summary>
+		/// Edit existing account details.
+		/// </summary>
+		/// <param name="id">Id of the user to update.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Delete(User model)
         {
             int result = 0;
 
-            using (DataConnection db = new DataConnection())
-            {
-                db.Update(model);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Edit existing account details.
-        /// </summary>
-        /// <param name="id">Id of the user to update.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Delete(User model)
-        {
-            int result = 0;
-
-            using (DataConnection db = new DataConnection())
-            {
-                result = db.Delete(model);
-            }
+			try
+			{
+				using (DataConnection db = new DataConnection())
+				{
+					result = db.Delete(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
             return result;
         }

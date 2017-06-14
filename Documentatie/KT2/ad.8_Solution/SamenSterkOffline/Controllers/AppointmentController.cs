@@ -1,5 +1,6 @@
 ﻿using SamenSterkOffline.Models;
 using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,85 +27,107 @@ namespace SamenSterkOffline.Controllers
         {
             List<Appointment> appointments = new List<Appointment>();
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                List<Appointment> query = (from appointment in db.Table<Appointment>()
-                                           select appointment).ToList();
-
-                if (query != null)
+            try
+			{
+                using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
                 {
-                    foreach (Appointment _appointment in query)
-                    {
-                        appointment = new Appointment()
-                        {
-                            Id = _appointment.Id,
-                            Name = _appointment.Name,
-                            Date = _appointment.Date
-                        };
+                    List<Appointment> query = (from appointment in db.Table<Appointment>()
+                                               select appointment).ToList();
 
-                        appointments.Add(appointment);
+                    if (query != null)
+                    {
+                        foreach (Appointment _appointment in query)
+                        {
+                            appointment = new Appointment()
+                            {
+                                Id = _appointment.Id,
+                                Name = _appointment.Name,
+                                Date = _appointment.Date
+                            };
+
+                            appointments.Add(appointment);
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                appointments = null;
             }
 
             return appointments;
         }
 
-        /// <summary>
-        /// Creates a new appointment.
-        /// </summary>
-        /// <param name="model">Appointment details to create.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Create(Appointment model)
+		/// <summary>
+		/// Creates a new appointment.
+		/// </summary>
+		/// <param name="model">Appointment details to create.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Create(Appointment model)
         {
             int result = 0;
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+			try
 			{
-				db.CreateTable<Task>();
-				db.CreateTable<RepeatingTask>();
-				db.CreateTable<Subject>();
-				db.CreateTable<Grade>();
-				db.CreateTable<Appointment>();
-				result = db.Insert(model);
-				db.Close();
-            }
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					result = db.Insert(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-            return result;
+			return result;
         }
 
-        /// <summary>
-        /// Edit an existing appointment.
-        /// </summary>
-        /// <param name="model">Appointment details to edit.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Edit(Appointment model)
-        {
-            int result = 0;
+		/// <summary>
+		/// Edit an existing appointment.
+		/// </summary>
+		/// <param name="model">Appointment details to edit.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Edit(Appointment model)
+		{
+			int result = 0;
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                result = db.Update(model);
-            }
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					result = db.Update(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-            return result;
-        }
+			return result;
+		}
 
-        /// <summary>
-        /// Deletes an existing appointment.
-        /// </summary>
-        /// <param name="model">Appointment details to delete.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Delete(Appointment model)
-        {
-            int result = 0;
+		/// <summary>
+		/// Deletes an existing appointment.
+		/// </summary>
+		/// <param name="model">Appointment details to delete.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Delete(Appointment model)
+		{
+			int result = 0;
 
-            using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
-            {
-                result = db.Delete(model);
-            }
+			try
+			{
+				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				{
+					result = db.Delete(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-            return result;
-        }
-    }
+			return result;
+		}
+	}
 }

@@ -47,15 +47,9 @@ namespace SamenSterkOnline.Views
                         MessageBox.Show("Succesvol geregistreerd");
                         this.Close();
                         break;
-
-                    case 2:
-                        MessageBox.Show("Gebruikersnaam is ongeldig.");
+                    case 0:
+                        MessageBox.Show("Gebruikersnaam is ongeldig of bestaat al.");
                         break;
-
-                    case 3:
-                        MessageBox.Show("Gebruikersnaam is al in gebruik.");
-                        break;
-
                     default:
                         break;
                 }

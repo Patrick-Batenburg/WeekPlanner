@@ -111,7 +111,7 @@ namespace SamenSterkOnline.Views
                         this.taskModel.Label = txtLabel.Text;
                         result = taskController.Exceeds(taskModel);
 
-                        if (result != 0 && result != 2)
+                        if (result == 0)
                         {
                             result = taskController.Edit(taskModel);
                         }
@@ -129,7 +129,7 @@ namespace SamenSterkOnline.Views
                         repeatingTaskController.Delete(repeatingTaskModel);
                         result = taskController.Exceeds(task);
 
-                        if (result != 0 && result != 2)
+                        if (result == 0)
                         {
                             result = taskController.Create(task);
                         }
@@ -145,7 +145,7 @@ namespace SamenSterkOnline.Views
                         this.repeatingTaskModel.Time = dateTime.TimeOfDay;
                         result = repeatingTaskController.Exceeds(repeatingTaskModel);
 
-                        if (result != 0 && result != 2)
+                        if (result == 0)
                         {
                             result = repeatingTaskController.Edit(repeatingTaskModel);
                         }
@@ -164,14 +164,14 @@ namespace SamenSterkOnline.Views
                         taskController.Delete(taskModel);
                         result = repeatingTaskController.Exceeds(repeatingTask);
 
-                        if (result != 0 && result != 2)
+                        if (result == 0)
                         {
                             result = repeatingTaskController.Create(repeatingTask);
                         }
                     }
                 }
 
-                if (result != 2)
+                if (result == 0)
                 {
                     this.Close();
                 }

@@ -1,6 +1,7 @@
 ﻿using LinqToDB;
 using SamenSterkOnline.Database;
 using SamenSterkOnline.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,83 +33,111 @@ namespace SamenSterkOnline.Controllers
             }
             else
             {
-                using (DataConnection db = new DataConnection())
-                {
-                    List<Grade> query = (from grade in db.Grade
-                                         where grade.UserId == userId
-                                         select grade).ToList();
+				try
+				{
+					using (DataConnection db = new DataConnection())
+					{
+						List<Grade> query = (from grade in db.Grade
+											 where grade.UserId == userId
+											 select grade).ToList();
 
-                    if (query != null)
-                    {
-                        foreach (Grade _grade in query)
-                        {
-                            grade = new Grade()
-                            {
-                                Id = _grade.Id,
-                                UserId = _grade.UserId,
-                                RowIndex = _grade.RowIndex,
-                                ColumnIndex = _grade.ColumnIndex,
-                                Number = _grade.Number
-                            };
+						if (query != null)
+						{
+							foreach (Grade _grade in query)
+							{
+								grade = new Grade()
+								{
+									Id = _grade.Id,
+									UserId = _grade.UserId,
+									RowIndex = _grade.RowIndex,
+									ColumnIndex = _grade.ColumnIndex,
+									Number = _grade.Number
+								};
 
-                            grades.Add(grade);
-                        }
-                    }
-                }
+								grades.Add(grade);
+							}
+						}
+					}
+				}
+				catch (Exception)
+				{
+					grades = null;
+				}
             }
 
             return grades;
         }
 
-        /// <summary>
-        /// Creates a new grade.
-        /// </summary>
-        /// <param name="model">Grade details to create.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Create(Grade model)
+		/// <summary>
+		/// Creates a new grade.
+		/// </summary>
+		/// <param name="model">Grade details to create.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Create(Grade model)
         {
             int result = 0;
 
-            using (DataConnection db = new DataConnection())
-            {
-                result = db.Insert(model);
-            }
+			try
+			{
+				using (DataConnection db = new DataConnection())
+				{
+					result = db.Insert(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
             return result;
         }
 
-        /// <summary>
-        /// Edit an existing grade.
-        /// </summary>
-        /// <param name="model">Grade details to edit.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Edit(Grade model)
+		/// <summary>
+		/// Edit an existing grade.
+		/// </summary>
+		/// <param name="model">Grade details to edit.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Edit(Grade model)
         {
             int result = 0;
 
-            using (DataConnection db = new DataConnection())
-            {
-                result = db.Update(model);
-            }
+			try
+			{
+				using (DataConnection db = new DataConnection())
+				{
+					result = db.Update(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-            return result;
+			return result;
         }
 
-        /// <summary>
-        /// Deletes an existing grade.
-        /// </summary>
-        /// <param name="model">Grade details to delete.</param>
-        /// <returns>0 on failure, 1 on success.</returns>
-        public int Delete(Grade model)
+		/// <summary>
+		/// Deletes an existing grade.
+		/// </summary>
+		/// <param name="model">Grade details to delete.</param>
+		/// <returns>0 on failure, 1 on success, 2 on unexpected database error.</returns>
+		public int Delete(Grade model)
         {
             int result = 0;
 
-            using (DataConnection db = new DataConnection())
-            {
-                result = db.Delete(model);
-            }
+			try
+			{
+				using (DataConnection db = new DataConnection())
+				{
+					result = db.Delete(model);
+				}
+			}
+			catch (Exception)
+			{
+				result = 2;
+			}
 
-            return result;
+			return result;
         }
     }
 }
