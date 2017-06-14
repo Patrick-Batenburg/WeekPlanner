@@ -32,10 +32,7 @@ namespace SamenSterkOnline.Views
         public DeleteUsers(User user)
         {
             InitializeComponent();
-			if (user != null)
-			{
-				this.user = user;
-			}
+			this.user = user;
 			userController = new UserController();
             taskController = new TaskController();
             repeatingTaskController = new RepeatingTaskController();
