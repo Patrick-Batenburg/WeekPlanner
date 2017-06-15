@@ -91,7 +91,7 @@ namespace SamenSterkOffline.Views
                     }
                 }
 
-                if (result == 0)
+                if (result == 1)
                 {
                     this.Close();
                 }

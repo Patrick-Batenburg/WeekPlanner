@@ -95,9 +95,9 @@ namespace SamenSterkOnline.Views
                     }
                 }
 
-                if (result == 0)
-                {
-                    this.Close();
+				if (result == 1)
+				{
+					this.Close();
                 }
                 else
                 {

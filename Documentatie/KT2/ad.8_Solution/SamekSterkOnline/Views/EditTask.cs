@@ -149,7 +149,11 @@ namespace SamenSterkOnline.Views
                         {
                             result = repeatingTaskController.Edit(repeatingTaskModel);
                         }
-                    }
+						else
+						{
+							repeatingTaskController.Create(repeatingTaskModel);
+						}
+					}
                     else
                     {
                         RepeatingTask repeatingTask = new RepeatingTask()
@@ -168,12 +172,16 @@ namespace SamenSterkOnline.Views
                         {
                             result = repeatingTaskController.Create(repeatingTask);
                         }
-                    }
+						else
+						{
+							taskController.Create(taskModel);
+						}
+					}
                 }
 
-                if (result == 0)
-                {
-                    this.Close();
+				if (result != 0)
+				{
+					this.Close();
                 }
                 else
                 {

@@ -123,14 +123,18 @@ namespace SamenSterkOffline.Views
                             Duration = Convert.ToByte(nudDuration.Value),
                             Label = txtLabel.Text
                         };
-                        repeatingTaskController.Delete(repeatingTaskModel);
-                        result = taskController.Exceeds(task);
+						repeatingTaskController.Delete(repeatingTaskModel);
+						result = taskController.Exceeds(task);
 
-                        if (result != 0 && result != 2)
-                        {
-                            result = taskController.Create(task);
+						if (result == 0)
+						{
+							result = taskController.Create(task);
                         }
-                    }
+						else
+						{
+							repeatingTaskController.Create(repeatingTaskModel);
+						}
+					}
                 }
                 else
                 {
@@ -157,19 +161,23 @@ namespace SamenSterkOffline.Views
                             Duration = Convert.ToByte(nudDuration.Value),
                             Label = txtLabel.Text
                         };
-                        taskController.Delete(taskModel);
-                        result = repeatingTaskController.Exceeds(repeatingTask);
+						taskController.Delete(taskModel);
+						result = repeatingTaskController.Exceeds(repeatingTask);
 
-                        if (result != 0 && result != 2)
-                        {
-                            result = repeatingTaskController.Create(repeatingTask);
+						if (result == 0)
+						{
+							result = repeatingTaskController.Create(repeatingTask);
                         }
-                    }
+						else
+						{
+							taskController.Create(taskModel);
+						}
+					}
                 }
 
-                if (result == 0)
-                {
-                    this.Close();
+				if (result == 1)
+				{
+					this.Close();
                 }
                 else
                 {

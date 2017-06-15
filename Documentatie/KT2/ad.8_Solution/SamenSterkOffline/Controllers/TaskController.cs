@@ -110,8 +110,8 @@ namespace SamenSterkOffline.Controllers
 		/// <summary>
 		/// Checks if an existing task exceeds another repeating task or task.
 		/// </summary>
-		/// <param name="model">Repeating task details to check on.</param>
-		/// <returns>0 on nothing exceeds, 1 on DateTime exceeds, 2 on unexpected database error.</returns>
+		/// <param name="model">Task details to check on.</param>
+		/// <returns>0 on nothing exceeds, 3 on DateTime exceeds, 2 on unexpected database error.</returns>
 		public int Exceeds(Task model)
 		{
 			int result = 0;
@@ -148,7 +148,7 @@ namespace SamenSterkOffline.Controllers
 
 					if (repeatingTaskQuery.Count != totalrecords[0] + totalrecords[1])
 					{
-						result = 1;
+						result = 3;
 					}
 					else
 					{
@@ -170,7 +170,7 @@ namespace SamenSterkOffline.Controllers
 
 						if (taskQuery.Count != totalrecords[2] + totalrecords[3])
 						{
-							result = 1;
+							result = 3;
 						}
 					}
 				}
