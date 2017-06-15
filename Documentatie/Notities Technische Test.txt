@@ -1,0 +1,8 @@
+Maken van een Technische Test
+
+Maak gebruik van Code-Checkers
+Unit Testing
+Aangeven wat je gaat testen
+Doel beschrijven
+uitkomst test
+wat heb je aangepast?
