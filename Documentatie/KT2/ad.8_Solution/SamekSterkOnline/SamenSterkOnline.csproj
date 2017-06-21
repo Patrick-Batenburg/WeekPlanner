@@ -53,6 +53,9 @@
   <PropertyGroup>
     <SignManifests>false</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="linq2db, Version=1.8.0.0, Culture=neutral, PublicKeyToken=f19f8aed7feff67e, processorArchitecture=MSIL">
       <HintPath>..\packages\linq2db.1.8.0\lib\net45\linq2db.dll</HintPath>
