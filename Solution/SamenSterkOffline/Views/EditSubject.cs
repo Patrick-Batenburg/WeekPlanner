@@ -7,34 +7,34 @@ using System.Windows.Forms;
 
 namespace SamenSterkOffline.Views
 {
-    public partial class EditSubject : Form
-    {
-        private Subject model;
-        private List<Grade> grades;
-        private List<Subject> subjects;
-        private GradeController gradeController;
-        private SubjectController subjectController;
+	public partial class EditSubject : Form
+	{
+		private Subject model;
+		private List<Grade> grades;
+		private List<Subject> subjects;
+		private GradeController gradeController;
+		private SubjectController subjectController;
 
-        /// <summary>
-        /// Initializes a new instance of the form EditSubject class.
-        /// </summary>
-        /// <param name="model">Subject details to edit.</param>
-        public EditSubject(Subject model)
-        {
-            InitializeComponent();
-            this.model = model;
-            subjectController = new SubjectController();
-            gradeController = new GradeController();
-            grades = gradeController.Details();
-            subjects = subjectController.Details();
-            txtName.Text = model.Name;
-        }
+		/// <summary>
+		/// Initializes a new instance of the form EditSubject class.
+		/// </summary>
+		/// <param name="model">Subject details to edit.</param>
+		public EditSubject(Subject model)
+		{
+			InitializeComponent();
+			this.model = model;
+			subjectController = new SubjectController();
+			gradeController = new GradeController();
+			grades = gradeController.Details();
+			subjects = subjectController.Details();
+			txtName.Text = model.Name;
+		}
 
-        /// <summary>
-        /// Occurs when the Button control is clicked. Deletes an extisting Subject.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+		/// <summary>
+		/// Occurs when the Button control is clicked. Deletes an extisting Subject.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Weet je het zeker?", "Vak Verwijderen", MessageBoxButtons.YesNo);
@@ -89,39 +89,39 @@ namespace SamenSterkOffline.Views
             }
         }
 
-        /// <summary>
-        /// Occurs when the Button control is clicked. Edit an extisting Subject.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void btnEditSubject_Click(object sender, EventArgs e)
-        {
-            int result = 0;
-            this.model.Name = txtName.Text;
+		/// <summary>
+		/// Occurs when the Button control is clicked. Edit an extisting Subject.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+		private void btnEditSubject_Click(object sender, EventArgs e)
+		{
+			int result = 0;
+			this.model.Name = txtName.Text;
 
-            if (model.Name.Length > 64)
-            {
-                MessageBox.Show("Naam van het vak is te lang.");
-            }
-            else
-            {
-                result = subjectController.Edit(model);
-            }
+			if (model.Name.Length > 64)
+			{
+				MessageBox.Show("Naam van het vak is te lang.");
+			}
+			else
+			{
+				result = subjectController.Edit(model);
+			}
 
-            if (result == 2)
-            {
-                MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
-            }
+			if (result == 2)
+			{
+				MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
+			}
 
-            this.Close();
-        }
+			this.Close();
+		}
 
-        private void txtName_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                btnEditSubject_Click(sender, e);
-            }
-        }
-    }
+		private void txtName_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar == (char)Keys.Enter)
+			{
+				btnEditSubject_Click(sender, e);
+			}
+		}
+	}
 }

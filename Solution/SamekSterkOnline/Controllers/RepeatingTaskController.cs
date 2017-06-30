@@ -1,5 +1,5 @@
 ﻿using LinqToDB;
-using SamenSterkOnline.Database;
+using SamenSterkOnline.MySQL;
 using SamenSterkOnline.Models;
 using System;
 using System.Collections.Generic;
@@ -35,9 +35,9 @@ namespace SamenSterkOnline.Controllers
             {
 				try
 				{
-					using (DataConnection db = new DataConnection())
+					using (TaskDatabase db = new TaskDatabase())
 					{
-						List<RepeatingTask> query = (from repeatingTask in db.RepeatingTask
+						List<RepeatingTask> query = (from repeatingTask in db.RepeatingTasks
 													 where repeatingTask.UserId == userId
 													 select repeatingTask).ToList();
 
@@ -81,7 +81,7 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
 					result = db.Insert(model);
 				}
@@ -105,7 +105,7 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
 					result = db.Update(model);
 				}
@@ -139,7 +139,7 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
 					List<RepeatingTask> repeatingTaskQuery = (from repeatingTask in repeatingTasks
 															  where repeatingTask.Day == model.Day && repeatingTask.Id != model.Id
@@ -205,7 +205,7 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
 					result = db.Delete(model);
 				}

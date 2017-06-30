@@ -6,29 +6,29 @@ using System.Linq;
 
 namespace SamenSterkOffline.Controllers
 {
-    public class SubjectController
-    {
-        private Subject subject;
+	public class SubjectController
+	{
+		private Subject subject;
 
-        /// <summary>
-        /// Initializes a new instance of the SubjectController class.
-        /// </summary>
-        public SubjectController()
-        {
-        }
+		/// <summary>
+		/// Initializes a new instance of the SubjectController class.
+		/// </summary>
+		public SubjectController()
+		{
+		}
 
-        /// <summary>
-        /// View the details about all the subjects of the specified user.
-        /// </summary>
-        /// <param name="userId">User id of the subject.</param>
-        /// <returns>A list of subjects filled with values from the database.</returns>
-        public List<Subject> Details()
-        {
-            List<Subject> subjects = new List<Subject>();
+		/// <summary>
+		/// View the details about all the subjects of the specified user.
+		/// </summary>
+		/// <param name="userId">User id of the subject.</param>
+		/// <returns>A list of subjects filled with values from the database.</returns>
+		public List<Subject> Details()
+		{
+			List<Subject> subjects = new List<Subject>();
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+                using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH, SQLiteOpenFlags.ReadOnly))
 				{
 					List<Subject> query = (from subject in db.Table<Subject>()
 										   select subject).ToList();
@@ -49,13 +49,13 @@ namespace SamenSterkOffline.Controllers
 					}
 				}
 			}
-			catch (System.Exception)
+			catch (Exception)
 			{
-				subjects = null;
 			}
+			
 
 			return subjects;
-        }
+		}
 
 		/// <summary>
 		/// Creates a new subject.
@@ -65,16 +65,11 @@ namespace SamenSterkOffline.Controllers
 		public int Create(Subject model)
 		{
 			int result = 0;
-			List<Subject> subjects = new List<Subject>();
-
-			if (model != null)
-			{
-				subjects = Details();
-			}
+            List<Subject> subjects = Details();
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+                using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					Subject query = (from subject in subjects
 									 where subject.Name == model.Name
@@ -98,20 +93,15 @@ namespace SamenSterkOffline.Controllers
 		/// Edit an existing subject.
 		/// </summary>
 		/// <param name="model">Subject details to edit.</param>
-		/// <returns>0 on failure, 1 on success, 2 on subject already exists.</returns>
+		/// <returns>0 on subject already exists, 1 on success, 2 on unexpected database error.</returns>
 		public int Edit(Subject model)
 		{
 			int result = 0;
 			List<Subject> subjects = new List<Subject>();
 
-			if (model != null)
-			{
-				subjects = Details();
-			}
-
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+                using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					Subject query = (from subject in subjects
 									 where subject.Name == model.Name && subject.Id != model.Id
@@ -142,7 +132,7 @@ namespace SamenSterkOffline.Controllers
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+                using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					result = db.Delete(model);
 				}

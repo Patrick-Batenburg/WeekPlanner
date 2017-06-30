@@ -6,29 +6,29 @@ using System.Linq;
 
 namespace SamenSterkOffline.Controllers
 {
-    public class TaskController
-    {
-        private Task task = null;
+	public class TaskController
+	{
+		private Task task = null;
 
-        /// <summary>
-        /// Initializes a new instance of the TaskController class.
-        /// </summary>
-        public TaskController()
-        {
-        }
+		/// <summary>
+		/// Initializes a new instance of the TaskController class.
+		/// </summary>
+		public TaskController()
+		{
+		}
 
-        /// <summary>
-        /// View the details about all the tasks of the specified user.
-        /// </summary>
-        /// <param name="userId">User id of the task.</param>
-        /// <returns>A list of tasks filled with values from the database.</returns>
-        public List<Task> Details()
-        {
-            List<Task> tasks = new List<Task>();
+		/// <summary>
+		/// View the details about all the tasks of the specified user.
+		/// </summary>
+		/// <param name="userId">User id of the task.</param>
+		/// <returns>A list of tasks filled with values from the database.</returns>
+		public List<Task> Details()
+		{
+			List<Task> tasks = new List<Task>();
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+                using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH, SQLiteOpenFlags.ReadOnly))
 				{
 					List<Task> query = (from task in db.Table<Task>()
 										select task).ToList();
@@ -53,11 +53,10 @@ namespace SamenSterkOffline.Controllers
 			}
 			catch (Exception)
 			{
-				tasks = null;
-			}
+			}			
 
 			return tasks;
-        }
+		}
 
 		/// <summary>
 		/// Creates a new task.
@@ -70,7 +69,7 @@ namespace SamenSterkOffline.Controllers
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+                using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					result = db.Insert(model);
 				}
@@ -94,7 +93,7 @@ namespace SamenSterkOffline.Controllers
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+                using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					result = db.Update(model);
 				}
@@ -110,7 +109,7 @@ namespace SamenSterkOffline.Controllers
 		/// <summary>
 		/// Checks if an existing task exceeds another repeating task or task.
 		/// </summary>
-		/// <param name="model">Task details to check on.</param>
+		/// <param name="model">Repeating task details to check on.</param>
 		/// <returns>0 on nothing exceeds, 3 on DateTime exceeds, 2 on unexpected database error.</returns>
 		public int Exceeds(Task model)
 		{
@@ -128,7 +127,7 @@ namespace SamenSterkOffline.Controllers
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+                using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					List<RepeatingTask> repeatingTaskQuery = (from repeatingTask in repeatingTasks
 															  where repeatingTask.Day == model.Date.ToString("dddd")
@@ -194,7 +193,7 @@ namespace SamenSterkOffline.Controllers
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+                using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					result = db.Delete(model);
 				}

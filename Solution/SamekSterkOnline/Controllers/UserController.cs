@@ -1,5 +1,5 @@
 ﻿using LinqToDB;
-using SamenSterkOnline.Database;
+using SamenSterkOnline.MySQL;
 using SamenSterkOnline.Models;
 using SamenSterkOnline.Providers;
 using System;
@@ -40,9 +40,9 @@ namespace SamenSterkOnline.Controllers
 				{
 					try
 					{
-						using (DataConnection db = new DataConnection())
+						using (TaskDatabase db = new TaskDatabase())
 						{
-							List<User> query = (from user in db.User
+							List<User> query = (from user in db.Users
 												where user.Role != "Admin" && user.Id != model.Id
 												select user).ToList();
 
@@ -84,9 +84,9 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
-					User query = (from user in db.User
+					User query = (from user in db.Users
 								  where user.Username == model.Username && user.Password == EncryptionProvider.Encrypt(model.Password)
 								  select user).SingleOrDefault();
 
@@ -136,9 +136,9 @@ namespace SamenSterkOnline.Controllers
             {
 				try
 				{
-					using (DataConnection db = new DataConnection())
+					using (TaskDatabase db = new TaskDatabase())
 					{
-						User query = (from user in db.User
+						User query = (from user in db.Users
 									  where user.Username == model.Username
 									  select user).SingleOrDefault();
 
@@ -169,7 +169,7 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
 					db.Update(model);
 				}
@@ -193,7 +193,7 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
 					result = db.Delete(model);
 				}

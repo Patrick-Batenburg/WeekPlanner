@@ -532,16 +532,22 @@ namespace SamenSterkOnline.Views
                             Name = txtSubjectName.Text
                         });
 
-                        if (result != 0)
-                        {
-                            LoadToGrid(typeof(Grade));
-                            lblInsertName.Visible = false;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
-                        }
-                    }
+						switch (result)
+						{
+							case 0:
+								MessageBox.Show("Er bestaat al een vak met dezelfde naam.");
+								break;
+							case 1:
+								LoadToGrid(typeof(Grade));
+								lblInsertName.Visible = false;
+								break;
+							case 2:
+								MessageBox.Show("Onbekend probleem bij het verbinden met de database.");
+								break;
+							default:
+								break;
+						}
+					}
                 }
                 else
                 {

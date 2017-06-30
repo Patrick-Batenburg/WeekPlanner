@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SamenSterk.Properties {
+namespace SamenSterkOffline.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

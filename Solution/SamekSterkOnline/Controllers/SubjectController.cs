@@ -1,5 +1,5 @@
 ﻿using LinqToDB;
-using SamenSterkOnline.Database;
+using SamenSterkOnline.MySQL;
 using SamenSterkOnline.Models;
 using System;
 using System.Collections.Generic;
@@ -35,9 +35,9 @@ namespace SamenSterkOnline.Controllers
 			{
 				try
 				{
-					using (DataConnection db = new DataConnection())
+					using (TaskDatabase db = new TaskDatabase())
 					{
-						List<Subject> query = (from subject in db.Subject
+						List<Subject> query = (from subject in db.Subjects
 											   where subject.UserId == userId
 											   select subject).ToList();
 
@@ -84,7 +84,7 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
 					Subject query = (from subject in subjects
 									 where subject.Name == model.Name
@@ -121,7 +121,7 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
 					Subject query = (from subject in subjects
 									 where subject.Name == model.Name && subject.Id != model.Id
@@ -152,7 +152,7 @@ namespace SamenSterkOnline.Controllers
 
 			try
 			{
-				using (DataConnection db = new DataConnection())
+				using (TaskDatabase db = new TaskDatabase())
 				{
 					result = db.Delete(model);
 				}

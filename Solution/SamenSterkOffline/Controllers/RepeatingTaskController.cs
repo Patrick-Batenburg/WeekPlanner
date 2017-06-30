@@ -6,30 +6,29 @@ using System.Linq;
 
 namespace SamenSterkOffline.Controllers
 {
-    public class RepeatingTaskController
-    {
-        private RepeatingTask repeatingTask;
+	public class RepeatingTaskController
+	{
+		private RepeatingTask repeatingTask = null;
 
-        /// <summary>
-        /// Initializes a new instance of the TaskController class.
-        /// </summary>
-        public RepeatingTaskController()
-        {
-            repeatingTask = null;
-        }
+		/// <summary>
+		/// Initializes a new instance of the TaskController class.
+		/// </summary>
+		public RepeatingTaskController()
+		{
+		}
 
-        /// <summary>
-        /// View the details about all the repeating tasks of the specified user.
-        /// </summary>
-        /// <param name="userId">User id of the task.</param>
-        /// <returns>A list of repeating tasks filled with values from the database.</returns>
-        public List<RepeatingTask> Details()
-        {
-            List<RepeatingTask> repeatingTasks = new List<RepeatingTask>();
+		/// <summary>
+		/// View the details about all the repeating tasks of the specified user.
+		/// </summary>
+		/// <param name="userId">User id of the task.</param>
+		/// <returns>A list of repeating tasks filled with values from the database.</returns>
+		public List<RepeatingTask> Details()
+		{
+			List<RepeatingTask> repeatingTasks = new List<RepeatingTask>();
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH, SQLiteOpenFlags.ReadOnly))
 				{
 					List<RepeatingTask> query = (from repeatingTask in db.Table<RepeatingTask>()
 												 select repeatingTask).ToList();
@@ -55,11 +54,10 @@ namespace SamenSterkOffline.Controllers
 			}
 			catch (Exception)
 			{
-				repeatingTasks = null;
 			}
-
-            return repeatingTasks;
-        }
+			
+			return repeatingTasks;
+		}
 
 		/// <summary>
 		/// Creates a new repeating task.
@@ -72,7 +70,7 @@ namespace SamenSterkOffline.Controllers
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					result = db.Insert(model);
 				}
@@ -96,7 +94,7 @@ namespace SamenSterkOffline.Controllers
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					result = db.Update(model);
 				}
@@ -108,7 +106,6 @@ namespace SamenSterkOffline.Controllers
 
 			return result;
 		}
-
 
 		/// <summary>
 		/// Checks if an existing repeating task exceeds another repeating task or task.
@@ -131,7 +128,7 @@ namespace SamenSterkOffline.Controllers
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					List<RepeatingTask> repeatingTaskQuery = (from repeatingTask in repeatingTasks
 															  where repeatingTask.Day == model.Day && repeatingTask.Id != model.Id
@@ -197,7 +194,7 @@ namespace SamenSterkOffline.Controllers
 
 			try
 			{
-				using (SQLiteConnection db = new SQLiteConnection(Program.DB_PATH))
+				using (SQLiteConnection db = new SQLiteConnection(Program.STARTUP_PATH))
 				{
 					result = db.Delete(model);
 				}

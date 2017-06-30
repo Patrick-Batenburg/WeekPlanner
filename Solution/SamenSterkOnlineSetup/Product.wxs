@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define SamenSterkOnline_TargetDir=$(var.SamenSterkOnline.TargetDir)?>
+  <Product Id="d92edc37-7d96-4a9f-a0e6-a5d6554d0f0a" Name="Samen Sterk Weekplanner (online)" Language="1033" Version="1.0.25.0" Manufacturer="Samen Sterk" UpgradeCode="04c5c438-521b-44dd-a2c8-b1e6e54ec559">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <Icon Id="icon.ico" SourceFile="$(var.ProjectDir)icon.ico" />
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+
+    <WixVariable Id="WixUIBannerBmp" Value="Images\installer_top-banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Images\installer_background.bmp" />
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\license.rtf" />
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <UIRef Id="WixUI_InstallDir" />
+
+    <MajorUpgrade DowngradeErrorMessage="Een nieuwere versie van [ProductName] is al geinstalleerd." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="Weekplanner (online)" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="Samen Sterk">
+          <Directory Id="OnlineWeekplanner" Name="Online Weekplanner" />
+        </Directory>
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Samen Sterk" />
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop" />
+
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="a6fd91e7-3c50-41c8-9551-d270181ad8bd">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="Weekplanner (online)" Description="Weekplanner (online)" Target="[INSTALLFOLDER]/Offline Weekplanner/SamenSterkOnline.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RemoveFolder Id="RemoveApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="ApplicationShortcutDesktop" Guid="6d3ba2c7-fa15-41da-8195-1e6cbef60987">
+        <Shortcut Id="ApplicationDesktopShortcut" Name="Weekplanner (online)" Description="Weekplanner (online)" Target="[INSTALLFOLDER]/Online Weekplanner/SamenSterkOnline.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RemoveFolder Id="RemoveDesktopFolder" Directory="DesktopFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="OnlineWeekplanner">
+      <Component Id="SamenSterkOnline.exe" Guid="4262f55c-208b-487f-bfb3-546db9355b17">
+        <File Id="SamenSterkOnline.exe" Name="SamenSterkOnline.exe" Source="$(var.SamenSterkOnline_TargetDir)SamenSterkOnline.exe" />
+      </Component>
+      <Component Id="linq2db.dll" Guid="456de743-31dc-4273-9b20-a3b7838e7860">
+        <File Id="linq2db.dll" Name="linq2db.dll" Source="$(var.SamenSterkOnline_TargetDir)linq2db.dll" />
+      </Component>
+      <Component Id="MySql.Data.dll" Guid="70f9b2e3-fa5c-453b-ba03-6b6775f476b1">
+        <File Id="MySql.Data.dll" Name="MySql.Data.dll" Source="$(var.SamenSterkOnline_TargetDir)MySql.Data.dll" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
