@@ -51,7 +51,7 @@
 		</DirectoryRef>
 		<DirectoryRef Id="DesktopFolder">
 			<Component Id="ApplicationShortcutDesktop" Guid="147c0f8e-83e9-40f8-9197-7e9bcf49414c">
-				<Shortcut Id="ApplicationDesktopShortcut" Name="Samen Sterk weekplanner (offline)" Description="Samen Sterk weekplanner (offline)" Target="[INSTALLFOLDER]/Offline Weekplanner/SamenSterkOffline.exe" WorkingDirectory="INSTALLFOLDER" />
+				<Shortcut Id="ApplicationDesktopShortcut" Name="Weekplanner (offline)" Description="Weekplanner (offline)" Target="[INSTALLFOLDER]/Offline Weekplanner/SamenSterkOffline.exe" WorkingDirectory="INSTALLFOLDER" />
 				<RemoveFolder Id="RemoveDesktopFolder" Directory="DesktopFolder" On="uninstall" />
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
 			</Component>
